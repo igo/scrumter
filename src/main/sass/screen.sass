@@ -1,0 +1,120 @@
+// This import applies a global reset to any page that imports this stylesheet.
+@import blueprint/reset.sass
+// To configure blueprint, edit the partials/base.sass file.
+@import partials/base.sass
+// Import all the default blueprint modules so that we can access their mixins.
+@import blueprint
+// Import the non-default scaffolding module.
+@import blueprint/modules/scaffolding.sass
+
+// To generate css equivalent to the blueprint css but with your configuration applied, uncomment:
+// +blueprint
+
+//Recommended Blueprint configuration with scoping and semantic layout:
++blueprint-typography("body.bp")
++blueprint-scaffolding("body.bp")
+body.bp
+	+blueprint-utilities
+	+blueprint-debug
+	+blueprint-interaction
+	// Remove the scaffolding when you're ready to start doing visual design.
+	// Or leave it in if you're happy with how blueprint looks out-of-the-box
+form.bp
+	+blueprint-form
+
+
+
+body
+	font-family: Helvetica Neue,Arial,Helvetica,sans-serif
+
+
+// Page layout can be done using mixins applied to your semantic classes and IDs:
+#container
+	+container
+#header, #footer
+	+column(!blueprint_grid_columns)
+#sidebar
+	// One third of the grid columns, rounding down. With 24 cols, this is 8.
+	!sidebar_columns = floor(!blueprint_grid_columns / 3)
+	+column(!sidebar_columns)
+#content
+	// Two thirds of the grid columns, rounding up.
+	// With 24 cols, this is 16.
+	!content_columns = ceil(2 * !blueprint_grid_columns / 3)
+	// true means it's the last column in the row
+	+column(!content_columns, true)
+
+
+
+.message
+	padding: 10px 0
+	clear: both
+
+.message img
+	float: left
+	padding: 5px
+
+.message .detail
+	padding: 0 0 0 70px
+
+.message .name
+	font-weight: bold
+
+.write-comment
+	display: none
+
+.write-comment textarea
+	width: 100%
+	font-size: 13px
+	font-family: helvetica
+	padding: 2px
+
+.write-comment-mini input
+	display: none
+
+.write-comment-mini textarea
+	height: 23px
+	color: gray
+
+.comments
+	width: 500px
+
+.comment, .write-comment
+	margin: 3px
+	padding: 3px
+	background-color: #eee
+
+a.date, .date
+	color: gray
+	text-decoration: none
+	font-size: 12px
+a.date:hover
+	text-decoration: underline
+	
+
+
+a.button, button.button, input.button
+	background: #222 url(../XXXXXXimg/alert-overlay.png) repeat-x
+	display: inline-block
+	padding: 5px 10px 6px
+	color: #fff
+	text-decoration: none
+	font-weight: bold
+	line-height: 1
+	-moz-border-radius: 5px
+	-webkit-border-radius: 5px
+	-moz-box-shadow: 0 1px 3px #999
+	-webkit-box-shadow: 0 1px 3px #999
+	text-shadow: 0 -1px 1px #222
+	border-bottom: 1px solid #222
+	position: relative
+	cursor: pointer
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5)
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5)
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25)
+	border-bottom: 1px solid rgba(0,0,0,0.25)
+	font-size: 11px
+	background-color: #a9014b
+
+
+

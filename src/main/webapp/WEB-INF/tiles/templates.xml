@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	
+	<definition name="default" template="/WEB-INF/templates/default.jsp">
+	</definition>
+	<definition name="anonymous" template="/WEB-INF/templates/anonymous.jsp">
+	</definition>
+
+	<definition name="messages/addForm" template="/WEB-INF/views/messages/addForm.jsp">
+	</definition>
+	<definition name="messages/list" template="/WEB-INF/views/messages/list.jsp">
+	</definition>
+	<definition name="messages/detail" template="/WEB-INF/views/messages/detail.jsp">
+	</definition>
+
+
+	<definition name="login" extends="anonymous">
+		<put-attribute name="body" value="/WEB-INF/views/users/login.jsp" />
+	</definition>
+
+	<definition name="users/signup" extends="anonymous">
+		<put-attribute name="body" value="/WEB-INF/views/users/signup.jsp" />
+	</definition>
+
+
+	<definition name="company" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/company/index.jsp" />
+	</definition>
+
+
+
+	<definition name="users/home" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/users/home.jsp" />
+	</definition>
+	<definition name="users/view" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/users/view.jsp" />
+	</definition>
+
+	<definition name="users/list" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/users/list.jsp" />
+	</definition>
+
+
+	<definition name="messages/message" template="/WEB-INF/views/messages/message.jsp">
+		<put-attribute name="message" cascade="true" />
+	</definition>
+
+	
+</tiles-definitions>
