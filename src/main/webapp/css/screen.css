@@ -513,6 +513,12 @@ body {
 #header h1 {
   font-size: 22px;
   margin: 10px 0;
+  float: left;
+}
+
+#main-menu {
+  float: right;
+  margin: 10px 0;
 }
 
 .message {

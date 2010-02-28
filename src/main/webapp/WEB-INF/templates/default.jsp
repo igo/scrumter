@@ -49,34 +49,26 @@ $("#allowed").fcbkcomplete({
 </script>
 
 </head>
-<body>
+<body class="bp">
 <div id="container">
 <div id="header">
-	<h1>Scrumter</h1>
-	<a href="<c:url value="/" />"><spring:message code="menu.home" text="Home" /></a> |
-	<a href="<c:url value="/users" />"><spring:message code="menu.users" text="Users" /></a> |
-	<a href="<c:url value="/profile" />"><spring:message code="menu.profile" text="Profile" /></a> |
-	<a href="<c:url value="/signup" />"><spring:message code="user.signup" text="Sign up" /></a> |
-	<a href="<c:url value="/login" />"><spring:message code="security.login" text="Login" /></a> |
-	<a href="<c:url value="/logout" />"><spring:message code="security.logout" text="Logout" /></a> |
-	<hr />
-	<div>
-	<c:choose>
-		<c:when test="${pageContext.request.userPrincipal != null}">
-		 	<span>${pageContext.request.userPrincipal.principal.username}</span> |
-			<span>			    
-				<spring:url var="logout" value="/logout" />
-				<a href="${logout}"><spring:message code="security.logout" text="Logout" /></a>
-			</span>
-		</c:when>
-		<c:otherwise>
-			<span>anonymous</span> |
-			<span>			    
-				<spring:url var="login" value="/login" />
-				<a href="${login}"><spring:message code="security.login" text="Login" /></a>
-			</span>
-		</c:otherwise>
-	</c:choose>	
+	<h1><a href="<c:url value="/" />">Scrumter</a></h1>
+	<div id="main-menu">
+		<c:choose>
+			<c:when test="${pageContext.request.userPrincipal != null}">
+			 	<span>${pageContext.request.userPrincipal.principal.username}</span> |
+			</c:when>
+			<c:otherwise>
+				<span>anonymous</span> |
+				<span>			    
+					<a href="<c:url value="/login" />"><spring:message code="user.account.login" /></a>
+				</span>
+			</c:otherwise>
+		</c:choose>	
+		<a href="<c:url value="/" />"><spring:message code="menu.home" /></a> |
+		<a href="<c:url value="/users" />"><spring:message code="menu.users" /></a> |
+		<a href="<c:url value="/profile" />"><spring:message code="menu.profile" /></a> |
+		<a href="<c:url value="/logout" />"><spring:message code="user.account.logout" /></a>
 	</div>
 </div>
 
@@ -86,14 +78,14 @@ $("#allowed").fcbkcomplete({
 <div id="content"><tiles:insertAttribute name="body" /></div>
 
 <div id="sidebar">
-Sidebar
-<h2>Users</h2>
 
 </div>
 
 
-<div id="footer">Footer<hr />
-${pageContext.request.userPrincipal}
+<div id="footer">
+	<hr />
+	&copy; Scrumter 2010
+<%-- ${pageContext.request.userPrincipal} --%>
 </div>
 
 </div>
