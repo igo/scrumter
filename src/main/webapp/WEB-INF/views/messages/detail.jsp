@@ -12,7 +12,8 @@
 		<a href="<c:url value="/${message.author.company}/${message.author.username}/" />" class="name">${message.author.firstName} ${message.author.middleName} ${message.author.lastName}</a>
 		${message.message}
 		<br />
-		<a href="/${message.author.company}/${message.author.username}/messages/${message.id}" class="date" title="2010-01-22T21:14:17Z">${message.created}</a>
+		
+		<a href="/${message.author.company}/${message.author.username}/messages/${message.id}" class="date" title="<fmt:formatDate value="${message.created}" type="date" pattern="dd MMM yyyy H:mm:ss Z"/>">${message.created}</a>
 		<a href="#" class="buttonX" onclick="$('#write-comment-${message.id}').show();$('#write-comment-${message.id} textarea').focus();return false;">Comment</a>
 		
 		<div class="comments">

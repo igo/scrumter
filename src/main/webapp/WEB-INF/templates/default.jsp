@@ -21,11 +21,12 @@
 <script type="text/javascript">
 
 function doPrettyDates() {
-	$("a").prettyDate();
+	$("a.date").prettyDate();
 }
 
 $(document).ready(function(){
-	//setInterval(function(){ doPrettyDates(); }, 1000);
+	doPrettyDates();
+	setInterval(function(){ doPrettyDates(); }, 10000);
 $("#allowed").fcbkcomplete({
     json_url: "js/fcbkcomplete/fetched.txt",
     cache: true,
@@ -37,8 +38,8 @@ $("#allowed").fcbkcomplete({
     filter_selected: true,
     newel: false
 });
-	$("#message-form").submit(function(){
-		$.post('<c:url value="/api/messages/add" />', $("#message-form").serialize(), function(data) {
+	$("#status-form").submit(function(){
+		$.post('<c:url value="/api/messages/add" />', $("#status-form").serialize(), function(data) {
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
 			post.slideDown("slow");
