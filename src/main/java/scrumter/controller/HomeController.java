@@ -34,7 +34,7 @@ public class HomeController {
 //			mav.setView(new RedirectView("/login", true));
 		} else {
 			mav.setViewName("users/home");
-			List<Message> messages = messageService.findFollowedMessages(currentUser);
+			List<Message> messages = messageService.findFollowedMessages(currentUser, null, 15);
 			mav.addObject("messages", messages);
 		}
 		return mav;

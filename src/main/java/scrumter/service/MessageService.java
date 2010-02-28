@@ -45,9 +45,15 @@ public class MessageService {
 		return query.getResultList();
 	}
 	
-	public List<Message> findFollowedMessages(User follower) {
+	public List<Message> findFollowedMessages(User follower, Integer startPosition, Integer maxResult) {
 		Query query = em.createNamedQuery("Message.findAll");
 //		query.setParameter("author", author);
+		if (startPosition != null) {
+			query.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			query.setMaxResults(maxResult);
+		}
 		return query.getResultList();
 	}
 	
