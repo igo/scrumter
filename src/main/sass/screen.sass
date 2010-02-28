@@ -44,7 +44,28 @@ body
 	// true means it's the last column in the row
 	+column(!content_columns, true)
 
+#full-content
+	+column(!blueprint_grid_columns, true)
 
+#signup-content
+	#signup
+		!content_columns = floor(!blueprint_grid_columns / 2)
+		+column(!content_columns)
+	#login
+		!content_columns = floor(!blueprint_grid_columns / 2)
+		+column(!content_columns, true)
+
+#login-content
+	#login
+		!content_columns = floor(!blueprint_grid_columns / 2)
+		+column(!content_columns)
+	#signup
+		!content_columns = floor(!blueprint_grid_columns / 2)
+		+column(!content_columns, true)
+
+#header h1
+	font-size: 22px
+	margin: 10px 0
 
 .message
 	padding: 10px 0

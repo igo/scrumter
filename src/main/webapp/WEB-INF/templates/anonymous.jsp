@@ -7,23 +7,21 @@
 <head>
 <title>Scrumter</title>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/screen.css" />" />
-<link type="text/css" rel="stylesheet" href="<c:url value="/js/fcbkcomplete/style.css" />" />
 <script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
 
 </head>
-<body>
+<body class="bp">
 <div id="container">
 <div id="header">
 	<h1>Scrumter</h1>
+	<hr />
 </div>
 
-<div id="content"><tiles:insertAttribute name="body" /></div>
+<tiles:insertAttribute name="body" />
 
-<div id="footer">Footer<hr />
-	<ul>
-		<li> <a href="?locale=en_us">us</a> |  <a href="?locale=en_gb">gb</a> | <a href="?locale=es_es">es</a> | <a href="?locale=de_de">de</a> </li>
-	</ul>	
-&copy; Scrumter 2010
+<div id="footer">
+	<hr />
+	&copy; Scrumter 2010
 </div>
 
 </div>
