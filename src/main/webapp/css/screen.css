@@ -418,7 +418,7 @@ form.bp textarea {
   height: 250px;
 }
 
-body {
+body, textarea {
   font-family: Helvetica Neue,Arial,Helvetica,sans-serif;
 }
 
@@ -555,6 +555,14 @@ body {
 }
 
 .write-comment-mini textarea {
+  height: 23px;
+  color: gray;
+}
+
+.minimized input {
+  display: none;
+}
+.minimized textarea {
   height: 23px;
   color: gray;
 }

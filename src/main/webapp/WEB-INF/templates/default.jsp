@@ -19,6 +19,12 @@
 <script type="text/javascript" src="<c:url value="/js/pure.js" />"></script>
 
 <script type="text/javascript">
+scrumter = {
+	strings: {
+		statusFormTitle: '<spring:message code="status.form.title" />'
+	}
+}
+
 
 function doPrettyDates() {
 	$("a.date").prettyDate();
@@ -43,9 +49,25 @@ $("#allowed").fcbkcomplete({
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
 			post.slideDown("slow");
+			$("#status-form textarea").val(scrumter.strings.statusFormTitle);
 		});
 		return false;
 	});
+
+	$(".minimizable textarea").each(function() {
+		$(this).focus(function() {
+			$(this).parent(".minimizable").removeClass("minimized");
+			$(this).parent(".minimizable.unchanged").find("textarea").val('');
+		});
+		$(this).blur(function() {
+			$(this).parent(".minimizable.unchanged").addClass("minimized");
+			$(this).parent(".minimizable.unchanged").find("textarea").val(scrumter.strings.statusFormTitle);
+		});
+		$(this).change(function() {
+			$(this).parent(".minimizable").removeClass("unchanged");
+		});
+	});
+	
 });
 </script>
 
