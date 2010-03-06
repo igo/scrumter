@@ -49,6 +49,7 @@ $("#allowed").fcbkcomplete({
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
 			post.slideDown("slow");
+			$("#status-form").addClass("minimized unchanged");
 			$("#status-form textarea").val(scrumter.strings.statusFormTitle);
 		});
 		return false;
