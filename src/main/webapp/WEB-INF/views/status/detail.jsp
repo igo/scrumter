@@ -14,7 +14,7 @@
 		<br />
 		
 		<a href="/${status.author.company}/${status.author.username}/statuses/${status.id}" class="date" title="<fmt:formatDate value="${status.created}" type="date" pattern="dd MMM yyyy H:mm:ss Z"/>">${status.created}</a>
-		<a href="#" class="buttonX" onclick="$('#write-comment-${status.id}').show();$('#write-comment-${status.id} textarea').focus();return false;">Comment</a>
+		<a href="#" class="buttonX" onclick="$('#write-comment-${status.id}').show();$('#write-comment-${status.id} textarea').focus();return false;"><spring:message code="status.comment" /></a>
 		
 		<div class="comments">
 		<%--
@@ -34,7 +34,7 @@
 					<textarea rows="2" cols="50"
 						onfocus="$('#write-comment-${status.id}').removeClass('write-comment-mini')"
 						onblur="$('#write-comment-${status.id}.unchanged').addClass('write-comment-mini')"
-						onchange="$('#write-comment-${status.id}').removeClass('unchanged')">Write comment...</textarea>
+						onchange="$('#write-comment-${status.id}').removeClass('unchanged')"><spring:message code="status.comment.write" /></textarea>
 					<input type="submit" value="Comment" class="buttonXX" />
 				</form>
 			</div>
