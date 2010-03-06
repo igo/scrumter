@@ -29,12 +29,10 @@
 		 --%>
 			
 			
-			<div class="write-comment write-comment-mini unchanged" id="write-comment-${status.id}">
-				<form action="">
+			<div class="write-comment minimized minimizable" id="write-comment-${status.id}">
+				<form action="" class="unchanged">
 					<textarea rows="2" cols="50"
-						onfocus="$('#write-comment-${status.id}').removeClass('write-comment-mini')"
-						onblur="$('#write-comment-${status.id}.unchanged').addClass('write-comment-mini')"
-						onchange="$('#write-comment-${status.id}').removeClass('unchanged')"><spring:message code="status.comment.write" /></textarea>
+						><spring:message code="status.comment.write" /></textarea>
 					<input type="submit" value="Comment" class="buttonXX" />
 				</form>
 			</div>

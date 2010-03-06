@@ -30,6 +30,27 @@ function doPrettyDates() {
 	$("a.date").prettyDate();
 }
 
+function minimizable(input) {
+	$(input).focus(function() {
+		$(this).parents(".minimizable").removeClass("minimized");
+		$(this).parents(".minimizable .unchanged").find("textarea").val('');
+	});
+	$(input).blur(function() {
+		$(this).parents(".unchanged").parents(".minimizable").addClass("minimized");
+		$(this).parents(".minimizable form.unchanged").each(function() {
+			this.reset();
+		});
+	});
+	$(input).change(function() {
+		$(this).parents(".minimizable form").removeClass("unchanged");
+	});
+}
+jQuery.fn.minimizable = function(){
+	return this.each(function(){
+		minimizable(this);
+	});
+};
+
 $(document).ready(function(){
 	doPrettyDates();
 	setInterval(function(){ doPrettyDates(); }, 10000);
@@ -48,26 +69,15 @@ $("#allowed").fcbkcomplete({
 		$.post('<c:url value="/api/status/add" />', $("#status-form").serialize(), function(data) {
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
+			post.find("textarea").minimizable();
 			post.slideDown("slow");
-			$("#status-form").addClass("minimized unchanged");
+			$("#status-form").addClass("unchanged").parents(".minimizable").addClass("minimized");
 			$("#status-form")[0].reset();
 		});
 		return false;
 	});
 
-	$(".minimizable textarea").each(function() {
-		$(this).focus(function() {
-			$(this).parent(".minimizable").removeClass("minimized");
-			$(this).parent(".minimizable.unchanged").find("textarea").val('');
-		});
-		$(this).blur(function() {
-			$(this).parent(".minimizable.unchanged").addClass("minimized");
-			$(this).parent(".minimizable.unchanged").find("textarea").val(scrumter.strings.statusFormTitle);
-		});
-		$(this).change(function() {
-			$(this).parent(".minimizable").removeClass("unchanged");
-		});
-	});
+	$(".minimizable textarea").minimizable();
 	
 });
 </script>

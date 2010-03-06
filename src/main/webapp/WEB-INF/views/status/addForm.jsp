@@ -5,10 +5,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<form action="<c:url value="/statuses/add" />" id="status-form" class="unchanged minimized minimizable">
-<textarea name="status" rows="4" cols="70"
-><spring:message code="status.form.title" /></textarea><br />
+
+<div class="minimized minimizable">
+<form action="<c:url value="/statuses/add" />" id="status-form" class="unchanged">
+<textarea name="status" rows="4" cols="70"><spring:message code="status.form.title" /></textarea><br />
 <%--<select id="allowed" name="allowed"></select> --%>
 
 <input type="submit" value="<spring:message code="status.form.share" />" />
 </form>
+</div>
