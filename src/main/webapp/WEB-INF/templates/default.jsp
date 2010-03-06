@@ -50,7 +50,7 @@ $("#allowed").fcbkcomplete({
 			doPrettyDates();
 			post.slideDown("slow");
 			$("#status-form").addClass("minimized unchanged");
-			$("#status-form textarea").val(scrumter.strings.statusFormTitle);
+			$("#status-form")[0].reset();
 		});
 		return false;
 	});
