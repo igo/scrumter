@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.controller.InitController;
 import scrumter.model.Authority;
-import scrumter.model.Message;
+import scrumter.model.Status;
 import scrumter.model.User;
 
 
@@ -58,8 +58,8 @@ public class UserService {
 	}
 	
 	/*
-	public List<Message> findMessagesByAuthor(User author) {
-		Query query = em.createNamedQuery("Message.findAllByAuthor");
+	public List<Status> findStatusesByAuthor(User author) {
+		Query query = em.createNamedQuery("Status.findAllByAuthor");
 		query.setParameter("author", author);
 		return query.getResultList();
 	}*/

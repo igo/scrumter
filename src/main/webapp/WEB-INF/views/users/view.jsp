@@ -8,4 +8,4 @@
 <h1>${user.firstName} ${user.middleName} ${user.lastName}</h1>
 from <a href="<c:url value="/${user.company}/" />">${user.company}</a>
 
-<tiles:insertDefinition name="messages/list" />
+<tiles:insertDefinition name="status/list" />

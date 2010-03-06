@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.tiles2.TilesViewResolver;
 
 import scrumter.model.Authority;
-import scrumter.model.Message;
+import scrumter.model.Status;
 import scrumter.model.User;
-import scrumter.service.MessageService;
+import scrumter.service.StatusService;
 import scrumter.service.UserService;
 
 
@@ -24,7 +24,7 @@ public class InitController {
 	private Logger logger = Logger.getLogger(InitController.class);
 
 	@Autowired
-	private MessageService messageService;
+	private StatusService statusService;
 
 	@Autowired
 	private UserService userService;
@@ -35,7 +35,7 @@ public class InitController {
 		logger.info("Init executed");
 
 		logger.info("Deleting database");
-		messageService.deleteAllMessages();
+		statusService.deleteAllStatuses();
 		userService.deleteAllUsers();
 
 		logger.info("Creating test data");
@@ -50,10 +50,10 @@ public class InitController {
 		user.grantRole(userRole);
 		userService.addUser(user);
 
-		Message message = new Message();
-		message.setMessage("Blah blah");
-		message.setAuthor(user);
-		messageService.addMessage(message);
+		Status status = new Status();
+		status.setStatus("Blah blah");
+		status.setAuthor(user);
+		statusService.addStatus(status);
 
 		User user1 = new User();
 		user1.setEmail("george.bush@whitehouse.com");
@@ -62,10 +62,10 @@ public class InitController {
 		user1.setPassword("password");
 		userService.addUser(user1);
 
-		Message message1 = new Message();
-		message1.setMessage("George said");
-		message1.setAuthor(user1);
-		messageService.addMessage(message1);
+		Status status1 = new Status();
+		status1.setStatus("George said");
+		status1.setAuthor(user1);
+		statusService.addStatus(status1);
 
 
 		User user2 = new User();
@@ -75,10 +75,10 @@ public class InitController {
 		user2.setPassword("password");
 		userService.addUser(user2);
 
-		Message message2 = new Message();
-		message2.setMessage("Barack said");
-		message2.setAuthor(user2);
-		messageService.addMessage(message2);
+		Status status2 = new Status();
+		status2.setStatus("Barack said");
+		status2.setAuthor(user2);
+		statusService.addStatus(status2);
 	}
 	
 	@RequestMapping(value = "/reload", method = RequestMethod.GET)

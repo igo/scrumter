@@ -4,6 +4,6 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<tiles:insertDefinition name="messages/addForm" />
+<tiles:insertDefinition name="status/addForm" />
 
-<tiles:insertDefinition name="messages/list" />
+<tiles:insertDefinition name="status/list" />

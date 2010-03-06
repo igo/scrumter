@@ -10,21 +10,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import scrumter.model.Message;
+import scrumter.model.Status;
 import scrumter.model.User;
-import scrumter.service.MessageService;
+import scrumter.service.StatusService;
 import scrumter.service.SecurityService;
 import scrumter.service.UserService;
 
 
 @Controller
-@PreAuthorize("hasRole('ROLE_USER')")
 public class UserController {
 	
 	private Logger logger = Logger.getLogger(UserController.class);
 	
 	@Autowired
-	private MessageService messageService;
+	private StatusService statusService;
 
 	@Autowired
 	private UserService userService;
@@ -33,7 +32,9 @@ public class UserController {
 	private SecurityService securityService;
 	
 	@RequestMapping(value = "/users")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public ModelAndView listUsers() {
+		logger.debug("View all users");
 		ModelAndView mav = new ModelAndView("users/list");
 		List<User> users = userService.findAllUsersExcept(securityService.getCurrentUser());
 		mav.addObject("users", users);
@@ -47,8 +48,8 @@ public class UserController {
 		User user = userService.findUserByUsernameAndCompany(username, company);
 		mav.addObject("user", user);
 		logger.info("Showing user: " + user);
-		List<Message> messages = messageService.findMessagesByAuthor(user, 0, 3);
-		mav.addObject("messages", messages);
+		List<Status> statuses = statusService.findStatusesByAuthor(user, 0, 3);
+		mav.addObject("statuses", statuses);
 		return mav;
 	}
 

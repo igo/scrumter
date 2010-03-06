@@ -9,11 +9,11 @@
 	<definition name="anonymous" template="/WEB-INF/templates/anonymous.jsp">
 	</definition>
 
-	<definition name="messages/addForm" template="/WEB-INF/views/messages/addForm.jsp">
+	<definition name="status/addForm" template="/WEB-INF/views/status/addForm.jsp">
 	</definition>
-	<definition name="messages/list" template="/WEB-INF/views/messages/list.jsp">
+	<definition name="status/list" template="/WEB-INF/views/status/list.jsp">
 	</definition>
-	<definition name="messages/detail" template="/WEB-INF/views/messages/detail.jsp">
+	<definition name="status/detail" template="/WEB-INF/views/status/detail.jsp">
 	</definition>
 
 
@@ -44,8 +44,8 @@
 	</definition>
 
 
-	<definition name="messages/message" template="/WEB-INF/views/messages/message.jsp">
-		<put-attribute name="message" cascade="true" />
+	<definition name="status/status" template="/WEB-INF/views/status/status.jsp">
+		<put-attribute name="status" cascade="true" />
 	</definition>
 
 	

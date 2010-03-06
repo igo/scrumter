@@ -1,16 +1,17 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <script>
     function callSigninUser(){
         console.log($('#loginForm'));
-        $.post("/scrumter/messages/data.json", $("#loginForm").serialize());
+        $.post("/scrumter/statuses/data.json", $("#loginForm").serialize());
     }
 </script>
 
 
-
+<h2><spring:message code="user.users" /></h2>
 <c:choose>
 	<c:when test="${fn:length(users) > 0}">
 		<c:forEach var="user" items="${users}">

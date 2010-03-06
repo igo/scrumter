@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import scrumter.model.Message;
+import scrumter.model.Status;
 import scrumter.model.SignupForm;
 import scrumter.model.User;
-import scrumter.service.MessageService;
+import scrumter.service.StatusService;
 import scrumter.service.SecurityService;
 
 
@@ -19,7 +19,7 @@ import scrumter.service.SecurityService;
 public class HomeController {
 	
 	@Autowired
-	private MessageService messageService;
+	private StatusService statusService;
 
 	@Autowired
 	private SecurityService securityService;
@@ -34,8 +34,8 @@ public class HomeController {
 //			mav.setView(new RedirectView("/login", true));
 		} else {
 			mav.setViewName("users/home");
-			List<Message> messages = messageService.findFollowedMessages(currentUser, null, 15);
-			mav.addObject("messages", messages);
+			List<Status> statuses = statusService.findFollowedStatuses(currentUser, null, 15);
+			mav.addObject("statuses", statuses);
 		}
 		return mav;
 	}

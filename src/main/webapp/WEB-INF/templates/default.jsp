@@ -39,7 +39,7 @@ $("#allowed").fcbkcomplete({
     newel: false
 });
 	$("#status-form").submit(function(){
-		$.post('<c:url value="/api/messages/add" />', $("#status-form").serialize(), function(data) {
+		$.post('<c:url value="/api/status/add" />', $("#status-form").serialize(), function(data) {
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
 			post.slideDown("slow");

@@ -316,7 +316,7 @@ body.bp .bottom {
   padding-bottom: 0;
 }
 body.bp .showgrid {
-  background: url('/../webapp/img/grid.png?1257060308');
+  background: url('/../webapp/img/grid.png?');
 }
 body.bp .error {
   padding: .8em;
@@ -521,21 +521,21 @@ body {
   margin: 10px 0;
 }
 
-.message {
+.status {
   padding: 10px 0;
   clear: both;
 }
 
-.message img {
+.status img {
   float: left;
   padding: 5px;
 }
 
-.message .detail {
+.status .detail {
   padding: 0 0 0 70px;
 }
 
-.message .name {
+.status .name {
   font-weight: bold;
 }
 

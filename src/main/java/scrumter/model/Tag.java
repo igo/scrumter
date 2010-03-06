@@ -19,6 +19,6 @@ public class Tag {
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<Message> messages;
+	private List<Status> statuses;
 
 }
