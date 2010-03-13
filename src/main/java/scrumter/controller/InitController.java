@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.tiles2.TilesViewResolver;
 
 import scrumter.model.Authority;
+import scrumter.model.Comment;
 import scrumter.model.Status;
 import scrumter.model.User;
 import scrumter.service.StatusService;
@@ -39,8 +40,8 @@ public class InitController {
 		userService.deleteAllUsers();
 
 		logger.info("Creating test data");
+		Authority adminRole = userService.createAuthority("ROLE_ADMIN");
 		Authority userRole = userService.createAuthority("ROLE_USER");
-		
 		
 		User user = new User();
 		user.setEmail("bruce.willis@holywood.com");
@@ -49,6 +50,7 @@ public class InitController {
 		user.setPassword("password");
 		user.grantRole(userRole);
 		userService.addUser(user);
+		logger.debug("User created: " + user);
 
 		Status status = new Status();
 		status.setStatus("Blah blah");
@@ -78,12 +80,17 @@ public class InitController {
 		Status status2 = new Status();
 		status2.setStatus("Barack said");
 		status2.setAuthor(user2);
-		statusService.addStatus(status2);
+		Comment comment1 = new Comment(user2, "Blaaaaa");
+		status2.getComments().add(comment1);
+//		statusService.addStatus(status2);
+		
 	}
 	
-	@RequestMapping(value = "/reload", method = RequestMethod.GET)
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void reloadConfig() {
-		
+		logger.debug("Running tests...");
+		User user = userService.findUserByEmail("bruce.willis@holywood.com");
+		logger.debug("User found by email bruce.willis@holywood.com: " + user);
 	}
 
 }

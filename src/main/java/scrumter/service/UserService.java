@@ -71,11 +71,15 @@ public class UserService {
 	}
 
 	public User findUserByEmail(String email) {
+		logger.debug("Finding user by email: " + email);
 		Query query = em.createNamedQuery("User.findByEmail");
 		query.setParameter("email", email);
 		try {
-			return (User) query.getSingleResult();
+			User user = (User) query.getSingleResult();
+			logger.debug("User found: " + user);
+			return user;
 		} catch (Exception e) {
+			logger.debug("User not found");
 			return null;
 		}
 	}

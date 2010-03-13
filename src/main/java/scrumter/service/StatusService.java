@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import scrumter.controller.StatusController;
+import scrumter.model.Comment;
 import scrumter.model.Status;
 import scrumter.model.User;
 
@@ -31,6 +31,10 @@ public class StatusService {
 		status.setCreated(new Date());
 		em.persist(status);
 		em.flush();
+	}
+	
+	public Status findStatusById(Long statusId) {
+		return em.find(Status.class, statusId);
 	}
 	
 	public List<Status> findStatusesByAuthor(User author, Integer startPosition, Integer maxResult) {
@@ -61,6 +65,14 @@ public class StatusService {
 	public void deleteAllStatuses() {
 		Query query = em.createNamedQuery("Status.deleteAll");
 		query.executeUpdate();
+	}
+	
+	@Transactional
+	public void addComment(Comment comment) {
+		logger.debug("Saving comment: " + comment);
+		comment.setCreated(new Date());
+		em.persist(comment);
+		em.flush();
 	}
 	
 }

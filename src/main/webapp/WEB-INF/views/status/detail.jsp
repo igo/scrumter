@@ -16,23 +16,37 @@
 		<a href="/${status.author.company}/${status.author.username}/statuses/${status.id}" class="date" title="<fmt:formatDate value="${status.created}" type="date" pattern="dd MMM yyyy H:mm:ss Z"/>">${status.created}</a>
 		<a href="#" class="buttonX" onclick="$('#write-comment-${status.id}').show();$('#write-comment-${status.id} textarea').focus();return false;"><spring:message code="status.comment" /></a>
 		
-		<div class="comments">
-		<%--
+		<div class="comments">WWWWWWWWWW
+			<c:forEach var="comment" items="${status.comments}">COMMENT
+				<tiles:insertDefinition name="status/comment/detail">
+					<tiles:putAttribute name="comment" value="${comment}"></tiles:putAttribute>
+				</tiles:insertDefinition>
+			</c:forEach>
 			<div class="comment">
 				<a href=""><img src="img/clovek_mini.jpg" class="profile-image-small" /></a>
 				<a href="" class="name">Bla lba tasd</a>
+				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
+				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
 				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
 				<br />
 				<span class="date">Yesterday at 7:50pm</span>
 				<br style="clear: both" />
 			</div>
-		 --%>
+			<div class="comment">
+				<a href=""><img src="img/clovek_mini.jpg" class="profile-image-small" /></a>
+				<a href="" class="name">Bla lba tasd</a>
+				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
+				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
+				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
+				<br />
+				<span class="date">Yesterday at 7:50pm</span>
+				<br style="clear: both" />
+			</div>
 			
 			
 			<div class="write-comment minimized minimizable" id="write-comment-${status.id}">
 				<form action="" class="unchanged">
-					<textarea rows="2" cols="50"
-						><spring:message code="status.comment.write" /></textarea>
+					<textarea rows="2" cols="50"><spring:message code="status.comment.write" /></textarea>
 					<input type="submit" value="Comment" class="buttonXX" />
 				</form>
 			</div>

@@ -18,7 +18,7 @@
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	<logger name="org.apache">
 		<level value="info" />

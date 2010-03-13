@@ -2,6 +2,7 @@ package scrumter.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,9 @@ import scrumter.service.SecurityService;
 
 @Controller
 public class HomeController {
-	
+
+	private Logger logger = Logger.getLogger(HomeController.class);
+
 	@Autowired
 	private StatusService statusService;
 
@@ -35,7 +38,11 @@ public class HomeController {
 		} else {
 			mav.setViewName("users/home");
 			List<Status> statuses = statusService.findFollowedStatuses(currentUser, null, 15);
+			//logger.debug("Statuses: " + statuses);
 			mav.addObject("statuses", statuses);
+			
+			//logger.debug("Comments: " + statusService.findStatusById(new Long(1)).getComments());
+			
 		}
 		return mav;
 	}

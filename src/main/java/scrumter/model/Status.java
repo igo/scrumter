@@ -1,19 +1,28 @@
 package scrumter.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CollectionOfElements;
+
 @Entity
-@NamedQueries(value = { @NamedQuery(name = "Status.findByFrom", query = "SELECT s FROM Status s ORDER BY s.created DESC"),
+@NamedQueries(value = {
+		@NamedQuery(name = "Status.findByFrom", query = "SELECT s FROM Status s ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.findAllByAuthor", query = "SELECT s FROM Status s WHERE s.author = :author ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.deleteAll", query = "DELETE FROM Status s") })
@@ -34,7 +43,10 @@ public class Status {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date created;
 
-	
+	@OneToMany(mappedBy = "status", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OrderBy("created")
+	private List<Comment> comments = new ArrayList<Comment>();
+
 	public Status() {
 		super();
 	}
@@ -44,7 +56,7 @@ public class Status {
 		this.author = author;
 		this.status = status;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -56,6 +68,8 @@ public class Status {
 		builder.append(status);
 		builder.append(", created=");
 		builder.append(created);
+		builder.append(", comments=");
+		builder.append(comments);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -90,6 +104,14 @@ public class Status {
 
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 }

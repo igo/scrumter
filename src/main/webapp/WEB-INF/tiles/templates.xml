@@ -16,6 +16,9 @@
 	<definition name="status/detail" template="/WEB-INF/views/status/detail.jsp">
 	</definition>
 
+	<definition name="status/comment/detail" template="/WEB-INF/views/status/comment/detail.jsp">
+	</definition>
+
 
 	<definition name="login" extends="anonymous">
 		<put-attribute name="body" value="/WEB-INF/views/users/login.jsp" />

@@ -18,12 +18,14 @@ public class SecurityService {
 
 	public User getCurrentUser() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		logger.debug("Current principal: " + principal);
 		if (principal == null) {
 			logger.debug("Current logged in user is unknown");
 		} else {
 			if (principal instanceof org.springframework.security.core.userdetails.User) {
 				org.springframework.security.core.userdetails.User springUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
 						.getContext().getAuthentication().getPrincipal();
+				logger.debug("Logged in spring user: " + springUser);
 				User user = userService.findUserByEmail(springUser.getUsername());
 				logger.debug("Current logged in user: " + user);
 				return user;
