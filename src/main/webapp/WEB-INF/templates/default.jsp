@@ -80,8 +80,6 @@ $("#allowed").fcbkcomplete({
 	$(".posts").delegate(".write-comment form", "submit", function() {
 		var form = this;
 		var comments = $(this).parents(".status").find(".comments");
-		console.log(this, comments);
-		//return false;
 		$.post(this.action, $(this).serialize(), function(data) {
 			var post = $(data).hide().appendTo(comments);
 			doPrettyDates();
