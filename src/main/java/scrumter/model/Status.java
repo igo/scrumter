@@ -43,7 +43,8 @@ public class Status {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date created;
 
-	@OneToMany(mappedBy = "status", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+//	@OneToMany(mappedBy = "status", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	@OrderBy("created")
 	private List<Comment> comments = new ArrayList<Comment>();
 

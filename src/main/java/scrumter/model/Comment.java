@@ -32,8 +32,8 @@ public class Comment {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date created;
 	
-	@ManyToOne(optional = false, cascade = {CascadeType.ALL})
-	public Status status;
+//	@ManyToOne(optional = false, cascade = {CascadeType.ALL})
+//	public Status status;
 
 	public Comment() {
 		super();
@@ -43,6 +43,7 @@ public class Comment {
 		super();
 		this.author = author;
 		this.comment = comment;
+		this.created = new Date();
 	}
 
 	public Long getId() {

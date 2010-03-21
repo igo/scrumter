@@ -16,40 +16,19 @@
 		<a href="/${status.author.company}/${status.author.username}/statuses/${status.id}" class="date" title="<fmt:formatDate value="${status.created}" type="date" pattern="dd MMM yyyy H:mm:ss Z"/>">${status.created}</a>
 		<a href="#" class="buttonX" onclick="$('#write-comment-${status.id}').show();$('#write-comment-${status.id} textarea').focus();return false;"><spring:message code="status.comment" /></a>
 		
-		<div class="comments">WWWWWWWWWW
-			<c:forEach var="comment" items="${status.comments}">COMMENT
+		<div class="comments">
+			<c:forEach var="comment" items="${status.comments}">
 				<tiles:insertDefinition name="status/comment/detail">
 					<tiles:putAttribute name="comment" value="${comment}"></tiles:putAttribute>
 				</tiles:insertDefinition>
 			</c:forEach>
-			<div class="comment">
-				<a href=""><img src="img/clovek_mini.jpg" class="profile-image-small" /></a>
-				<a href="" class="name">Bla lba tasd</a>
-				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
-				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
-				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
-				<br />
-				<span class="date">Yesterday at 7:50pm</span>
-				<br style="clear: both" />
-			</div>
-			<div class="comment">
-				<a href=""><img src="img/clovek_mini.jpg" class="profile-image-small" /></a>
-				<a href="" class="name">Bla lba tasd</a>
-				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
-				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
-				Cursus nibh convallis in id lacinia enim eleifend Lorem Cum Integer
-				<br />
-				<span class="date">Yesterday at 7:50pm</span>
-				<br style="clear: both" />
-			</div>
-			
-			
-			<div class="write-comment minimized minimizable" id="write-comment-${status.id}">
-				<form action="" class="unchanged">
-					<textarea rows="2" cols="50"><spring:message code="status.comment.write" /></textarea>
-					<input type="submit" value="Comment" class="buttonXX" />
-				</form>
-			</div>
+		</div>
+		<div class="write-comment <c:if test="${fn:length(status.comments) == 0}">hidden</c:if> minimizable minimized" id="write-comment-${status.id}">
+			<form action="<c:url value="/api/status/add-comment" />" method="post" class="unchanged">
+				<input type="hidden" name="statusId" value="${status.id}" />
+				<textarea rows="2" cols="40" name="comment"><spring:message code="status.comment.write" /></textarea>
+				<input type="submit" value="Comment" class="buttonXX" />
+			</form>
 		</div>
 	</div>
 </div>

@@ -27,9 +27,16 @@ public class StatusService {
 
 	@Transactional
 	public void addStatus(Status status) {
-		logger.debug("Saving status: " + status);
+		logger.debug("Adding status: " + status);
 		status.setCreated(new Date());
 		em.persist(status);
+		em.flush();
+	}
+	
+	@Transactional
+	public void saveStatus(Status status) {
+		logger.debug("Saving status: " + status);
+		em.merge(status);
 		em.flush();
 	}
 	

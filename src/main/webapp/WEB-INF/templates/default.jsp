@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="http://jqueryui.com/themes/base/jquery-ui.css" type="text/css" media="all" />
 <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
 
-<script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/jquery-1.4.2.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.7.2.custom.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/js/fcbkcomplete/jquery.fcbkcomplete.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/js/prettydate.js" />"></script>
@@ -25,9 +25,8 @@ scrumter = {
 	}
 }
 
-
 function doPrettyDates() {
-	$("a.date").prettyDate();
+	$(".date").prettyDate();
 }
 
 function minimizable(input) {
@@ -73,6 +72,22 @@ $("#allowed").fcbkcomplete({
 			post.slideDown("slow");
 			$("#status-form").addClass("unchanged").parents(".minimizable").addClass("minimized");
 			$("#status-form")[0].reset();
+		});
+		return false;
+	});
+
+
+	$(".posts").delegate(".write-comment form", "submit", function() {
+		var form = this;
+		var comments = $(this).parents(".status").find(".comments");
+		console.log(this, comments);
+		//return false;
+		$.post(this.action, $(this).serialize(), function(data) {
+			var post = $(data).hide().appendTo(comments);
+			doPrettyDates();
+			post.slideDown("slow");
+			$(form).addClass("unchanged").parents(".minimizable").addClass("minimized");
+			$(form)[0].reset();
 		});
 		return false;
 	});

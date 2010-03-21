@@ -82,7 +82,7 @@ public class InitController {
 		status2.setAuthor(user2);
 		Comment comment1 = new Comment(user2, "Blaaaaa");
 		status2.getComments().add(comment1);
-//		statusService.addStatus(status2);
+		statusService.addStatus(status2);
 		
 	}
 	

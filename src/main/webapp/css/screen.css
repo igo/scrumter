@@ -521,6 +521,10 @@ body, textarea {
   margin: 10px 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .status {
   padding: 10px 0;
   clear: both;
@@ -540,7 +544,7 @@ body, textarea {
 }
 
 .write-comment {
-  display: none;
+  width: 488px;
 }
 
 .write-comment textarea {

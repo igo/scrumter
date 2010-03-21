@@ -6,12 +6,11 @@
 
 <tiles:useAttribute name="comment" ignore="true" />
 
-<div class="comment" id="comment-${status.id}">
-	<a href=""><img src="img/clovek_mini.jpg" class="profile-image-small" /></a>
+<div class="comment" id="comment-${comment.id}">
+	<a href="<c:url value="/${comment.author.company}/${comment.author.username}/" />"><img src="img/clovek_mini.jpg" class="profile-image-small" /></a>
 	<a href="<c:url value="/${comment.author.company}/${comment.author.username}/" />" class="name">${comment.author.firstName} ${comment.author.middleName} ${comment.author.lastName}</a>
 	${comment.comment}
 	<br />
-	<span class="date">Yesterday at 7:50pm</span>
 	<span class="date" title="<fmt:formatDate value="${comment.created}" type="date" pattern="dd MMM yyyy H:mm:ss Z"/>">${comment.created}</span>
 	<br style="clear: both" />
 </div>
