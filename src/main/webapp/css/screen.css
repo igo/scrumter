@@ -418,18 +418,27 @@ form.bp textarea {
   height: 250px;
 }
 
+body {
+  background-color: #57647F;
+}
+
 body, textarea {
   font-family: Helvetica Neue,Arial,Helvetica,sans-serif;
 }
 
 #container {
   width: 950px;
-  margin: 0 auto;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: white;
   overflow: hidden;
-  display: inline-block;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+  -moz-box-shadow: 0px 0px 14px #555;
 }
-#container {
-  display: block;
+#container a {
+  color: #27344F;
 }
 
 #header, #footer {
@@ -440,6 +449,10 @@ body, textarea {
 }
 * html #header, * html #footer {
   overflow-x: hidden;
+}
+
+#footer {
+  margin-top: 20px;
 }
 
 #sidebar {
@@ -515,19 +528,34 @@ body, textarea {
   margin: 10px 0;
   float: left;
 }
+#header h1 a {
+  text-decoration: none;
+  font-size: 24px;
+  font-variant: small-caps;
+  text-shadow: 0 0 3px #555555;
+  letter-spacing: 2px;
+}
 
 #main-menu {
   float: right;
   margin: 10px 0;
+}
+#main-menu a {
+  color: #27344F;
 }
 
 .hidden {
   display: none;
 }
 
+#status-form textarea {
+  width: 560px;
+}
+
 .status {
   padding: 10px 0;
   clear: both;
+  width: 590px;
 }
 
 .status img {
@@ -567,7 +595,7 @@ body, textarea {
   display: none;
 }
 .minimized textarea {
-  height: 23px;
+  height: 25px;
   color: gray;
 }
 
@@ -579,6 +607,7 @@ body, textarea {
   margin: 3px;
   padding: 3px;
   background-color: #eee;
+  clear: left;
 }
 
 .profile-picture {

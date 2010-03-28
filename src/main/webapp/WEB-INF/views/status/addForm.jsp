@@ -8,7 +8,7 @@
 
 <div class="minimized minimizable">
 <form action="<c:url value="/statuses/add" />" id="status-form" class="unchanged">
-<textarea name="status" rows="4" cols="70"><spring:message code="status.form.title" /></textarea><br />
+<textarea name="status" rows="4" cols="55"><spring:message code="status.form.title" /></textarea><br />
 <%--<select id="allowed" name="allowed"></select> --%>
 
 <input type="submit" value="<spring:message code="status.form.share" />" />

@@ -22,7 +22,8 @@ body.bp
 form.bp
 	+blueprint-form
 
-
+body
+	background-color: #57647F
 
 body, textarea
 	font-family: Helvetica Neue,Arial,Helvetica,sans-serif
@@ -30,9 +31,24 @@ body, textarea
 
 // Page layout can be done using mixins applied to your semantic classes and IDs:
 #container
-	+container
+	width: 950px
+	margin: 10px auto
+	padding: 10px 20px
+	background-color: white
+	overflow: hidden
+	-moz-border-radius: 12px
+	-webkit-border-radius: 12px
+	border-radius: 12px
+	-moz-box-shadow: 0px 0px 14px #555
+	a
+		color: #27344F
+
 #header, #footer
 	+column(!blueprint_grid_columns)
+
+#footer
+	margin-top: 20px
+
 #sidebar
 	// One third of the grid columns, rounding down. With 24 cols, this is 8.
 	!sidebar_columns = floor(!blueprint_grid_columns / 3)
@@ -67,17 +83,30 @@ body, textarea
 	font-size: 22px
 	margin: 10px 0
 	float: left
+	a
+		text-decoration: none
+		font-size: 24px
+		font-variant: small-caps
+		text-shadow: 0 0 3px #555555
+		letter-spacing: 2px
 
 #main-menu
 	float: right
 	margin: 10px 0
+	a
+		color: #27344F
 
 .hidden
 	display: none
 
+#status-form
+	textarea
+		width: 560px
+
 .status
 	padding: 10px 0
 	clear: both
+	width: 590px
 
 .status img
 	float: left
@@ -109,7 +138,7 @@ body, textarea
 	input
 		display: none
 	textarea
-		height: 23px
+		height: 25px
 		color: gray
 
 
@@ -121,6 +150,7 @@ body, textarea
 	margin: 3px
 	padding: 3px
 	background-color: #eee
+	clear: left
 
 .profile-picture
 	width: 50px
