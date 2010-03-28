@@ -7,7 +7,7 @@
 <tiles:useAttribute name="status" ignore="true" />
 
 <div class="status" id="status-${status.id}">
-	<a href=""><img src="<c:url value="/img/clovek1.jpg" />" class="profile-image" /></a>
+	<a href="<c:url value="/${status.author.company}/${status.author.username}/" />"><img src="<c:url value="/api/profile/picture?company=${status.author.company}&username=${status.author.username}" />" class="profile-picture" /></a>
 	<div class="detail">
 		<a href="<c:url value="/${status.author.company}/${status.author.username}/" />" class="name">${status.author.firstName} ${status.author.middleName} ${status.author.lastName}</a>
 		${status.status}

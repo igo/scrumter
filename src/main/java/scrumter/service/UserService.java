@@ -28,9 +28,16 @@ public class UserService {
 	@Transactional
 	public void addUser(User user) {
 		user.setCreated(new Date());
-		logger.info("Saving user: " + user);
+		logger.info("Adding user: " + user);
 		em.persist(user);
 	}
+	
+	@Transactional
+	public void saveUser(User user) {
+		logger.info("Saving user: " + user);
+		em.merge(user);
+	}
+	
 	
 	public List<User> findAllUsersExcept(User user) {
 		Query query = em.createNamedQuery("User.findAllExcept");

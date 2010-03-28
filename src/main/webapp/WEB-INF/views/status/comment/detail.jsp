@@ -7,7 +7,7 @@
 <tiles:useAttribute name="comment" ignore="true" />
 
 <div class="comment" id="comment-${comment.id}">
-	<a href="<c:url value="/${comment.author.company}/${comment.author.username}/" />"><img src="img/clovek_mini.jpg" class="profile-image-small" /></a>
+	<a href="<c:url value="/${comment.author.company}/${comment.author.username}/" />"><img src="<c:url value="/api/profile/picture?company=${comment.author.company}&username=${comment.author.username}" />" class="profile-picture-small" /></a>
 	<a href="<c:url value="/${comment.author.company}/${comment.author.username}/" />" class="name">${comment.author.firstName} ${comment.author.middleName} ${comment.author.lastName}</a>
 	${comment.comment}
 	<br />

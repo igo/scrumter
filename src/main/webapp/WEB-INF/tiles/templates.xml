@@ -27,6 +27,9 @@
 	<definition name="users/signup" extends="anonymous">
 		<put-attribute name="body" value="/WEB-INF/views/users/signup.jsp" />
 	</definition>
+	<definition name="users/profile" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/users/profile.jsp" />
+	</definition>
 
 
 	<definition name="company" extends="default">

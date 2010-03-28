@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -81,6 +84,15 @@ public class User {
 	@Column
 	private Boolean locked;
 	
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] picture;
+	
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] picturePreview;
+	
+	
 	@OneToMany
 	private List<Authority> authorities = new ArrayList<Authority>();
 
@@ -148,6 +160,18 @@ public class User {
 
 	public void setLocked(Boolean locked) {
 		this.locked = locked;
+	}
+
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
+	public byte[] getPicturePreview() {
+		return picturePreview;
 	}
 
 	public String getFirstName() {
