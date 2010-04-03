@@ -316,7 +316,7 @@ body.bp .bottom {
   padding-bottom: 0;
 }
 body.bp .showgrid {
-  background: url('/../webapp/img/grid.png?1269159711');
+  background: url('/../webapp/img/grid.png?');
 }
 body.bp .error {
   padding: .8em;
@@ -591,7 +591,7 @@ body, textarea {
   color: gray;
 }
 
-.minimized input {
+.minimized input, .minimized select {
   display: none;
 }
 .minimized textarea {

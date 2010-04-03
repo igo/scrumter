@@ -9,7 +9,7 @@
 	<definition name="anonymous" template="/WEB-INF/templates/anonymous.jsp">
 	</definition>
 
-	<definition name="status/addForm" template="/WEB-INF/views/status/addForm.jsp">
+	<definition name="status/addForm" template="/WEB-INF/views/status/addForm.jsp" preparer="userMembershipPreparer">
 	</definition>
 	<definition name="status/list" template="/WEB-INF/views/status/list.jsp">
 	</definition>
