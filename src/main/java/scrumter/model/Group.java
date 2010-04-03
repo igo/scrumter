@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -23,8 +25,13 @@ import org.hibernate.validator.constraints.Length;
 @Table(name = "groups")
 @NamedQueries(value = {
 		@NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g"),
+		@NamedQuery(name = "Group.findUserMembership", query = "SELECT g FROM Group g WHERE :user MEMBER OF g.members"),
 		@NamedQuery(name = "Group.deleteAll", query = "DELETE FROM Group g") })
 public class Group {
+	
+	public enum GroupType {
+		PRIVATE, PUBLIC, COMPANY
+	}
 
 	@Id
 	@GeneratedValue
@@ -35,6 +42,10 @@ public class Group {
 	@Length(min = 3, max = 40)
 	@Column
 	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	@Column
+	private GroupType type;
 
 	@ManyToOne
 	private User author;
@@ -48,16 +59,16 @@ public class Group {
 
 	public Group() {
 		super();
-		this.created = new Date();
-		this.members = new HashSet<User>();
+//		this.created = new Date();
+//		this.members = new HashSet<User>();
 	}
 
-	public Group(String name, User author) {
+	public Group(String name, User author, GroupType type) {
 		super();
 		this.name = name;
 		this.author = author;
+		this.type = type;
 		this.created = new Date();
-		this.members = new HashSet<User>();
 	}
 
 	public Long getId() {
@@ -76,6 +87,14 @@ public class Group {
 		this.name = name;
 	}
 
+	public void setType(GroupType type) {
+		this.type = type;
+	}
+
+	public GroupType getType() {
+		return type;
+	}
+
 	public User getAuthor() {
 		return author;
 	}
@@ -90,14 +109,6 @@ public class Group {
 
 	public Set<User> getMembers() {
 		return members;
-	}
-
-	public void setMembers(Set<User> members) {
-		this.members = members;
-	}
-
-	public void addMember(User user) {
-		members.add(user);
 	}
 
 	@Override

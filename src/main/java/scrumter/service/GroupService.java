@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
@@ -12,13 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.Group;
+import scrumter.model.User;
 
 @Service
 public class GroupService {
 
 	private Logger logger = Logger.getLogger(GroupService.class);
 
-	@PersistenceContext(type = PersistenceContextType.EXTENDED)
+	@PersistenceContext
 	EntityManager em;
 
 	@Transactional
@@ -41,6 +41,12 @@ public class GroupService {
 
 	public List<Group> findAllGroups() {
 		Query query = em.createNamedQuery("Group.findAll");
+		return query.getResultList();
+	}
+
+	public List<Group> findUserMembership(User user) {
+		Query query = em.createNamedQuery("Group.findUserMembership");
+		query.setParameter("user", user);
 		return query.getResultList();
 	}
 }

@@ -17,13 +17,13 @@ import scrumter.model.Comment;
 import scrumter.model.Group;
 import scrumter.model.Status;
 import scrumter.model.User;
+import scrumter.model.Group.GroupType;
 import scrumter.service.GroupService;
 import scrumter.service.StatusService;
 import scrumter.service.UserService;
 
-
 @Controller
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
+// @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class InitController {
 
 	private Logger logger = Logger.getLogger(InitController.class);
@@ -33,7 +33,7 @@ public class InitController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private GroupService groupService;
 
@@ -50,7 +50,7 @@ public class InitController {
 		logger.info("Creating test data");
 		Authority adminRole = userService.createAuthority("ROLE_ADMIN");
 		Authority userRole = userService.createAuthority("ROLE_USER");
-		
+
 		User user = new User();
 		user.setEmail("bruce.willis@holywood.com");
 		user.setFirstName("Bruce");
@@ -77,7 +77,6 @@ public class InitController {
 		status1.setAuthor(user1);
 		statusService.addStatus(status1);
 
-
 		User user2 = new User();
 		user2.setEmail("barack.obama@whitehouse.com");
 		user2.setFirstName("Barack");
@@ -91,8 +90,8 @@ public class InitController {
 		Comment comment1 = new Comment(user2, "Blaaaaa");
 		status2.getComments().add(comment1);
 		statusService.addStatus(status2);
-		
-		Group group1 = new Group("Presidents", user1);
+
+		Group group1 = new Group("Presidents", user1, GroupType.PUBLIC);
 		groupService.addGroup(group1);
 
 		user1.addMembership(group1);
@@ -101,15 +100,18 @@ public class InitController {
 		userService.saveUser(user2);
 
 	}
-	
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@Transactional(readOnly = true)
 	public void reloadConfig() {
 		logger.debug("Running tests...");
 		User user = userService.findUserByEmail("bruce.willis@holywood.com");
 		logger.debug("User found by email bruce.willis@holywood.com: " + user);
-		
+
 		List<Group> groups = groupService.findAllGroups();
 		logger.debug(groups);
+		user = userService.findUserByEmail("barack.obama@whitehouse.com");
+		logger.debug("Membership: " + groupService.findUserMembership(user));
 	}
 
 }
