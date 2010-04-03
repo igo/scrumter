@@ -33,5 +33,7 @@
 	   	 </user-service -->
     	</authentication-provider>
 	</authentication-manager>
+	
+	<beans:bean class="scrumter.core.ApplicationSecurityListener" />
 
 </beans:beans>
