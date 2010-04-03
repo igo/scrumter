@@ -79,13 +79,6 @@
 			<version>2.5.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- ROO dependencies -->
-		<dependency>
-			<groupId>org.springframework.roo</groupId>
-			<artifactId>org.springframework.roo.annotations</artifactId>
-			<version>1.0.0.RC4</version>
-			<scope>provided</scope>
-		</dependency>
 		<!-- Spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -295,24 +288,18 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.0</version>
 				<dependencies>
-					<!--
-						NB: You must use Maven 2.0.9 or above or these are ignored (see
-						MNG-2972)
-					-->
 					<dependency>
 						<groupId>org.aspectj</groupId>
-						<!-- artifactId>aspectjrt</artifactId -->
 						<artifactId>com.springsource.org.aspectj.runtime</artifactId>
 						<version>${aspectj.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.aspectj</groupId>
-						<!-- artifactId>org.aspectj.tools</artifactId -->
 						<artifactId>com.springsource.org.aspectj.tools</artifactId>
 						<version>${aspectj.version}</version>
 					</dependency>
@@ -336,7 +323,7 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
-			</plugin>
+			</plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -387,8 +374,8 @@
 					</additionalBuildcommands>
 					<additionalProjectnatures>
 						<projectnature>org.eclipse.ajdt.ui.ajnature</projectnature>
-						<projectnature>com.springsource.sts.roo.core.nature</projectnature>
 						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+						<!-- projectnature>org.maven.ide.eclipse.maven2Nature</projectnature -->
 					</additionalProjectnatures>
 				</configuration>
 			</plugin>
