@@ -1,5 +1,7 @@
 package scrumter.controller;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.tiles.TilesApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,10 @@ import org.springframework.web.servlet.view.tiles2.TilesViewResolver;
 
 import scrumter.model.Authority;
 import scrumter.model.Comment;
+import scrumter.model.Group;
 import scrumter.model.Status;
 import scrumter.model.User;
+import scrumter.service.GroupService;
 import scrumter.service.StatusService;
 import scrumter.service.UserService;
 
@@ -29,6 +33,9 @@ public class InitController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private GroupService groupService;
 
 	@Transactional
 	@RequestMapping(value = "/init", method = RequestMethod.GET)
@@ -38,6 +45,7 @@ public class InitController {
 		logger.info("Deleting database");
 		statusService.deleteAllStatuses();
 		userService.deleteAllUsers();
+		groupService.deleteAllGroups();
 
 		logger.info("Creating test data");
 		Authority adminRole = userService.createAuthority("ROLE_ADMIN");
@@ -84,6 +92,14 @@ public class InitController {
 		status2.getComments().add(comment1);
 		statusService.addStatus(status2);
 		
+		Group group1 = new Group("Presidents", user1);
+		groupService.addGroup(group1);
+
+		user1.addMembership(group1);
+		userService.saveUser(user1);
+		user2.addMembership(group1);
+		userService.saveUser(user2);
+
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
@@ -91,6 +107,9 @@ public class InitController {
 		logger.debug("Running tests...");
 		User user = userService.findUserByEmail("bruce.willis@holywood.com");
 		logger.debug("User found by email bruce.willis@holywood.com: " + user);
+		
+		List<Group> groups = groupService.findAllGroups();
+		logger.debug(groups);
 	}
 
 }

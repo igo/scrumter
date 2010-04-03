@@ -2,7 +2,9 @@ package scrumter.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -95,6 +98,9 @@ public class User {
 	
 	@OneToMany
 	private List<Authority> authorities = new ArrayList<Authority>();
+	
+	@ManyToMany
+	private Set<Group> membership = new HashSet<Group>();
 
 	public Long getId() {
 		return id;
@@ -132,6 +138,10 @@ public class User {
 		this.email = email;
 		setCompany(email.substring(email.indexOf('@') + 1).toLowerCase());
 		setUsername(email.substring(0, email.indexOf('@')).toLowerCase());
+	}
+	
+	public void addMembership(Group group) {
+		membership.add(group);
 	}
 
 	@JsonIgnore
