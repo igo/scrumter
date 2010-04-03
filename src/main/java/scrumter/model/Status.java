@@ -3,6 +3,7 @@ package scrumter.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -47,6 +49,9 @@ public class Status {
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	@OrderBy("created")
 	private List<Comment> comments = new ArrayList<Comment>();
+	
+	@ManyToMany
+	private Set<Group> allowedGroups;
 
 	public Status() {
 		super();
