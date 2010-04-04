@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.Length;
 public class Group {
 	
 	public enum GroupType {
-		PRIVATE, PUBLIC, COMPANY
+		PRIVATE, PUBLIC, COMPANY, PROJECT
 	}
 
 	@Id
