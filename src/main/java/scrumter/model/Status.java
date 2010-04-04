@@ -23,8 +23,7 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQueries(value = {
 		@NamedQuery(name = "Status.findByFrom", query = "SELECT s FROM Status s ORDER BY s.created DESC"),
-//		@NamedQuery(name = "Status.findAllForUser", query = "SELECT s FROM Status s WHERE s.allowedGroups IN (SELECT user.membership FROM User user WHERE user = :user)"),// ORDER BY s.created DESC"),
-		@NamedQuery(name = "Status.findAllForUser", query = "SELECT s FROM Status s INNER JOIN s.allowedGroups AS sg INNER JOIN sg.members AS users WHERE users = :user ORDER BY s.created DESC"),
+		@NamedQuery(name = "Status.findAllForUser", query = "SELECT DISTINCT s FROM Status s INNER JOIN s.allowedGroups AS sg INNER JOIN sg.members AS users WHERE users = :user ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.findAllByAuthor", query = "SELECT s FROM Status s WHERE s.author = :author ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.deleteAll", query = "DELETE FROM Status s") })
