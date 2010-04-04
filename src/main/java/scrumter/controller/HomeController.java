@@ -38,11 +38,7 @@ public class HomeController {
 		} else {
 			mav.setViewName("users/home");
 			List<Status> statuses = statusService.findFollowedStatuses(currentUser, null, 15);
-			//logger.debug("Statuses: " + statuses);
 			mav.addObject("statuses", statuses);
-			
-			//logger.debug("Comments: " + statusService.findStatusById(new Long(1)).getComments());
-			
 		}
 		return mav;
 	}

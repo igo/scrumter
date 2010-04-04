@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import scrumter.model.User;
 import scrumter.service.UserService;
 
-
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
 public class CompanyController {
