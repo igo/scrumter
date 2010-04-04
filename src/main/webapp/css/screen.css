@@ -420,10 +420,39 @@ form.bp textarea {
 
 body {
   background-color: #57647F;
+  font-size: 12px;
 }
 
 body, textarea {
   font-family: Helvetica Neue,Arial,Helvetica,sans-serif;
+}
+
+a {
+  color: #27344F;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 13px;
+}
+
+h6 {
+  font-size: 12px;
 }
 
 #container {
@@ -436,9 +465,6 @@ body, textarea {
   -webkit-border-radius: 12px;
   border-radius: 12px;
   -moz-box-shadow: 0px 0px 14px #555;
-}
-#container a {
-  color: #27344F;
 }
 
 #header, #footer {
@@ -548,8 +574,26 @@ body, textarea {
   display: none;
 }
 
-#status-form textarea {
+#status-form-wrapper {
   width: 560px;
+}
+
+#status-form-tools .allowed-wrapper {
+  float: left;
+  margin: 5px 5px 5px 0;
+}
+#status-form-tools .submit-wrapper {
+  float: right;
+  margin: 5px 0 5px 5px;
+}
+
+#status-form textarea {
+  width: 100%;
+  height: 25px;
+}
+
+#status-form-tools {
+  vertical-align: middle;
 }
 
 .status {

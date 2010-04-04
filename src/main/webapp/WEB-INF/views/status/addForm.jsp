@@ -6,14 +6,21 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <tiles:useAttribute name="groups" ignore="true" />
-<div class="minimized minimizable">
+<div id="status-form-wrapper">
 <form action="<c:url value="/statuses/add" />" id="status-form" class="unchanged">
-<textarea name="status" rows="4" cols="55"><spring:message code="status.form.title" /></textarea><br />
-<select id="allowedXXX" name="allowed">
-	<c:forEach var="group" items="${groups}">
-		<option value="${group.id}">${group.name}</option>
-	</c:forEach>
-</select>
-<input type="submit" value="<spring:message code="status.form.share" />" />
+<label for="status-form-textarea"><spring:message code="status.form.title" /></label>
+<textarea id="status-form-textarea" name="status" rows="1" cols="55"></textarea>
+<div id="status-form-tools">
+	<div class="allowed-wrapper">
+	<select id="allowed" name="allowed" multiple="multiple">
+		<c:forEach var="group" items="${groups}">
+			<option value="${group.id}">${group.name}</option>
+		</c:forEach>
+	</select>
+	</div>
+	<div class="submit-wrapper">
+		<input type="submit" value="<spring:message code="status.form.share" />" />
+	</div>
+</div>
 </form>
 </div>

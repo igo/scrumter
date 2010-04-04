@@ -7,16 +7,14 @@
 <head>
 <title>Scrumter</title>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/screen.css" />" />
-<link type="text/css" rel="stylesheet" href="<c:url value="/js/fcbkcomplete/style.css" />" />
+<link type="text/css" rel="stylesheet" href="<c:url value="/css/lib/jquery.multiselect.css" />" />
+<link type="text/css" rel="stylesheet" href="<c:url value="/css/lib/ui-lightness/jquery-ui-1.8.custom.css" />" />
 
-<link rel="stylesheet" href="http://jqueryui.com/themes/base/jquery-ui.css" type="text/css" media="all" />
-<link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
-
-<script type="text/javascript" src="<c:url value="/js/jquery-1.4.2.min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/js/jquery-ui-1.7.2.custom.min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/js/fcbkcomplete/jquery.fcbkcomplete.min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/js/prettydate.js" />"></script>
-<script type="text/javascript" src="<c:url value="/js/pure.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/lib/jquery-1.4.2.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/lib/jquery-ui-1.8.custom.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/lib/jquery.multiselect.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/lib/autoresize.jquery.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/lib/prettydate.js" />"></script>
 
 <script type="text/javascript">
 scrumter = {
@@ -53,24 +51,28 @@ jQuery.fn.minimizable = function(){
 $(document).ready(function(){
 	doPrettyDates();
 	setInterval(function(){ doPrettyDates(); }, 10000);
-$("#allowed").fcbkcomplete({
-    json_url: "js/fcbkcomplete/fetched.txt",
-    cache: true,
-    filter_case: false,
-    filter_hide: true,
-	firstselected: true,
-    //onremove: "testme",
-	//onselect: "testme",
-    filter_selected: true,
-    newel: false
-});
+	$("button, input:submit").button();
+	$("#allowed").multiSelect({
+		noneSelectedText: 'Select audiences',
+		selectedText: function(numChecked, numTotal, checkedItems) {
+			if (numChecked < 4) {
+				var list = $(checkedItems).map(function(){ return this.title; }).get().join(', ');
+				return "Audiences: " + list;
+			} else {
+				return numChecked + ' audiences selected';
+			}
+		},
+		selectedList: 2,
+		minWidth: 440
+	});
+	$("#status-form textarea").autoResize();
+
 	$("#status-form").submit(function(){
 		$.post('<c:url value="/api/status/add" />', $("#status-form").serialize(), function(data) {
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
-			post.find("textarea").minimizable();
 			post.slideDown("slow");
-			$("#status-form").addClass("unchanged").parents(".minimizable").addClass("minimized");
+			$("#status-form-textarea").height(25);
 			$("#status-form")[0].reset();
 		});
 		return false;
@@ -96,7 +98,7 @@ $("#allowed").fcbkcomplete({
 </script>
 
 </head>
-<body class="bp">
+<body>
 <div id="container">
 <div id="header">
 	<h1><a href="<c:url value="/" />">Scrumter</a></h1>

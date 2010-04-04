@@ -7,7 +7,7 @@
 <head>
 <title>Scrumter</title>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/screen.css" />" />
-<script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/lib/jquery-1.4.2.min.js" />"></script>
 
 </head>
 <body class="bp">
