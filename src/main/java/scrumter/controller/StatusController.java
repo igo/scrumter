@@ -42,6 +42,9 @@ public class StatusController {
 	public ModelAndView addStatus(@RequestParam String status, @RequestParam List<Long> allowedGroups) {
 		User currentUser = securityService.getCurrentUser();
 		logger.info("Adding status '" + status + "' by " + currentUser.getEmail() + " for " + allowedGroups);
+		if (allowedGroups.isEmpty()) {
+			throw new IllegalArgumentException("Allowed groups list can't be empty"); 
+		}
 		Set<Group> statusGroups = new HashSet<Group>();
 		for (Long allowedGroup : allowedGroups) {
 			Group group = groupService.findGroupById(allowedGroup);

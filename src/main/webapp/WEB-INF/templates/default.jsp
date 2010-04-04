@@ -68,6 +68,11 @@ $(document).ready(function(){
 	$("#status-form textarea").autoResize();
 
 	$("#status-form").submit(function(){
+		if ($("#status-form :checked").length == 0) {
+			alert("Please select audiences");
+			return false;
+		}
+		$("#status-form ")
 		$.post('<c:url value="/api/status/add" />', $("#status-form").serialize(), function(data) {
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
