@@ -56,9 +56,9 @@ public class StatusService {
 		return query.getResultList();
 	}
 	
-	public List<Status> findFollowedStatuses(User follower, Integer startPosition, Integer maxResult) {
-		Query query = em.createNamedQuery("Status.findAll");
-//		query.setParameter("author", author);
+	public List<Status> findStatusesForUser(User user, Integer startPosition, Integer maxResult) {
+		Query query = em.createNamedQuery("Status.findAllForUser");
+		query.setParameter("user", user);
 		if (startPosition != null) {
 			query.setFirstResult(startPosition);
 		}
