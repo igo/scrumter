@@ -12,7 +12,7 @@
 <textarea id="status-form-textarea" name="status" rows="1" cols="55"></textarea>
 <div id="status-form-tools">
 	<div class="allowed-wrapper">
-	<select id="allowed" name="allowed" multiple="multiple">
+	<select id="allowed" name="allowedGroups" multiple="multiple">
 		<c:forEach var="group" items="${groups}">
 			<option value="${group.id}">${group.name}</option>
 		</c:forEach>

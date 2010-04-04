@@ -45,11 +45,10 @@ public class Status {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date created;
 
-//	@OneToMany(mappedBy = "status", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@OrderBy("created")
 	private List<Comment> comments = new ArrayList<Comment>();
-	
+
 	@ManyToMany
 	private Set<Group> allowedGroups;
 
@@ -118,6 +117,14 @@ public class Status {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public void setAllowedGroups(Set<Group> allowedGroups) {
+		this.allowedGroups = allowedGroups;
+	}
+
+	public Set<Group> getAllowedGroups() {
+		return allowedGroups;
 	}
 
 }

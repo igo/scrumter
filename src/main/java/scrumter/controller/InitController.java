@@ -91,12 +91,19 @@ public class InitController {
 		status2.getComments().add(comment1);
 		statusService.addStatus(status2);
 
-		Group group1 = new Group("Presidents", user1, GroupType.PUBLIC);
+		Group group1 = new Group("Presidents", user1, GroupType.PROJECT);
 		groupService.addGroup(group1);
 
+		Group group2 = new Group("Friends", user1, GroupType.PUBLIC);
+		groupService.addGroup(group2);
+
+		user.addMembership(group1);
+		user.addMembership(group2);
+		userService.saveUser(user);
 		user1.addMembership(group1);
 		userService.saveUser(user1);
 		user2.addMembership(group1);
+		user2.addMembership(group2);
 		userService.saveUser(user2);
 
 	}

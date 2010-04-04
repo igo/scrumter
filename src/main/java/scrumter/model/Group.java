@@ -1,7 +1,6 @@
 package scrumter.model;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -24,11 +23,12 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "groups")
 @NamedQueries(value = {
+		@NamedQuery(name = "Group.findById", query = "SELECT g FROM Group g WHERE g.id = :id"),
 		@NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g"),
 		@NamedQuery(name = "Group.findUserMembership", query = "SELECT g FROM Group g WHERE :user MEMBER OF g.members"),
 		@NamedQuery(name = "Group.deleteAll", query = "DELETE FROM Group g") })
 public class Group {
-	
+
 	public enum GroupType {
 		PRIVATE, PUBLIC, COMPANY, PROJECT
 	}
@@ -42,7 +42,7 @@ public class Group {
 	@Length(min = 3, max = 40)
 	@Column
 	private String name;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column
 	private GroupType type;
@@ -59,8 +59,6 @@ public class Group {
 
 	public Group() {
 		super();
-//		this.created = new Date();
-//		this.members = new HashSet<User>();
 	}
 
 	public Group(String name, User author, GroupType type) {

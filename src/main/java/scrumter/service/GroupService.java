@@ -39,6 +39,12 @@ public class GroupService {
 		query.executeUpdate();
 	}
 
+	public Group findGroupById(Long id) {
+		Query query = em.createNamedQuery("Group.findById");
+		query.setParameter("id", id);
+		return (Group) query.getSingleResult();
+	}
+
 	public List<Group> findAllGroups() {
 		Query query = em.createNamedQuery("Group.findAll");
 		return query.getResultList();

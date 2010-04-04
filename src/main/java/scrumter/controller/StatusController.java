@@ -1,16 +1,25 @@
 package scrumter.controller;
 
+import java.lang.reflect.Array;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import scrumter.model.Comment;
+import scrumter.model.Group;
 import scrumter.model.Status;
+import scrumter.model.User;
+import scrumter.service.GroupService;
 import scrumter.service.StatusService;
 import scrumter.service.SecurityService;
 import scrumter.service.UserService;
@@ -25,15 +34,30 @@ public class StatusController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private GroupService groupService;
 
 	@Autowired
 	private SecurityService securityService;
 
 	@RequestMapping(value = "/api/status/add", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ModelAndView addStatus(@RequestParam String status, @RequestParam(required = false) Long parendId) {
+	@Transactional
+	public ModelAndView addStatus(@RequestParam String status, @RequestParam List<Long> allowedGroups) {
+		User currentUser = securityService.getCurrentUser();
+		logger.info("Adding status '" + status + "' by " + currentUser.getEmail() + " for " + allowedGroups);
+		Set<Group> statusGroups = new HashSet<Group>();
+		for (Long allowedGroup : allowedGroups) {
+			Group group = groupService.findGroupById(allowedGroup);
+			// if current user is member of group
+			if (group.getMembers().contains(currentUser)) {
+				statusGroups.add(group);
+			}
+		}
 		ModelAndView mav = new ModelAndView("status/detail");
-		Status s = new Status(securityService.getCurrentUser(), status);
+		Status s = new Status(currentUser, status);
+		s.setAllowedGroups(statusGroups);
 		statusService.addStatus(s);
 		mav.addObject("status", s);
 		return mav;
