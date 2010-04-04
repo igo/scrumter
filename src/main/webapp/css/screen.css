@@ -576,6 +576,7 @@ h6 {
 
 #status-form-wrapper {
   width: 560px;
+  overflow: hidden;
 }
 
 #status-form-tools .allowed-wrapper {
