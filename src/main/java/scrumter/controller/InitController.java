@@ -56,6 +56,7 @@ public class InitController {
 		user.setFirstName("Bruce");
 		user.setLastName("Willis");
 		user.setPassword("password");
+		user.grantRole(adminRole);
 		user.grantRole(userRole);
 		userService.addUser(user);
 		logger.debug("User created: " + user);
@@ -70,6 +71,7 @@ public class InitController {
 		user1.setFirstName("George");
 		user1.setLastName("Bush");
 		user1.setPassword("password");
+		user1.grantRole(userRole);
 		userService.addUser(user1);
 
 		Status status1 = new Status();

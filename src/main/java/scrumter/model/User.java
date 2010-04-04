@@ -96,8 +96,8 @@ public class User {
 	private byte[] picturePreview;
 	
 	
-	@OneToMany
-	private List<Authority> authorities = new ArrayList<Authority>();
+	@ManyToMany
+	private Set<Authority> authorities = new HashSet<Authority>();
 	
 	@ManyToMany
 	private Set<Group> membership = new HashSet<Group>();
@@ -216,11 +216,11 @@ public class User {
 		authorities.remove(authority);
 	}
 
-	public List<Authority> getAuthorities() {
+	public Set<Authority> getAuthorities() {
 		return authorities;
 	}
 
-	public void setAuthorities(List<Authority> authorities) {
+	public void setAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
 	}
 
