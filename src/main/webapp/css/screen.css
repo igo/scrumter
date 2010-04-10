@@ -316,7 +316,7 @@ body.bp .bottom {
   padding-bottom: 0;
 }
 body.bp .showgrid {
-  background: url('/../webapp/img/grid.png?');
+  background: url('/../webapp/img/grid.png?1269159711');
 }
 body.bp .error {
   padding: .8em;
@@ -697,4 +697,18 @@ a.button, button.button, input.button {
   border-bottom: 1px solid rgba(0,0,0,0.25);
   font-size: 11px;
   background-color: #a9014b;
+}
+
+.group {
+  float: left;
+  padding: 0 20px 0 0;
+}
+
+.group-link {
+  text-decoration: none;
+  display: block;
+}
+
+.group-count {
+  font-size: 20px;
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.Group;
 import scrumter.model.User;
+import scrumter.model.Group.GroupType;
 
 @Service
 public class GroupService {
@@ -55,4 +56,12 @@ public class GroupService {
 		query.setParameter("user", user);
 		return query.getResultList();
 	}
+
+	public Long countGroupsByTypeAndUser(GroupType type, User user) {
+		Query query = em.createNamedQuery("Group.countByTypeAndUser");
+		query.setParameter("type", type);
+		query.setParameter("user", user);
+		return (Long) query.getSingleResult();
+	}
+
 }

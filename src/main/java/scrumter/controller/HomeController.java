@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import scrumter.model.Status;
 import scrumter.model.SignupForm;
 import scrumter.model.User;
+import scrumter.model.Group.GroupType;
+import scrumter.service.GroupService;
 import scrumter.service.StatusService;
 import scrumter.service.SecurityService;
 
@@ -20,6 +22,9 @@ import scrumter.service.SecurityService;
 public class HomeController {
 
 	private Logger logger = Logger.getLogger(HomeController.class);
+
+	@Autowired
+	private GroupService groupService; 
 
 	@Autowired
 	private StatusService statusService;
@@ -39,6 +44,11 @@ public class HomeController {
 			mav.setViewName("users/home");
 			List<Status> statuses = statusService.findStatusesForUser(currentUser, null, 15);
 			mav.addObject("statuses", statuses);
+			mav.addObject("user", currentUser);
+			Long publicGroups = groupService.countGroupsByTypeAndUser(GroupType.PUBLIC, currentUser);
+			mav.addObject("publicGroups", publicGroups);
+			Long projectGroups = groupService.countGroupsByTypeAndUser(GroupType.PROJECT, currentUser);
+			mav.addObject("projectGroups", projectGroups);
 		}
 		return mav;
 	}
