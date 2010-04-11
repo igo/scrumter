@@ -134,13 +134,13 @@ $(document).ready(function(){
 <div id="sidebar">
 	<div id="groups">
 		<div class="group">
-			<a href="/${user.company}/${user.username}/projects/" class="group-link">
+			<a href="<c:url value="/${user.company}/${user.username}/projects/" />" class="group-link">
 				<span class="group-count">${projectGroups}</span><br />
 				<spring:message code="projects" />
 			</a>
 		</div>
 		<div class="group">
-			<a href="/${user.company}/${user.username}/groups/" class="group-link">
+			<a href="<c:url value="/${user.company}/${user.username}/groups/" />" class="group-link">
 				<span class="group-count">${publicGroups}</span><br />
 				<spring:message code="groups" />
 			</a>

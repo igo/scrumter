@@ -28,7 +28,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@NamedQueries(value = { @NamedQuery(name = "User.findAllExcept", query = "SELECT u FROM User u WHERE u <> :user"),
+@NamedQueries(value = {
+		@NamedQuery(name = "User.findAllExcept", query = "SELECT u FROM User u WHERE u <> :user"),
 		@NamedQuery(name = "User.findByFrom", query = "SELECT m FROM User m"),
 		@NamedQuery(name = "User.findByCompany", query = "SELECT u FROM User u WHERE u.company = :company"),
 		@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
@@ -86,19 +87,18 @@ public class User {
 	@NotNull
 	@Column
 	private Boolean locked;
-	
+
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] picture;
-	
+
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] picturePreview;
-	
-	
+
 	@ManyToMany
 	private Set<Authority> authorities = new HashSet<Authority>();
-	
+
 	@ManyToMany
 	private Set<Group> membership = new HashSet<Group>();
 
@@ -132,6 +132,7 @@ public class User {
 
 	/**
 	 * Set user's email address. This will also change user's username and company
+	 * 
 	 * @param email
 	 */
 	public void setEmail(String email) {
@@ -139,7 +140,7 @@ public class User {
 		setCompany(email.substring(email.indexOf('@') + 1).toLowerCase());
 		setUsername(email.substring(0, email.indexOf('@')).toLowerCase());
 	}
-	
+
 	public void addMembership(Group group) {
 		membership.add(group);
 	}
@@ -207,11 +208,11 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	public void grantRole(Authority authority) {
 		authorities.add(authority);
 	}
-	
+
 	public void revokeRole(Authority authority) {
 		authorities.remove(authority);
 	}
@@ -222,6 +223,14 @@ public class User {
 
 	public void setAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
+	}
+
+	public Set<Group> getMembership() {
+		return membership;
+	}
+
+	public void setMembership(Set<Group> membership) {
+		this.membership = membership;
 	}
 
 	@Override

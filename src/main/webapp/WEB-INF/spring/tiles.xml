@@ -17,6 +17,7 @@
 			value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"/>
 	</bean>
 	<bean id="userMembershipPreparer" class="scrumter.view.preparer.UserMembershipPreparer" />
+	<bean id="currentUserPreparer" class="scrumter.view.preparer.CurrentUserPreparer" />
 
 	<!-- bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
