@@ -45,10 +45,6 @@ public class HomeController {
 			List<Status> statuses = statusService.findStatusesForUser(currentUser, null, 15);
 			mav.addObject("statuses", statuses);
 			mav.addObject("user", currentUser);
-			Long publicGroups = groupService.countGroupsByTypeAndUser(GroupType.PUBLIC, currentUser);
-			mav.addObject("publicGroups", publicGroups);
-			Long projectGroups = groupService.countGroupsByTypeAndUser(GroupType.PROJECT, currentUser);
-			mav.addObject("projectGroups", projectGroups);
 		}
 		return mav;
 	}

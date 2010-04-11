@@ -13,41 +13,31 @@
 				<value>/WEB-INF/tiles/*.xml</value>
 			</list>
 		</property>
-		<property name="preparerFactoryClass"
-			value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"/>
+		<property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"/>
 	</bean>
 	<bean id="userMembershipPreparer" class="scrumter.view.preparer.UserMembershipPreparer" />
 	<bean id="currentUserPreparer" class="scrumter.view.preparer.CurrentUserPreparer" />
+	<bean id="groupsCountPreparer" class="scrumter.view.preparer.GroupsCountPreparer" />
 
-	<!-- bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
-	</bean>
-
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="requestContextAttribute" value="requestContext" />
-		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
-	</bean -->
-	
-	
-<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-	  <property name="mediaTypes">
-	    <map>
-	      <entry key="html" value="text/html"/>
-	      <entry key="json" value="application/json"/>
-	    </map>
-	  </property>
-	  <property name="viewResolvers">
-	    <list>
-	      <bean class="org.springframework.js.ajax.AjaxUrlBasedViewResolver" id="tilesViewResolver">
-			<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
-		  </bean>	      
-	    </list>
-	  </property>
-	  <property name="defaultViews">
-	    <list>
-	      <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
-	    </list>
-	  </property>
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="viewResolvers">
+			<list>
+				<bean id="tilesViewResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">
+					<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+			</list>
+		</property>
 	</bean>
 
 </beans>
