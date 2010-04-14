@@ -438,7 +438,7 @@ a {
 }
 #content h2 {
   font-size: 20px;
-  padding: 7px 0 3px 0;
+  padding: 15px 0 3px 0;
   text-shadow: 1px 1px 2px #bbb;
 }
 #content h3 {
@@ -712,4 +712,11 @@ a.button, button.button, input.button {
 
 .group-count {
   font-size: 20px;
+}
+
+.group-manager {
+  color: gray;
+}
+.group-manager a {
+  color: gray;
 }
