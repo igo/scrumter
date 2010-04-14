@@ -120,7 +120,7 @@ public class InitController {
 		List<Group> groups = groupService.findAllGroups();
 		logger.debug(groups);
 		user = userService.findUserByEmail("barack.obama@whitehouse.com");
-		logger.debug("Membership: " + groupService.findUserMembership(user));
+		logger.debug("Membership: " + groupService.findGroupsByMember(user));
 	}
 
 }

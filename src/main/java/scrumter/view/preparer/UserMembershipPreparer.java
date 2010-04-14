@@ -32,7 +32,7 @@ public class UserMembershipPreparer extends ViewPreparerSupport {
 			AttributeContext attributeContext) throws PreparerException {
 		logger.debug("Searching current user and membership");
 		User user = securityService.getCurrentUser();
-		List<Group> groups = groupService.findUserMembership(user);
+		List<Group> groups = groupService.findGroupsByMember(user);
 		attributeContext.putAttribute("groups", new Attribute(groups));
 		logger.debug(groups);
 	}

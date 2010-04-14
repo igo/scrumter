@@ -51,9 +51,16 @@ public class GroupService {
 		return query.getResultList();
 	}
 
-	public List<Group> findUserMembership(User user) {
-		Query query = em.createNamedQuery("Group.findUserMembership");
+	public List<Group> findGroupsByMember(User user) {
+		Query query = em.createNamedQuery("Group.findAllByMember");
 		query.setParameter("user", user);
+		return query.getResultList();
+	}
+
+	public List<Group> findGroupsByMemberAndType(User user, GroupType type) {
+		Query query = em.createNamedQuery("Group.findAllByMemberAndType");
+		query.setParameter("user", user);
+		query.setParameter("type", type);
 		return query.getResultList();
 	}
 

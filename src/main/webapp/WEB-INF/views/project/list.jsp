@@ -4,7 +4,7 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<h1><spring:message code="groups" /></h1>
+<h1><spring:message code="projects" /></h1>
 <c:forEach items="${groups}" var="group">
 <h2>${group.name}</h2>
 <span class="group-manager"><spring:message code="group.managedBy" /> <a href="<c:url value="/${group.author.company}/${group.author.username}/" />">${group.author.firstName} ${group.author.middleName} ${group.author.lastName}</a></span>

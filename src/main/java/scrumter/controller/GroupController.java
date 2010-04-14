@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import scrumter.model.Group;
 import scrumter.model.User;
+import scrumter.model.Group.GroupType;
 import scrumter.service.GroupService;
 import scrumter.service.SecurityService;
 import scrumter.service.StatusService;
@@ -35,17 +36,31 @@ public class GroupController {
 	@Autowired
 	private SecurityService securityService;
 
-	@RequestMapping(value = "/{company}/{username}/projects")
+	@RequestMapping(value = "/{company}/{username}/groups")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional
-	public ModelAndView zobrazPrj(@PathVariable String company, @PathVariable String username) {
-		logger.info("Zobraz prj: " + company + username);
+	public ModelAndView showGroups(@PathVariable String company, @PathVariable String username) {
+		logger.info("Show groups for " + username + " from " + company);
 		ModelAndView mav = new ModelAndView("group/list");
 		User user = userService.findUserByUsernameAndCompany(username, company);
 		// lazy load membership
 		user.getMembership().toString();
-		List<Group> groups = groupService.findUserMembership(user);
-		logger.info(groups);
+		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PUBLIC);
+		mav.addObject("user", user);
+		mav.addObject("groups", groups);
+		return mav;
+	}
+
+	@RequestMapping(value = "/{company}/{username}/projects")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Transactional
+	public ModelAndView showProjects(@PathVariable String company, @PathVariable String username) {
+		logger.info("Show projects for " + username + " from " + company);
+		ModelAndView mav = new ModelAndView("project/list");
+		User user = userService.findUserByUsernameAndCompany(username, company);
+		// lazy load membership
+		user.getMembership().toString();
+		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PROJECT);
 		mav.addObject("user", user);
 		mav.addObject("groups", groups);
 		return mav;

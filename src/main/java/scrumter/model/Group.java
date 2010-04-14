@@ -25,7 +25,8 @@ import org.hibernate.validator.constraints.Length;
 @NamedQueries(value = {
 		@NamedQuery(name = "Group.findById", query = "SELECT g FROM Group g WHERE g.id = :id"),
 		@NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g"),
-		@NamedQuery(name = "Group.findUserMembership", query = "SELECT g FROM Group g WHERE :user MEMBER OF g.members"),
+		@NamedQuery(name = "Group.findAllByMember", query = "SELECT g FROM Group g WHERE :user MEMBER OF g.members"),
+		@NamedQuery(name = "Group.findAllByMemberAndType", query = "SELECT g FROM Group g WHERE g.type = :type AND :user MEMBER OF g.members"),
 		@NamedQuery(name = "Group.countByTypeAndUser", query = "SELECT COUNT(g) FROM Group g WHERE g.type = :type AND :user MEMBER OF g.members"),
 		@NamedQuery(name = "Group.deleteAll", query = "DELETE FROM Group g") })
 public class Group {
