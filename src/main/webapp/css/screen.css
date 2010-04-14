@@ -431,27 +431,28 @@ a {
   color: #27344F;
 }
 
-h1 {
+#content h1 {
   font-size: 24px;
+  padding: 10px 0 10px 0;
+  text-shadow: 1px 1px 3px #aaa;
 }
-
-h2 {
+#content h2 {
   font-size: 20px;
+  padding: 7px 0 3px 0;
+  text-shadow: 1px 1px 2px #bbb;
 }
-
-h3 {
+#content h3 {
   font-size: 16px;
+  padding: 5px 0 2px 0;
+  text-shadow: 1px 1px 1px #ccc;
 }
-
-h4 {
+#content h4 {
   font-size: 14px;
 }
-
-h5 {
+#content h5 {
   font-size: 13px;
 }
-
-h6 {
+#content h6 {
   font-size: 12px;
 }
 
