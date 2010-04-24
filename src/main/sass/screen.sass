@@ -2,6 +2,7 @@
 @import blueprint/reset.sass
 // To configure blueprint, edit the partials/base.sass file.
 @import partials/base.sass
+
 // Import all the default blueprint modules so that we can access their mixins.
 @import blueprint
 // Import the non-default scaffolding module.
@@ -10,120 +11,140 @@
 // To generate css equivalent to the blueprint css but with your configuration applied, uncomment:
 // +blueprint
 
-//Recommended Blueprint configuration with scoping and semantic layout:
-+blueprint-typography("body.bp")
-+blueprint-scaffolding("body.bp")
-body.bp
-	+blueprint-utilities
-	+blueprint-debug
-	+blueprint-interaction
-	// Remove the scaffolding when you're ready to start doing visual design.
-	// Or leave it in if you're happy with how blueprint looks out-of-the-box
-form.bp
-	+blueprint-form
+	
+// Page layout can be done using mixins applied to your semantic classes and IDs:
+body.three-col
+	#container
+		+container
+	#header, #footer
+		+column(!blueprint_grid_columns)
+	#sidebar
+		// One third of the grid columns, rounding down. With 24 cols, this is 8.
+		!sidebar_columns = floor(!blueprint_grid_columns / 3)
+		+column(!sidebar_columns)
+	#content
+		// Two thirds of the grid columns, rounding up.
+		// With 24 cols, this is 16.
+		!content_columns = ceil(2 * !blueprint_grid_columns / 3)
+		// true means it's the last column in the row
+		+column(!content_columns, true)
+
+
+
+
+
 
 body
-	background-color: #57647F
-	font-size: 12px
-
-body, textarea
-	font-family: Helvetica Neue,Arial,Helvetica,sans-serif
-
+	background: #528036 url(../img/background.jpg) no-repeat fixed 0 0
+	font-size: 14px
 a
-	color: #27344F
+	color: #2B4E14
+	text-decoration: none
+a:hover
+	text-decoration: underline
 
-#content
-	h1
-		font-size: 24px
-		padding: 10px 0 10px 0
-		text-shadow: 1px 1px 3px #aaa
-	h2
-		font-size: 20px
-		padding: 15px 0 3px 0
-		text-shadow: 1px 1px 2px #bbb
-	h3
-		font-size: 16px
-		padding: 5px 0 2px 0
-		text-shadow: 1px 1px 1px #ccc
-	h4
-		font-size: 14px
-	h5
-		font-size: 13px
-	h6
-		font-size: 12px
+h1
+	font-size: 24px
+	padding: 0px 0 5px
+h2
+	font-size: 20px
+	//padding: 20px 0 5px
 
+p
+	padding: 5px 0
 
-
-// Page layout can be done using mixins applied to your semantic classes and IDs:
 #container
-	width: 950px
-	margin: 10px auto
-	padding: 10px 20px
-	background-color: white
-	overflow: hidden
-	-moz-border-radius: 12px
-	-webkit-border-radius: 12px
-	border-radius: 12px
-	-moz-box-shadow: 0px 0px 14px #555
+	+container
+	background: white
+	padding: 20px
+	margin: 0px auto
+	border: 2px solid white
+	-moz-border-radius: 10px
+	-moz-border-top-colors: #0a0 white
+	-moz-border-right-colors: #0a0 white
+	-moz-border-bottom-colors: #0a0 white
+	-moz-border-left-colors: #0a0 white
+	/* Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0)
+	/* RGBa with 0.6 opacity */
+	background: rgba(255, 255, 255, 0.6)
+	/* For IE 5.5 - 7*/
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)
+	/* For IE 8*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)"
 
-#header, #footer
-	+column(!blueprint_grid_columns)
+.badge
+	background: rgba(255, 255, 255, 0.8)
+	-moz-border-radius: 10px
+	padding: 10px
+	-moz-box-shadow: 0px 0px 3px #555
+	margin: 10px 0
+	overflow: hidden
+	width: 100%
+.badge-tools
+	float: right
+	margin-left: 2px
+
+#content .badge
+	width: 530px
+
+.page-tools
+	float: right
+	position: relative
+	top: -25px
+	padding-right: 10px
+
+#header
+	+container
+	margin: 0px auto
+#user-nav
+	float: right
+	position: relative
+	top: 10px
 
 #footer
-	margin-top: 20px
+	//+column(!blueprint_grid_columns)
+	+container
+	margin: 10px auto
+	color: white
+	text-shadow: 1px 1px 3px black
 
-#sidebar
+#navbar
 	// One third of the grid columns, rounding down. With 24 cols, this is 8.
-	!sidebar_columns = floor(!blueprint_grid_columns / 3)
-	+column(!sidebar_columns)
+	!navbar_columns = 4
+	+column(!navbar_columns)
+	a
+		text-decoration: none
+	ul
+		list-style-type: none
+		ul
+			margin: 0 0 0 10px
+	li
+		padding: 3px 0
+	.selected
+		font-weight: bold
+
 #content
 	// Two thirds of the grid columns, rounding up.
 	// With 24 cols, this is 16.
-	!content_columns = ceil(2 * !blueprint_grid_columns / 3)
+	!content_columns = 14
+	+column(!content_columns)
+
+#sidebar
+	// One third of the grid columns, rounding down. With 24 cols, this is 8.
+	!sidebar_columns = 6
 	// true means it's the last column in the row
-	+column(!content_columns, true)
-
-#full-content
-	+column(!blueprint_grid_columns, true)
-
-#signup-content
-	#signup
-		!content_columns = floor(!blueprint_grid_columns / 2)
-		+column(!content_columns)
-	#login
-		!content_columns = floor(!blueprint_grid_columns / 2)
-		+column(!content_columns, true)
-
-#login-content
-	#login
-		!content_columns = floor(!blueprint_grid_columns / 2)
-		+column(!content_columns)
-	#signup
-		!content_columns = floor(!blueprint_grid_columns / 2)
-		+column(!content_columns, true)
-
-#header h1
-	font-size: 22px
-	margin: 10px 0
-	float: left
-	a
-		text-decoration: none
-		font-size: 24px
-		font-variant: small-caps
-		text-shadow: 0 0 3px #555555
-		letter-spacing: 2px
-
-#main-menu
-	float: right
-	margin: 10px 0
-	a
-		color: #27344F
+	+column(!sidebar_columns, true)
+	.page-tools
+		top: -18px
+	.badge
+		width: 220px
 
 .hidden
 	display: none
 
 #status-form-wrapper
-	width: 560px
+	width: 550px
 	overflow: hidden
 
 #status-form-tools
@@ -142,23 +163,14 @@ a
 #status-form-tools
 	vertical-align: middle
 
-.status
-	padding: 10px 0
-	clear: both
-	width: 590px
-
-.status img
+.status img, .user img
 	float: left
-	padding: 5px
 
-.status .detail
+.status .detail, .user .detail
 	padding: 0 0 0 70px
 
-.status .name
+.status .name, .user .name
 	font-weight: bold
-
-.write-comment
-	width: 488px
 
 .write-comment textarea
 	width: 100%
@@ -180,15 +192,14 @@ a
 		height: 25px
 		color: gray
 
-
-
 .comments
 	width: 500px
+	img
+		padding: 5px
 
 .comment, .write-comment
 	margin: 3px
 	padding: 3px
-	background-color: #eee
 	clear: left
 
 .profile-picture
@@ -199,52 +210,13 @@ a
 	width: 40px
 	height: 40px
 
-a.date, .date
-	color: gray
-	text-decoration: none
-	font-size: 12px
-a.date:hover
-	text-decoration: underline
-	
+.ui-multiselect
+	input
+		font-weight: normal
+	span.ui-icon
+		margin-top: 4px
 
-
-a.button, button.button, input.button
-	background: #222 url(../XXXXXXimg/alert-overlay.png) repeat-x
-	display: inline-block
-	padding: 5px 10px 6px
-	color: #fff
-	text-decoration: none
-	font-weight: bold
-	line-height: 1
-	-moz-border-radius: 5px
-	-webkit-border-radius: 5px
-	-moz-box-shadow: 0 1px 3px #999
-	-webkit-box-shadow: 0 1px 3px #999
-	text-shadow: 0 -1px 1px #222
-	border-bottom: 1px solid #222
-	position: relative
-	cursor: pointer
-	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5)
-	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5)
-	text-shadow: 0 -1px 1px rgba(0,0,0,0.25)
-	border-bottom: 1px solid rgba(0,0,0,0.25)
-	font-size: 11px
-	background-color: #a9014b
-
-.group
-	float: left
-	padding: 0 20px 0 0
-
-.group-link
-	text-decoration: none
-	display: block
-
-.group-count
-	font-size: 20px
-
-.group-manager
-	color: gray
-	a
-		color: gray
+.ui-multiselect.ui-state-active input
+	color: black
 
 

@@ -8,7 +8,7 @@
 <title>Scrumter</title>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/screen.css" />" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/lib/jquery.multiselect.css" />" />
-<link type="text/css" rel="stylesheet" href="<c:url value="/css/lib/ui-lightness/jquery-ui-1.8.custom.css" />" />
+<link type="text/css" rel="stylesheet" href="<c:url value="/css/lib/south-street/jquery-ui-1.8.custom.css" />" />
 
 <script type="text/javascript" src="<c:url value="/js/lib/jquery-1.4.2.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/js/lib/jquery-ui-1.8.custom.min.js" />"></script>
@@ -104,10 +104,9 @@ $(document).ready(function(){
 
 </head>
 <body>
-<div id="container">
 <div id="header">
-	<h1><a href="<c:url value="/" />">Scrumter</a></h1>
-	<div id="main-menu">
+	<a href="<c:url value="/" />"><img src="<c:url value="/img/logo.png" />" /></a>
+	<div id="user-nav">
 		<c:choose>
 			<c:when test="${pageContext.request.userPrincipal != null}">
 			 	<span>${pageContext.request.userPrincipal.principal.username}</span> |
@@ -125,9 +124,25 @@ $(document).ready(function(){
 		<a href="<c:url value="/logout" />"><spring:message code="user.account.logout" /></a>
 	</div>
 </div>
+<div id="container">
 
-
-<hr />
+<div id="navbar">
+	<ul>
+		<li><a href="<c:url value="/" />"><spring:message code="news" /></a></li>
+		<li><a href="<c:url value="/projects/" />"><spring:message code="projects" /></a>
+			<ul>
+				<li><a href="">Super secret</a></li>
+				<li><a href="">Blah blah</a></li>
+			</ul>
+		</li>
+		<li><a href="<c:url value="/groups/" />"><spring:message code="groups" /></a>
+			<ul>
+				<li><a href="">Super secret</a></li>
+				<li><a href="">Blah blah</a></li>
+			</ul>
+		</li>
+	</ul>
+</div>
 
 <div id="content"><tiles:insertAttribute name="body" /></div>
 
@@ -135,14 +150,9 @@ $(document).ready(function(){
 	<tiles:insertDefinition name="group/countList" />
 </div>
 
-
-<div id="footer">
-	<hr />
-	&copy; Scrumter 2010
-<%-- ${pageContext.request.userPrincipal} --%>
 </div>
 
-</div>
+<div id="footer">Powered by Scrumter | Knowledge is its own reward</div>
 
 </body>
 </html>
