@@ -28,6 +28,7 @@ import org.hibernate.validator.constraints.Length;
 		@NamedQuery(name = "Group.findAllByMember", query = "SELECT g FROM Group g WHERE :user MEMBER OF g.members"),
 		@NamedQuery(name = "Group.findAllByMemberAndType", query = "SELECT g FROM Group g WHERE g.type = :type AND :user MEMBER OF g.members"),
 		@NamedQuery(name = "Group.countByTypeAndUser", query = "SELECT COUNT(g) FROM Group g WHERE g.type = :type AND :user MEMBER OF g.members"),
+		@NamedQuery(name = "Group.countMembers", query = "SELECT COUNT(gm) FROM Group g INNER JOIN g.members AS gm WHERE g = :group"),
 		@NamedQuery(name = "Group.deleteAll", query = "DELETE FROM Group g") })
 public class Group {
 
@@ -49,6 +50,9 @@ public class Group {
 	@Length(min = 3, max = 40)
 	@Column
 	private String link;
+
+	@Column
+	private String description;
 
 	@Enumerated(EnumType.STRING)
 	@Column
@@ -99,6 +103,14 @@ public class Group {
 
 	public String getLink() {
 		return link;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public void setType(GroupType type) {

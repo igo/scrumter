@@ -1,6 +1,8 @@
 package scrumter.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,34 +37,44 @@ public class GroupController {
 
 	@Autowired
 	private SecurityService securityService;
+	
+	private Map<Group, Map<String, String>> getGroupsStatistics(List<Group> groups) {
+		Map<Group, Map<String, String>> out = new HashMap<Group, Map<String, String>>();
+		for (Group group : groups) {
+			Map<String, String> params = new HashMap<String, String>();
+			logger.debug("Counting members");
+			params.put("members", groupService.countMembers(group).toString());
+			logger.debug("Counting statuses");
+			params.put("statuses", statusService.countStatusesInGroup(group).toString());
+			out.put(group, params);
+		}
+		return out;
+	}
 
-	@RequestMapping(value = "/{company}/{username}/groups")
+	@RequestMapping(value = "/groups")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@Transactional
-	public ModelAndView showGroups(@PathVariable String company, @PathVariable String username) {
-		logger.info("Show groups for " + username + " from " + company);
+	public ModelAndView showGroups() {
+		User user = securityService.getCurrentUser();
+		logger.info("Show groups for " + user);
 		ModelAndView mav = new ModelAndView("group/list");
-		User user = userService.findUserByUsernameAndCompany(username, company);
-		// lazy load membership
-		user.getMembership().toString();
 		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PUBLIC);
 		mav.addObject("user", user);
 		mav.addObject("groups", groups);
+		mav.addObject("groupsStats", getGroupsStatistics(groups));
 		return mav;
 	}
 
-	@RequestMapping(value = "/{company}/{username}/projects")
+	@RequestMapping(value = "/projects")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional
-	public ModelAndView showProjects(@PathVariable String company, @PathVariable String username) {
-		logger.info("Show projects for " + username + " from " + company);
+	public ModelAndView showProjects() {
+		User user = securityService.getCurrentUser();
+		logger.info("Show projects for " + user);
 		ModelAndView mav = new ModelAndView("project/list");
-		User user = userService.findUserByUsernameAndCompany(username, company);
-		// lazy load membership
-		user.getMembership().toString();
 		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PROJECT);
 		mav.addObject("user", user);
 		mav.addObject("groups", groups);
+		mav.addObject("groupsStats", getGroupsStatistics(groups));
 		return mav;
 	}
 

@@ -71,4 +71,10 @@ public class GroupService {
 		return (Long) query.getSingleResult();
 	}
 
+	public Long countMembers(Group group) {
+		Query query = em.createNamedQuery("Group.countMembers");
+		query.setParameter("group", group);
+		return (Long) query.getSingleResult();
+	}
+
 }

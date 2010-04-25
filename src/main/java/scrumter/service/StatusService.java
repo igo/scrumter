@@ -12,15 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.Comment;
+import scrumter.model.Group;
 import scrumter.model.Status;
 import scrumter.model.User;
 
-
 @Service
 public class StatusService {
-	
-	private Logger logger = Logger.getLogger(StatusService.class);
 
+	private Logger logger = Logger.getLogger(StatusService.class);
 
 	@PersistenceContext
 	EntityManager em;
@@ -32,19 +31,20 @@ public class StatusService {
 		em.persist(status);
 		em.flush();
 	}
-	
+
 	@Transactional
 	public void saveStatus(Status status) {
 		logger.debug("Saving status: " + status);
 		em.merge(status);
 		em.flush();
 	}
-	
+
 	public Status findStatusById(Long statusId) {
 		return em.find(Status.class, statusId);
 	}
-	
-	public List<Status> findStatusesByAuthor(User author, Integer startPosition, Integer maxResult) {
+
+	public List<Status> findStatusesByAuthor(User author,
+			Integer startPosition, Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllByAuthor");
 		query.setParameter("author", author);
 		if (startPosition != null) {
@@ -55,8 +55,9 @@ public class StatusService {
 		}
 		return query.getResultList();
 	}
-	
-	public List<Status> findStatusesForUser(User user, Integer startPosition, Integer maxResult) {
+
+	public List<Status> findStatusesForUser(User user, Integer startPosition,
+			Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllForUser");
 		query.setParameter("user", user);
 		if (startPosition != null) {
@@ -67,13 +68,13 @@ public class StatusService {
 		}
 		return query.getResultList();
 	}
-	
+
 	@Transactional
 	public void deleteAllStatuses() {
 		Query query = em.createNamedQuery("Status.deleteAll");
 		query.executeUpdate();
 	}
-	
+
 	@Transactional
 	public void addComment(Comment comment) {
 		logger.debug("Saving comment: " + comment);
@@ -81,5 +82,11 @@ public class StatusService {
 		em.persist(comment);
 		em.flush();
 	}
-	
+
+	public Long countStatusesInGroup(Group group) {
+		Query query = em.createNamedQuery("Status.countStatusesInGroup");
+		query.setParameter("group", group);
+		return (Long) query.getSingleResult();
+	}
+
 }

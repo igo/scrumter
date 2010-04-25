@@ -52,62 +52,69 @@ public class InitController {
 		Authority adminRole = userService.createAuthority("ROLE_ADMIN");
 		Authority userRole = userService.createAuthority("ROLE_USER");
 
-		User user = new User();
-		user.setEmail("bruce.willis@holywood.com");
-		user.setFirstName("Bruce");
-		user.setLastName("Willis");
-		user.setPassword("password");
-		user.grantRole(adminRole);
-		user.grantRole(userRole);
-		userService.addUser(user);
-		logger.debug("User created: " + user);
+		User userBruce = new User();
+		userBruce.setEmail("bruce.willis@holywood.com");
+		userBruce.setFirstName("Bruce");
+		userBruce.setLastName("Willis");
+		userBruce.setPassword("password");
+		userBruce.grantRole(adminRole);
+		userBruce.grantRole(userRole);
+		userService.addUser(userBruce);
+		logger.debug("User created: " + userBruce);
 
 		Status status = new Status();
 		status.setStatus("Blah blah");
-		status.setAuthor(user);
+		status.setAuthor(userBruce);
 		statusService.addStatus(status);
 
-		User user1 = new User();
-		user1.setEmail("george.bush@whitehouse.com");
-		user1.setFirstName("George");
-		user1.setLastName("Bush");
-		user1.setPassword("password");
-		user1.grantRole(userRole);
-		userService.addUser(user1);
+		User userBush = new User();
+		userBush.setEmail("george.bush@whitehouse.com");
+		userBush.setFirstName("George");
+		userBush.setLastName("Bush");
+		userBush.setPassword("password");
+		userBush.grantRole(userRole);
+		userService.addUser(userBush);
 
 		Status status1 = new Status();
 		status1.setStatus("George said");
-		status1.setAuthor(user1);
+		status1.setAuthor(userBush);
 		statusService.addStatus(status1);
 
-		User user2 = new User();
-		user2.setEmail("barack.obama@whitehouse.com");
-		user2.setFirstName("Barack");
-		user2.setLastName("Obama");
-		user2.setPassword("password");
-		userService.addUser(user2);
+		User userObama = new User();
+		userObama.setEmail("barack.obama@whitehouse.com");
+		userObama.setFirstName("Barack");
+		userObama.setLastName("Obama");
+		userObama.setPassword("password");
+		userService.addUser(userObama);
 
 		Status status2 = new Status();
 		status2.setStatus("Barack said");
-		status2.setAuthor(user2);
-		Comment comment1 = new Comment(user2, "Blaaaaa");
+		status2.setAuthor(userObama);
+		Comment comment1 = new Comment(userObama, "Blaaaaa");
 		status2.getComments().add(comment1);
 		statusService.addStatus(status2);
 
-		Group group1 = new Group("US Presidents", StringUtils.stringToPrettyLink("US Presidents"), user1, GroupType.PROJECT);
-		groupService.addGroup(group1);
+		Group presidentsGroup = new Group("US Presidents", StringUtils.stringToPrettyLink("US Presidents"), userBush, GroupType.PROJECT);
+		presidentsGroup.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas consectetur ante sit amet neque pharetra egestas. Nunc leo quam, luctus eu venenatis vitae, suscipit et nisi.");
+		groupService.addGroup(presidentsGroup);
 
-		Group group2 = new Group("My Friends", StringUtils.stringToPrettyLink("My Friends"), user1, GroupType.PUBLIC);
-		groupService.addGroup(group2);
+		Group friendsGroup = new Group("My Friends", StringUtils.stringToPrettyLink("My Friends"), userBush, GroupType.PUBLIC);
+		friendsGroup.setDescription("Cras lobortis enim eu nibh posuere vel congue massa pulvinar. Sed sollicitudin odio eu ante varius consequat. Nulla commodo lorem a tellus vehicula id tincidunt velit porta.");
+		groupService.addGroup(friendsGroup);
 
-		user.addMembership(group1);
-		user.addMembership(group2);
-		userService.saveUser(user);
-		user1.addMembership(group1);
-		userService.saveUser(user1);
-		user2.addMembership(group1);
-		user2.addMembership(group2);
-		userService.saveUser(user2);
+		Group famousGroup = new Group("Famous people", StringUtils.stringToPrettyLink("Famous people"), userBruce, GroupType.PUBLIC);
+		groupService.addGroup(famousGroup);
+
+		userBruce.addMembership(friendsGroup);
+		userBruce.addMembership(famousGroup);
+		userService.saveUser(userBruce);
+		userBush.addMembership(presidentsGroup);
+		userBush.addMembership(friendsGroup);
+		userService.saveUser(userBush);
+		userObama.addMembership(presidentsGroup);
+		userObama.addMembership(friendsGroup);
+		userObama.addMembership(famousGroup);
+		userService.saveUser(userObama);
 
 	}
 

@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 		@NamedQuery(name = "Status.findAllForUser", query = "SELECT DISTINCT s FROM Status s INNER JOIN s.allowedGroups AS sg INNER JOIN sg.members AS users WHERE users = :user ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s ORDER BY s.created DESC"),
 		@NamedQuery(name = "Status.findAllByAuthor", query = "SELECT s FROM Status s WHERE s.author = :author ORDER BY s.created DESC"),
+		@NamedQuery(name = "Status.countStatusesInGroup", query = "SELECT COUNT(s) FROM Status s WHERE :group MEMBER OF s.allowedGroups"),
 		@NamedQuery(name = "Status.deleteAll", query = "DELETE FROM Status s") })
 public class Status {
 
