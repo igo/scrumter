@@ -23,6 +23,9 @@
 
 	<definition name="group/countList" template="/WEB-INF/views/group/countList.jsp" preparer="groupsCountPreparer">
 	</definition>
+	<definition name="group/home" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/group/home.jsp" />
+	</definition>
 	<definition name="group/list" extends="default">
 		<put-attribute name="body" value="/WEB-INF/views/group/list.jsp" />
 	</definition>
@@ -30,6 +33,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/group/members.jsp" />
 	</definition>
 
+	<definition name="project/home" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/project/home.jsp" />
+	</definition>
 	<definition name="project/list" extends="default">
 		<put-attribute name="body" value="/WEB-INF/views/project/list.jsp" />
 	</definition>

@@ -56,6 +56,19 @@ public class StatusService {
 		return query.getResultList();
 	}
 
+	public List<Status> findStatusesByGroup(Group group, Integer startPosition,
+			Integer maxResult) {
+		Query query = em.createNamedQuery("Status.findAllByGroup");
+		query.setParameter("group", group);
+		if (startPosition != null) {
+			query.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			query.setMaxResults(maxResult);
+		}
+		return query.getResultList();
+	}
+
 	public List<Status> findStatusesForUser(User user, Integer startPosition,
 			Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllForUser");

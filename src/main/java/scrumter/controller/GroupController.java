@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import scrumter.model.Group;
+import scrumter.model.Status;
 import scrumter.model.User;
 import scrumter.model.Group.GroupType;
 import scrumter.service.GroupService;
@@ -65,10 +66,26 @@ public class GroupController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/groups/{groupLink}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Transactional(readOnly = true)
+	public ModelAndView showGroup(@PathVariable String groupLink) {
+		Group group = groupService.findGroupByLink(groupLink);
+		User user = securityService.getCurrentUser();
+		if (!user.getMembership().contains(group)) {
+			throw new AuthorizationServiceException("Not a member of this group");
+		}
+		List<Status> statuses = statusService.findStatusesByGroup(group, null, 15);
+		ModelAndView mav = new ModelAndView("group/home");
+		mav.addObject("group", group);
+		mav.addObject("statuses", statuses);
+		return mav;
+	}
+
 	@RequestMapping(value = "/groups/{groupLink}/members")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@Transactional
-	public ModelAndView showGroup(@PathVariable String groupLink) {
+	@Transactional(readOnly = true)
+	public ModelAndView showGroupMembers(@PathVariable String groupLink) {
 		Group group = groupService.findGroupByLink(groupLink);
 		// lazy load TODO: fix
 		group.getMembers().toString();
@@ -95,10 +112,27 @@ public class GroupController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/projects/{groupLink}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Transactional(readOnly = true)
+	public ModelAndView showProject(@PathVariable String groupLink) {
+		Group group = groupService.findGroupByLink(groupLink);
+		User user = securityService.getCurrentUser();
+		if (!user.getMembership().contains(group)) {
+			throw new AuthorizationServiceException("Not a member of this group");
+		}
+		List<Status> statuses = statusService.findStatusesByGroup(group, null, 15);
+		logger.info("Statuses: " + statuses);
+		ModelAndView mav = new ModelAndView("project/home");
+		mav.addObject("group", group);
+		mav.addObject("statuses", statuses);
+		return mav;
+	}
+
 	@RequestMapping(value = "/projects/{groupLink}/members")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@Transactional
-	public ModelAndView showProject(@PathVariable String groupLink) {
+	@Transactional(readOnly = true)
+	public ModelAndView showProjectMembers(@PathVariable String groupLink) {
 		Group group = groupService.findGroupByLink(groupLink);
 		// lazy load TODO: fix
 		group.getMembers().toString();
