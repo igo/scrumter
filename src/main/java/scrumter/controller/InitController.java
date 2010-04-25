@@ -20,6 +20,7 @@ import scrumter.model.User;
 import scrumter.model.Group.GroupType;
 import scrumter.service.GroupService;
 import scrumter.service.StatusService;
+import scrumter.service.StringUtils;
 import scrumter.service.UserService;
 
 @Controller
@@ -93,10 +94,10 @@ public class InitController {
 		status2.getComments().add(comment1);
 		statusService.addStatus(status2);
 
-		Group group1 = new Group("Presidents", user1, GroupType.PROJECT);
+		Group group1 = new Group("US Presidents", StringUtils.stringToPrettyLink("US Presidents"), user1, GroupType.PROJECT);
 		groupService.addGroup(group1);
 
-		Group group2 = new Group("Friends", user1, GroupType.PUBLIC);
+		Group group2 = new Group("My Friends", StringUtils.stringToPrettyLink("My Friends"), user1, GroupType.PUBLIC);
 		groupService.addGroup(group2);
 
 		user.addMembership(group1);

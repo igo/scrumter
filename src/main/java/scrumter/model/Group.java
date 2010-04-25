@@ -45,6 +45,11 @@ public class Group {
 	@Column
 	private String name;
 
+	@NotNull
+	@Length(min = 3, max = 40)
+	@Column
+	private String link;
+
 	@Enumerated(EnumType.STRING)
 	@Column
 	private GroupType type;
@@ -63,9 +68,10 @@ public class Group {
 		super();
 	}
 
-	public Group(String name, User author, GroupType type) {
+	public Group(String name, String link, User author, GroupType type) {
 		super();
 		this.name = name;
+		this.link = link;
 		this.author = author;
 		this.type = type;
 		this.created = new Date();
@@ -85,6 +91,14 @@ public class Group {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getLink() {
+		return link;
 	}
 
 	public void setType(GroupType type) {
