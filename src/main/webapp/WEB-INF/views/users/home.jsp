@@ -4,7 +4,7 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<h2><spring:message code="news" /></h2>
+<h1><spring:message code="news" /></h1>
 
 <tiles:insertDefinition name="status/addForm" />
 

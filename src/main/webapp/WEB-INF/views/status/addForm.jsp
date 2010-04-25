@@ -13,8 +13,8 @@
 <div id="status-form-tools">
 	<div class="allowed-wrapper">
 	<select id="allowed" name="allowedGroups" multiple="multiple">
-		<c:forEach var="group" items="${groups}">
-			<option value="${group.id}">${group.name}</option>
+		<c:forEach var="groupItem" items="${groups}">
+			<option value="${groupItem.id}"<c:if test="${groupItem.id == group.id}"> selected="selected"</c:if>><c:out value="${groupItem.name}" /></option>
 		</c:forEach>
 	</select>
 	</div>
