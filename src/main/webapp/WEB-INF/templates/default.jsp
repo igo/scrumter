@@ -126,23 +126,7 @@ $(document).ready(function(){
 </div>
 <div id="container">
 
-<div id="navbar">
-	<ul>
-		<li><a href="<c:url value="/" />"><spring:message code="news" /></a></li>
-		<li><a href="<c:url value="/projects/" />"><spring:message code="projects" /></a>
-			<ul>
-				<li><a href="">Super secret</a></li>
-				<li><a href="">Blah blah</a></li>
-			</ul>
-		</li>
-		<li><a href="<c:url value="/groups/" />"><spring:message code="groups" /></a>
-			<ul>
-				<li><a href="">Super secret</a></li>
-				<li><a href="">Blah blah</a></li>
-			</ul>
-		</li>
-	</ul>
-</div>
+<div id="navbar"><tiles:insertDefinition name="menu/home" /></div>
 
 <div id="content"><tiles:insertAttribute name="body" /></div>
 

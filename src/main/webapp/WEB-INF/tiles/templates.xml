@@ -9,6 +9,8 @@
 	<definition name="anonymous" template="/WEB-INF/templates/anonymous.jsp">
 	</definition>
 
+	<definition name="menu/home" template="/WEB-INF/views/menu/home.jsp" preparer="homeMenuPreparer" />
+
 	<definition name="status/addForm" template="/WEB-INF/views/status/addForm.jsp" preparer="userMembershipPreparer">
 	</definition>
 	<definition name="status/list" template="/WEB-INF/views/status/list.jsp">
