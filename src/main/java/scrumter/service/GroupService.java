@@ -46,6 +46,12 @@ public class GroupService {
 		return (Group) query.getSingleResult();
 	}
 
+	public Group findGroupByLink(String link) {
+		Query query = em.createNamedQuery("Group.findByLink");
+		query.setParameter("link", link);
+		return (Group) query.getSingleResult();
+	}
+
 	public List<Group> findAllGroups() {
 		Query query = em.createNamedQuery("Group.findAll");
 		return query.getResultList();

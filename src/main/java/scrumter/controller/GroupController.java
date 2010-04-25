@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,9 +65,25 @@ public class GroupController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/projects")
+	@RequestMapping(value = "/groups/{groupLink}/members")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional
+	public ModelAndView showGroup(@PathVariable String groupLink) {
+		Group group = groupService.findGroupByLink(groupLink);
+		// lazy load TODO: fix
+		group.getMembers().toString();
+		User user = securityService.getCurrentUser();
+		if (!user.getMembership().contains(group)) {
+			throw new AuthorizationServiceException("Not a member of this group");
+		}
+		ModelAndView mav = new ModelAndView("group/members");
+		mav.addObject("user", user);
+		mav.addObject("group", group);
+		return mav;
+	}
+
+	@RequestMapping(value = "/projects")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public ModelAndView showProjects() {
 		User user = securityService.getCurrentUser();
 		logger.info("Show projects for " + user);
@@ -75,6 +92,23 @@ public class GroupController {
 		mav.addObject("user", user);
 		mav.addObject("groups", groups);
 		mav.addObject("groupsStats", getGroupsStatistics(groups));
+		return mav;
+	}
+
+	@RequestMapping(value = "/projects/{groupLink}/members")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Transactional
+	public ModelAndView showProject(@PathVariable String groupLink) {
+		Group group = groupService.findGroupByLink(groupLink);
+		// lazy load TODO: fix
+		group.getMembers().toString();
+		User user = securityService.getCurrentUser();
+		if (!user.getMembership().contains(group)) {
+			throw new AuthorizationServiceException("Not a member of this group");
+		}
+		ModelAndView mav = new ModelAndView("project/members");
+		mav.addObject("user", user);
+		mav.addObject("group", group);
 		return mav;
 	}
 

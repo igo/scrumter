@@ -78,6 +78,9 @@ public class User {
 	@Column
 	private String lastName;
 
+	@Column
+	private String position;
+
 	@NotNull
 	@Past
 	@Column
@@ -207,6 +210,14 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getPosition() {
+		return position;
 	}
 
 	public void grantRole(Authority authority) {

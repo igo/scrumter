@@ -57,6 +57,7 @@ public class InitController {
 		userBruce.setFirstName("Bruce");
 		userBruce.setLastName("Willis");
 		userBruce.setPassword("password");
+		userBruce.setPosition("Actor");
 		userBruce.grantRole(adminRole);
 		userBruce.grantRole(userRole);
 		userService.addUser(userBruce);
@@ -72,6 +73,7 @@ public class InitController {
 		userBush.setFirstName("George");
 		userBush.setLastName("Bush");
 		userBush.setPassword("password");
+		userBush.setPosition("Used to be president");
 		userBush.grantRole(userRole);
 		userService.addUser(userBush);
 
@@ -85,6 +87,7 @@ public class InitController {
 		userObama.setFirstName("Barack");
 		userObama.setLastName("Obama");
 		userObama.setPassword("password");
+		userObama.setPosition("USA President, Member of Congress");
 		userService.addUser(userObama);
 
 		Status status2 = new Status();
@@ -102,11 +105,12 @@ public class InitController {
 		friendsGroup.setDescription("Cras lobortis enim eu nibh posuere vel congue massa pulvinar. Sed sollicitudin odio eu ante varius consequat. Nulla commodo lorem a tellus vehicula id tincidunt velit porta.");
 		groupService.addGroup(friendsGroup);
 
-		Group famousGroup = new Group("Famous people", StringUtils.stringToPrettyLink("Famous people"), userBruce, GroupType.PUBLIC);
+		Group famousGroup = new Group("Famous people", StringUtils.stringToPrettyLink("Famous people"), userBruce, GroupType.PROJECT);
 		groupService.addGroup(famousGroup);
 
 		userBruce.addMembership(friendsGroup);
 		userBruce.addMembership(famousGroup);
+		userBruce.addMembership(presidentsGroup);
 		userService.saveUser(userBruce);
 		userBush.addMembership(presidentsGroup);
 		userBush.addMembership(friendsGroup);

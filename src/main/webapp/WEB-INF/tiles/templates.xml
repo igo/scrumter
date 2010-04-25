@@ -24,9 +24,15 @@
 	<definition name="group/list" extends="default">
 		<put-attribute name="body" value="/WEB-INF/views/group/list.jsp" />
 	</definition>
+	<definition name="group/members" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/group/members.jsp" />
+	</definition>
 
 	<definition name="project/list" extends="default">
 		<put-attribute name="body" value="/WEB-INF/views/project/list.jsp" />
+	</definition>
+	<definition name="project/members" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/project/members.jsp" />
 	</definition>
 
 	<definition name="login" extends="anonymous">
