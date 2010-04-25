@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -103,6 +104,7 @@ public class User {
 	private Set<Authority> authorities = new HashSet<Authority>();
 
 	@ManyToMany
+	@OrderBy("name")
 	private Set<Group> membership = new HashSet<Group>();
 
 	public Long getId() {

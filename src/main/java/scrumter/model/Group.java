@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,9 +26,9 @@ import org.hibernate.validator.constraints.Length;
 @NamedQueries(value = {
 		@NamedQuery(name = "Group.findById", query = "SELECT g FROM Group g WHERE g.id = :id"),
 		@NamedQuery(name = "Group.findByLink", query = "SELECT g FROM Group g WHERE g.link = :link"),
-		@NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g"),
-		@NamedQuery(name = "Group.findAllByMember", query = "SELECT g FROM Group g WHERE :user MEMBER OF g.members"),
-		@NamedQuery(name = "Group.findAllByMemberAndType", query = "SELECT g FROM Group g WHERE g.type = :type AND :user MEMBER OF g.members"),
+		@NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g ORDER BY g.name"),
+		@NamedQuery(name = "Group.findAllByMember", query = "SELECT g FROM Group g WHERE :user MEMBER OF g.members ORDER BY g.name"),
+		@NamedQuery(name = "Group.findAllByMemberAndType", query = "SELECT g FROM Group g WHERE g.type = :type AND :user MEMBER OF g.members ORDER BY g.name"),
 		@NamedQuery(name = "Group.countByTypeAndUser", query = "SELECT COUNT(g) FROM Group g WHERE g.type = :type AND :user MEMBER OF g.members"),
 		@NamedQuery(name = "Group.countMembers", query = "SELECT COUNT(gm) FROM Group g INNER JOIN g.members AS gm WHERE g = :group"),
 		@NamedQuery(name = "Group.deleteAll", query = "DELETE FROM Group g") })
@@ -67,6 +68,7 @@ public class Group {
 	private Date created;
 
 	@ManyToMany(mappedBy = "membership")
+	@OrderBy("firstName, middleName, lastName")
 	private Set<User> members;
 
 	public Group() {
