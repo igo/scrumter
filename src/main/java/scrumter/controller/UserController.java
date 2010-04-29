@@ -24,21 +24,20 @@ import scrumter.service.SecurityService;
 import scrumter.service.StatusService;
 import scrumter.service.UserService;
 
-
 @Controller
 public class UserController {
-	
+
 	private Logger logger = Logger.getLogger(UserController.class);
-	
+
 	@Autowired
 	private StatusService statusService;
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@RequestMapping(value = "/users")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ModelAndView listUsers() {
@@ -51,13 +50,15 @@ public class UserController {
 
 	@RequestMapping(value = "/{company}/{username}")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	ModelAndView showUser(@PathVariable String company, @PathVariable String username) {
+	ModelAndView showUser(@PathVariable String company, @PathVariable String username,
+			@RequestParam(defaultValue = "1") Integer page) {
 		ModelAndView mav = new ModelAndView("users/view");
 		User user = userService.findUserByUsernameAndCompany(username, company);
 		mav.addObject("user", user);
 		logger.info("Showing user: " + user);
-		List<Status> statuses = statusService.findStatusesByAuthor(user, 0, 3);
+		List<Status> statuses = statusService.findStatusesByAuthor(user, page);
 		mav.addObject("statuses", statuses);
+		mav.addObject("page", page);
 		return mav;
 	}
 
@@ -88,17 +89,20 @@ public class UserController {
 
 	@RequestMapping(value = "/api/profile/picture")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public void getPicture(@RequestParam String company, @RequestParam String username, OutputStream outputStream, HttpServletRequest request) {
+	public void getPicture(@RequestParam String company, @RequestParam String username, OutputStream outputStream,
+			HttpServletRequest request) {
 		User user = userService.findUserByUsernameAndCompany(username, company);
 		try {
 			if (user.getPicture() != null) {
 				outputStream.write(user.getPicture());
 			} else {
-				InputStream stream = request.getSession().getServletContext().getResourceAsStream("/WEB-INF/resources/images/user-male.png");
-				//InputStream stream = getClass().getResourceAsStream("/WEB-INF/resources/images/user-male.png");
+				InputStream stream = request.getSession().getServletContext().getResourceAsStream(
+						"/WEB-INF/resources/images/user-male.png");
+				// InputStream stream =
+				// getClass().getResourceAsStream("/WEB-INF/resources/images/user-male.png");
 				logger.debug("Default image: " + stream);
 				int nextChar;
-				while ((nextChar = stream.read()) != -1 ) {
+				while ((nextChar = stream.read()) != -1) {
 					outputStream.write(nextChar);
 				}
 			}

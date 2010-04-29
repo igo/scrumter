@@ -12,6 +12,7 @@
 				<tiles:putAttribute name="status" value="${status}"></tiles:putAttribute>
 			</tiles:insertDefinition>
 		</c:forEach>
+		<a href="?page=${page+1}" class="more-btn"><spring:message code="post.showMore" /></a>
 	</c:when>
 	<c:otherwise>
 		No statuses yet.

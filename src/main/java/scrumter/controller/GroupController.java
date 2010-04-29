@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import scrumter.model.Group;
@@ -69,16 +70,17 @@ public class GroupController {
 	@RequestMapping(value = "/groups/{groupLink}")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional(readOnly = true)
-	public ModelAndView showGroup(@PathVariable String groupLink) {
+	public ModelAndView showGroup(@PathVariable String groupLink, @RequestParam(defaultValue = "1") Integer page) {
 		Group group = groupService.findGroupByLink(groupLink);
 		User user = securityService.getCurrentUser();
 		if (!user.getMembership().contains(group)) {
 			throw new AuthorizationServiceException("Not a member of this group");
 		}
-		List<Status> statuses = statusService.findStatusesByGroup(group, null, 15);
+		List<Status> statuses = statusService.findStatusesByGroup(group, page);
 		ModelAndView mav = new ModelAndView("group/home");
 		mav.addObject("group", group);
 		mav.addObject("statuses", statuses);
+		mav.addObject("page", page);
 		return mav;
 	}
 
@@ -115,17 +117,18 @@ public class GroupController {
 	@RequestMapping(value = "/projects/{groupLink}")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional(readOnly = true)
-	public ModelAndView showProject(@PathVariable String groupLink) {
+	public ModelAndView showProject(@PathVariable String groupLink, @RequestParam(defaultValue = "1") Integer page) {
 		Group group = groupService.findGroupByLink(groupLink);
 		User user = securityService.getCurrentUser();
 		if (!user.getMembership().contains(group)) {
 			throw new AuthorizationServiceException("Not a member of this group");
 		}
-		List<Status> statuses = statusService.findStatusesByGroup(group, null, 15);
+		List<Status> statuses = statusService.findStatusesByGroup(group, page);
 		logger.info("Statuses: " + statuses);
 		ModelAndView mav = new ModelAndView("project/home");
 		mav.addObject("group", group);
 		mav.addObject("statuses", statuses);
+		mav.addObject("page", page);
 		return mav;
 	}
 

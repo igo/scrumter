@@ -20,6 +20,8 @@ import scrumter.model.User;
 public class StatusService {
 
 	private Logger logger = Logger.getLogger(StatusService.class);
+	
+	public static final Integer STATUSES_PER_PAGE = 15; 
 
 	@PersistenceContext
 	EntityManager em;
@@ -43,6 +45,10 @@ public class StatusService {
 		return em.find(Status.class, statusId);
 	}
 
+	public List<Status> findStatusesByAuthor(User author, int page) {
+		return findStatusesByAuthor(author, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
+	}
+
 	public List<Status> findStatusesByAuthor(User author,
 			Integer startPosition, Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllByAuthor");
@@ -56,6 +62,10 @@ public class StatusService {
 		return query.getResultList();
 	}
 
+	public List<Status> findStatusesByGroup(Group group, int page) {
+		return findStatusesByGroup(group, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
+	}
+
 	public List<Status> findStatusesByGroup(Group group, Integer startPosition,
 			Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllByGroup");
@@ -67,6 +77,10 @@ public class StatusService {
 			query.setMaxResults(maxResult);
 		}
 		return query.getResultList();
+	}
+
+	public List<Status> findStatusesForUser(User user, int page) {
+		return findStatusesForUser(user, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
 	}
 
 	public List<Status> findStatusesForUser(User user, Integer startPosition,
