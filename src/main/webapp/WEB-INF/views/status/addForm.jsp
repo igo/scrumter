@@ -6,6 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <tiles:useAttribute name="groups" ignore="true" />
+<tiles:useAttribute name="projects" ignore="true" />
 <div id="status-form-wrapper">
 <form action="<c:url value="/statuses/add" />" id="status-form" class="unchanged">
 <label for="status-form-textarea"><spring:message code="status.form.title" /></label>
@@ -13,9 +14,16 @@
 <div id="status-form-tools">
 	<div class="allowed-wrapper">
 	<select id="allowed" name="allowedGroups" multiple="multiple">
-		<c:forEach var="groupItem" items="${groups}">
-			<option value="${groupItem.id}"<c:if test="${groupItem.id == group.id}"> selected="selected"</c:if>><c:out value="${groupItem.name}" /></option>
-		</c:forEach>
+		<optgroup label="<spring:message code="projects" />">
+			<c:forEach var="groupItem" items="${projects}">
+				<option value="${groupItem.id}"<c:if test="${groupItem.id == group.id}"> selected="selected"</c:if>><c:out value="${groupItem.name}" /></option>
+			</c:forEach>
+		</optgroup>
+		<optgroup label="<spring:message code="groups" />">
+			<c:forEach var="groupItem" items="${groups}">
+				<option value="${groupItem.id}"<c:if test="${groupItem.id == group.id}"> selected="selected"</c:if>><c:out value="${groupItem.name}" /></option>
+			</c:forEach>
+		</optgroup>
 	</select>
 	</div>
 	<div class="submit-wrapper">

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.Group;
 import scrumter.model.User;
+import scrumter.model.Group.GroupType;
 import scrumter.service.GroupService;
 import scrumter.service.SecurityService;
 
@@ -32,8 +33,10 @@ public class UserMembershipPreparer extends ViewPreparerSupport {
 			AttributeContext attributeContext) throws PreparerException {
 		logger.debug("Searching current user and membership");
 		User user = securityService.getCurrentUser();
-		List<Group> groups = groupService.findGroupsByMember(user);
+		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PUBLIC);
 		attributeContext.putAttribute("groups", new Attribute(groups));
+		List<Group> projects = groupService.findGroupsByMemberAndType(user, GroupType.PROJECT);
+		attributeContext.putAttribute("projects", new Attribute(projects));
 		logger.debug(groups);
 	}
 
