@@ -13,8 +13,8 @@
 		<c:out value="${status.status}" />
 		<br />
 		
-		<a href="/${status.author.company}/${status.author.username}/statuses/${status.id}" class="date" title="<fmt:formatDate value="${status.created}" type="date" pattern="dd MMM yyyy H:mm:ss Z"/>">${status.created}</a> |
-		<a href="#" class="buttonX" onclick="$('#write-comment-${status.id}').show();$('#write-comment-${status.id} textarea').focus();return false;"><spring:message code="status.comment" /></a>
+		<span class="date" title="<fmt:formatDate value="${status.created}" type="date" pattern="dd MMM yyyy H:mm:ss Z"/>">${status.created}</span> |
+		<a href="#" onclick="$('#write-comment-${status.id}').show();$('#write-comment-${status.id} textarea').focus();return false;"><spring:message code="status.comment" /></a>
 		
 		<div class="comments">
 			<c:forEach var="comment" items="${status.comments}">
@@ -27,7 +27,7 @@
 			<form action="<c:url value="/api/status/add-comment" />" method="post" class="unchanged">
 				<input type="hidden" name="statusId" value="${status.id}" />
 				<textarea rows="2" cols="40" name="comment"><spring:message code="status.comment.write" /></textarea>
-				<input type="submit" value="Comment" class="buttonXX" />
+				<input type="submit" value="Comment" />
 			</form>
 		</div>
 	</div>
