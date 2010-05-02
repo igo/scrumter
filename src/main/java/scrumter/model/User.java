@@ -1,9 +1,7 @@
 package scrumter.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -16,15 +14,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
@@ -37,6 +36,9 @@ import org.hibernate.validator.constraints.Length;
 		@NamedQuery(name = "User.findByUsernameAndCompany", query = "SELECT u FROM User u WHERE u.username = :username AND u.company = :company"),
 		@NamedQuery(name = "User.deleteAll", query = "DELETE FROM User u") })
 public class User {
+
+	@Transient
+	private Logger logger = Logger.getLogger(User.class);
 
 	@Id
 	@GeneratedValue
@@ -259,6 +261,23 @@ public class User {
 		builder.append(created);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

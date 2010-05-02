@@ -22,15 +22,11 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = "Notification.deleteAllByOwner", query = "DELETE FROM Notification n WHERE n.owner = :owner") })
 public class Notification {
 
-	@OneToMany
-	private Set<MetaData> meta = new HashSet<MetaData>();
-
 	@Id
 	@GeneratedValue
 	@Column
 	private Long id;
 
-	// @Column
 	@ManyToOne
 	private User owner;
 
@@ -42,8 +38,17 @@ public class Notification {
 	@Column
 	private Date created;
 
+	@OneToMany
+	private Set<MetaData> meta = new HashSet<MetaData>();
+
 	public Notification() {
 		super();
+	}
+
+	public Notification(String type, User user) {
+		super();
+		this.type = type;
+		this.owner = user;
 	}
 
 	public Notification(String type, User user, Set<MetaData> meta) {
@@ -51,6 +56,14 @@ public class Notification {
 		this.type = type;
 		this.owner = user;
 		this.meta = meta;
+	}
+
+	public void addMetaData(MetaData metaData) {
+		meta.add(metaData);
+	}
+
+	public void addMeta(String key, String value) {
+		addMetaData(new MetaData(key, value));
 	}
 
 	public Set<MetaData> getMeta() {

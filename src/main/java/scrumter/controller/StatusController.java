@@ -67,9 +67,8 @@ public class StatusController {
 		logger.debug("Adding comment: " + statusId + "; " + comment);
 		ModelAndView mav = new ModelAndView("status/comment/detail");
 		Status status  = statusService.findStatusById(statusId);
-		Comment c = new Comment(securityService.getCurrentUser(), comment);
-		status.getComments().add(c);
-		statusService.saveStatus(status);
+		User currentUser = securityService.getCurrentUser();
+		Comment c = statusService.addComment(status, comment, currentUser);
 		mav.addObject("comment", c);
 		return mav;
 	}

@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,14 @@ import scrumter.model.User;
 public class StatusService {
 
 	private Logger logger = Logger.getLogger(StatusService.class);
-	
-	public static final Integer STATUSES_PER_PAGE = 15; 
+
+	public static final Integer STATUSES_PER_PAGE = 15;
 
 	@PersistenceContext
 	EntityManager em;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	@Transactional
 	public void addStatus(Status status) {
@@ -41,6 +45,15 @@ public class StatusService {
 		em.flush();
 	}
 
+	@Transactional
+	public Comment addComment(Status status, String comment, User author) {
+		Comment c = new Comment(author, comment);
+		status.getComments().add(c);
+		saveStatus(status);
+		notificationService.addCommentNotification(status, author);
+		return c;
+	}
+
 	public Status findStatusById(Long statusId) {
 		return em.find(Status.class, statusId);
 	}
@@ -49,8 +62,7 @@ public class StatusService {
 		return findStatusesByAuthor(author, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
 	}
 
-	public List<Status> findStatusesByAuthor(User author,
-			Integer startPosition, Integer maxResult) {
+	public List<Status> findStatusesByAuthor(User author, Integer startPosition, Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllByAuthor");
 		query.setParameter("author", author);
 		if (startPosition != null) {
@@ -66,8 +78,7 @@ public class StatusService {
 		return findStatusesByGroup(group, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
 	}
 
-	public List<Status> findStatusesByGroup(Group group, Integer startPosition,
-			Integer maxResult) {
+	public List<Status> findStatusesByGroup(Group group, Integer startPosition, Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllByGroup");
 		query.setParameter("group", group);
 		if (startPosition != null) {
@@ -83,8 +94,7 @@ public class StatusService {
 		return findStatusesForUser(user, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
 	}
 
-	public List<Status> findStatusesForUser(User user, Integer startPosition,
-			Integer maxResult) {
+	public List<Status> findStatusesForUser(User user, Integer startPosition, Integer maxResult) {
 		Query query = em.createNamedQuery("Status.findAllForUser");
 		query.setParameter("user", user);
 		if (startPosition != null) {

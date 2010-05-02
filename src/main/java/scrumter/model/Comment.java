@@ -2,15 +2,11 @@ package scrumter.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,9 +27,9 @@ public class Comment {
 	@Column
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date created;
-	
-//	@ManyToOne(optional = false, cascade = {CascadeType.ALL})
-//	public Status status;
+
+	// @ManyToOne(optional = false, cascade = {CascadeType.ALL})
+	// public Status status;
 
 	public Comment() {
 		super();
@@ -80,8 +76,7 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", author=" + author + ", comment="
-				+ comment + ", created=" + created + "]";
+		return "Comment [id=" + id + ", author=" + author + ", comment=" + comment + ", created=" + created + "]";
 	}
 
 }
