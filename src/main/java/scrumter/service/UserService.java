@@ -35,6 +35,10 @@ public class UserService {
 		em.merge(user);
 	}
 
+	public User findUserById(Long id) {
+		return em.find(User.class, id);
+	}
+
 	public List<User> findAllUsersExcept(User user) {
 		Query query = em.createNamedQuery("User.findAllExcept");
 		query.setParameter("user", user);

@@ -1,24 +1,26 @@
 package scrumter.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.tiles.TilesApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.view.tiles2.TilesViewResolver;
 
 import scrumter.model.Authority;
 import scrumter.model.Comment;
 import scrumter.model.Group;
+import scrumter.model.MetaData;
+import scrumter.model.Notification;
 import scrumter.model.Status;
 import scrumter.model.User;
 import scrumter.model.Group.GroupType;
 import scrumter.service.GroupService;
+import scrumter.service.NotificationService;
 import scrumter.service.StatusService;
 import scrumter.service.StringUtils;
 import scrumter.service.UserService;
@@ -37,6 +39,9 @@ public class InitController {
 
 	@Autowired
 	private GroupService groupService;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	@Transactional
 	@RequestMapping(value = "/init", method = RequestMethod.GET)
@@ -119,6 +124,14 @@ public class InitController {
 		userObama.addMembership(friendsGroup);
 		userObama.addMembership(famousGroup);
 		userService.saveUser(userObama);
+		
+		Set<MetaData> metas = new HashSet<MetaData>();
+		MetaData meta1Who = new MetaData("user", status1.getAuthor().getId().toString()); 
+		MetaData meta1Comment = new MetaData("status", status1.getId().toString()); 
+		metas.add(meta1Who);
+		metas.add(meta1Comment);
+		Notification notification1 = new Notification("comment", userBruce, metas);
+		notificationService.addNotification(notification1);
 
 	}
 

@@ -131,7 +131,7 @@ $(document).ready(function(){
 <div id="content"><tiles:insertAttribute name="body" /></div>
 
 <div id="sidebar">
-	<tiles:insertDefinition name="group/countList" />
+	<tiles:insertDefinition name="notification/list" />
 </div>
 
 </div>

@@ -1,0 +1,96 @@
+package scrumter.model;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@NamedQueries(value = {
+		@NamedQuery(name = "Notification.findAllByOwner", query = "SELECT n FROM Notification n WHERE n.owner = :owner ORDER BY n.created"),
+		@NamedQuery(name = "Notification.deleteAllByOwner", query = "DELETE FROM Notification n WHERE n.owner = :owner") })
+public class Notification {
+
+	@OneToMany
+	private Set<MetaData> meta = new HashSet<MetaData>();
+
+	@Id
+	@GeneratedValue
+	@Column
+	private Long id;
+
+	// @Column
+	@ManyToOne
+	private User owner;
+
+	@NotNull
+	@Column
+	private String type;
+
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@Column
+	private Date created;
+
+	public Notification() {
+		super();
+	}
+
+	public Notification(String type, User user, Set<MetaData> meta) {
+		super();
+		this.type = type;
+		this.owner = user;
+		this.meta = meta;
+	}
+
+	public Set<MetaData> getMeta() {
+		return meta;
+	}
+
+	public void setMeta(Set<MetaData> meta) {
+		this.meta = meta;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User user) {
+		this.owner = user;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+}

@@ -18,6 +18,7 @@
 	<bean id="userMembershipPreparer" class="scrumter.view.preparer.UserMembershipPreparer" />
 	<bean id="currentUserPreparer" class="scrumter.view.preparer.CurrentUserPreparer" />
 	<bean id="groupsCountPreparer" class="scrumter.view.preparer.GroupsCountPreparer" />
+	<bean id="notificationListPreparer" class="scrumter.view.preparer.NotificationListPreparer" />
 	<bean id="homeMenuPreparer" class="scrumter.view.preparer.HomeMenuPreparer" />
 
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
