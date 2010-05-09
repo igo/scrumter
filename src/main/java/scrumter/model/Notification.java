@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @NamedQueries(value = {
 		@NamedQuery(name = "Notification.findAllByOwner", query = "SELECT n FROM Notification n WHERE n.owner = :owner ORDER BY n.created"),
+		@NamedQuery(name = "Notification.delete", query = "DELETE FROM Notification n WHERE n = :notification"),
 		@NamedQuery(name = "Notification.deleteAllByOwner", query = "DELETE FROM Notification n WHERE n.owner = :owner") })
 public class Notification {
 

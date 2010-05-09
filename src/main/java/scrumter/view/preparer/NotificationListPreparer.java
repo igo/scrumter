@@ -52,6 +52,7 @@ public class NotificationListPreparer extends ViewPreparerSupport {
 		for (Notification notification : notifications) {
 			Set<MetaData> meta = notification.getMeta();
 			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("id", notification.getId());
 			params.put("type", notification.getType());
 			for (MetaData metaData : meta) {
 				if ("user".equals(metaData.getKey())) {

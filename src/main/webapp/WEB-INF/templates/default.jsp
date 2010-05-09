@@ -48,6 +48,18 @@ jQuery.fn.minimizable = function(){
 	});
 };
 
+function dismissNotification(id) {
+	$.post('<c:url value="/api/notification/dismiss" />', {id: id}, function(data) {
+		console.log(data);
+		if (data.success) {
+			$("#notification-" + id).fadeOut(function () {
+				$(this).remove();
+			});
+		}
+	});
+	return false;
+}
+
 $(document).ready(function(){
 	doPrettyDates();
 	setInterval(function(){ doPrettyDates(); }, 10000);
@@ -86,7 +98,9 @@ $(document).ready(function(){
 		$.post('<c:url value="/api/notification/dismiss-all" />', function(data) {
 			console.log(data);
 			if (data.success) {
-				$("#notifications .notification").fadeOut();
+				$("#notifications .notification").fadeOut(function () {
+					$(this).remove();
+				});
 			}
 		});
 		return false;

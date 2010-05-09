@@ -8,6 +8,7 @@
 <tiles:useAttribute name="currentUser" ignore="false" />
 
 <div class="notification badge" id="notification-${notification.id}">
+<div class="badge-tools"><a href="#" onclick="dismissNotification(${notification.id});return false;"><img src="<c:url value="/img/close.png" />"></a></div>
 <c:choose>
 	<c:when test="${notification.type == 'comment'}">
 		<c:set var="who"><a href="<c:url value="/${notification.user.company}/${notification.user.username}/" />" class="name">${notification.user.firstName} ${notification.user.middleName} ${notification.user.lastName}</a></c:set>

@@ -72,10 +72,21 @@ public class NotificationService {
 		em.flush();
 	}
 
+	public Notification findNotificationById(Long id) {
+		return em.find(Notification.class, id);
+	}
+
 	public List<Notification> findNotificationsForUser(User owner) {
 		Query query = em.createNamedQuery("Notification.findAllByOwner");
 		query.setParameter("owner", owner);
 		return query.getResultList();
+	}
+
+	@Transactional
+	public int dismiss(Notification notification) {
+		Query query = em.createNamedQuery("Notification.delete");
+		query.setParameter("notification", notification);
+		return query.executeUpdate();
 	}
 
 	@Transactional
