@@ -78,4 +78,11 @@ public class NotificationService {
 		return query.getResultList();
 	}
 
+	@Transactional
+	public int dismissAllForUser(User user) {
+		Query query = em.createNamedQuery("Notification.deleteAllByOwner");
+		query.setParameter("owner", user);
+		return query.executeUpdate();
+	}
+
 }

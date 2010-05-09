@@ -7,7 +7,10 @@
 <tiles:useAttribute name="currentUser" ignore="false" />
 
 <h2><spring:message code="notifications" /></h2>
-<div class="notifications">
+<c:if test="${fn:length(notifications) > 0}">
+	<div class="page-tools"><a href="#" id="notification-dismissall"><spring:message code="notification.dismissAll" /></a></div>
+</c:if>
+<div id="notifications">
 <c:choose>
 	<c:when test="${fn:length(notifications) > 0}">
 		<c:forEach var="notification" items="${notifications}">

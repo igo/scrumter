@@ -72,13 +72,22 @@ $(document).ready(function(){
 			alert("Please select audiences");
 			return false;
 		}
-		$("#status-form ")
 		$.post('<c:url value="/api/status/add" />', $("#status-form").serialize(), function(data) {
 			var post = $(data).hide().prependTo('.posts');
 			doPrettyDates();
 			post.slideDown("slow");
 			$("#status-form-textarea").height(25);
 			$("#status-form")[0].reset();
+		});
+		return false;
+	});
+
+	$("#notification-dismissall").click(function () {
+		$.post('<c:url value="/api/notification/dismiss-all" />', function(data) {
+			console.log(data);
+			if (data.success) {
+				$("#notifications .notification").fadeOut();
+			}
 		});
 		return false;
 	});
