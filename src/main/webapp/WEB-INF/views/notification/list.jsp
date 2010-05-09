@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <tiles:useAttribute name="notifications" ignore="false" />
+<tiles:useAttribute name="currentUser" ignore="false" />
 
 <h2><spring:message code="notifications" /></h2>
 <div class="notifications">
@@ -11,7 +12,8 @@
 	<c:when test="${fn:length(notifications) > 0}">
 		<c:forEach var="notification" items="${notifications}">
 			<tiles:insertDefinition name="notification/detail">
-				<tiles:putAttribute name="notification" value="${notification}"></tiles:putAttribute>
+				<tiles:putAttribute name="notification" value="${notification}" />
+				<tiles:putAttribute name="currentUser" value="${currentUser}" />
 			</tiles:insertDefinition>
 		</c:forEach>
 	</c:when>
