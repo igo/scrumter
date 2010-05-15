@@ -6,9 +6,11 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +72,26 @@ public class StatusController {
 		User currentUser = securityService.getCurrentUser();
 		Comment c = statusService.addComment(status, comment, currentUser);
 		mav.addObject("comment", c);
+		return mav;
+	}
+
+	@RequestMapping(value = "/{company}/{username}/statuses/{statusId}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Transactional(readOnly = true)
+	public ModelAndView showStatus(@PathVariable String company, @PathVariable String username,
+			@PathVariable Long statusId) {
+		User currentUser = securityService.getCurrentUser();
+		Status status = statusService.findStatusById(statusId);
+		// check if current user is allowed to view status
+		Set<Group> allowedGroups = new HashSet<Group>(status.getAllowedGroups()); 
+		int startSize = allowedGroups.size();
+		allowedGroups.removeAll(currentUser.getMembership());
+		int endSize = allowedGroups.size();
+		if (startSize == endSize) {
+			throw new AuthorizationServiceException("Not allowed to view this status!");
+		}
+		ModelAndView mav = new ModelAndView("status/view");
+		mav.addObject("status", status);
 		return mav;
 	}
 
