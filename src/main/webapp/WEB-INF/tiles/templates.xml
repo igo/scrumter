@@ -63,8 +63,14 @@
 	<definition name="users/signup" extends="template/anonymous">
 		<put-attribute name="body" value="/WEB-INF/views/users/signup.jsp" cascade="true" />
 	</definition>
-	<definition name="users/profile" extends="template/profile">
-		<put-attribute name="body" value="/WEB-INF/views/users/profile.jsp" cascade="true" />
+	<definition name="profile/general-info" extends="template/profile">
+		<put-attribute name="body" value="/WEB-INF/views/profile/generalInfo.jsp" cascade="true" />
+	</definition>
+	<definition name="profile/profile-picture" extends="template/profile">
+		<put-attribute name="body" value="/WEB-INF/views/profile/profilePicture.jsp" cascade="true" />
+	</definition>
+	<definition name="profile/change-password" extends="template/profile">
+		<put-attribute name="body" value="/WEB-INF/views/profile/changePassword.jsp" cascade="true" />
 	</definition>
 
 
