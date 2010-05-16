@@ -15,6 +15,7 @@
 <script type="text/javascript" src="<c:url value="/js/lib/jquery.multiselect.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/js/lib/autoresize.jquery.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/js/lib/prettydate.js" />"></script>
+<script type="text/javascript" src="<c:url value="/js/lib/vanadium-min.js" />"></script>
 
 <script type="text/javascript">
 scrumter = {

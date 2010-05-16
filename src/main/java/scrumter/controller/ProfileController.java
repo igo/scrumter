@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import scrumter.model.User;
+import scrumter.model.ajax.AjaxResponse;
+import scrumter.service.LocalizationService;
 import scrumter.service.SecurityService;
 import scrumter.service.StatusService;
 import scrumter.service.UserService;
@@ -34,10 +36,14 @@ public class ProfileController {
 
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	private LocalizationService localizationService;
+	
 
 	@RequestMapping(value = "/profile")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	ModelAndView showGeneralInformation() {
+	public ModelAndView showGeneralInformation() {
 		logger.info("Showing profile");
 		ModelAndView mav = new ModelAndView("profile/general-info");
 		User user = securityService.getCurrentUser();
@@ -47,7 +53,7 @@ public class ProfileController {
 
 	@RequestMapping(value = "/profile/profile-picture")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	ModelAndView showProfilePicture() {
+	public ModelAndView showProfilePicture() {
 		logger.info("Showing profile picture");
 		ModelAndView mav = new ModelAndView("profile/profile-picture");
 		User user = securityService.getCurrentUser();
@@ -57,11 +63,31 @@ public class ProfileController {
 
 	@RequestMapping(value = "/profile/change-password")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	ModelAndView showChangePassword() {
-		logger.info("Showing profile picture");
+	public ModelAndView showChangePassword() {
+		logger.info("Showing change password");
 		ModelAndView mav = new ModelAndView("profile/change-password");
 		User user = securityService.getCurrentUser();
 		mav.addObject("user", user);
+		return mav;
+	}
+
+	@RequestMapping(value = "/api/profile/change-password", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ModelAndView changePassword(@RequestParam String currentPassword, @RequestParam String newPassword) {
+		AjaxResponse response = new AjaxResponse();
+		User user = securityService.getCurrentUser();
+		if (user.getPassword().equals(currentPassword)) {
+			logger.info("Changing password of " + user);
+			user.setPassword(newPassword);
+			userService.saveUser(user);
+			response.setSuccess(true);
+			response.setMessage(localizationService.getMessage("user.profile.changePassword.passwordChanged"));
+		} else {
+			response.setSuccess(false);
+			response.setMessage(localizationService.getMessage("user.profile.changePassword.incorrectPassword"));
+		}
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("response", response);
 		return mav;
 	}
 
