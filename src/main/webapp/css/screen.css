@@ -252,6 +252,16 @@ p {
   overflow-x: hidden;
 }
 
+#content.wide {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 790px;
+}
+* html #content.wide {
+  overflow-x: hidden;
+}
+
 #sidebar {
   display: inline;
   float: left;

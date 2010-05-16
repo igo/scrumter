@@ -4,12 +4,19 @@
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
 	
-	<definition name="default" template="/WEB-INF/templates/default.jsp">
+	<definition name="template" template="/WEB-INF/templates/authorized.jsp">
 	</definition>
-	<definition name="anonymous" template="/WEB-INF/templates/anonymous.jsp">
+	<definition name="template/default" extends="template">
+		<put-attribute name="page" value="/WEB-INF/templates/default.jsp" />
+	</definition>
+	<definition name="template/profile" extends="template">
+		<put-attribute name="page" value="/WEB-INF/templates/profile.jsp" />
+	</definition>
+	<definition name="template/anonymous" template="/WEB-INF/templates/anonymous.jsp">
 	</definition>
 
 	<definition name="menu/home" template="/WEB-INF/views/menu/home.jsp" preparer="homeMenuPreparer" />
+	<definition name="profile/menu" template="/WEB-INF/views/profile/menu.jsp" />
 
 	<definition name="status/addForm" template="/WEB-INF/views/status/addForm.jsp" preparer="userMembershipPreparer">
 	</definition>
@@ -17,8 +24,8 @@
 	</definition>
 	<definition name="status/detail" template="/WEB-INF/views/status/detail.jsp">
 	</definition>
-	<definition name="status/view" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/status/view.jsp" />
+	<definition name="status/view" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/status/view.jsp" cascade="true" />
 	</definition>
 
 	<definition name="status/comment/detail" template="/WEB-INF/views/status/comment/detail.jsp">
@@ -29,53 +36,53 @@
 
 	<definition name="group/countList" template="/WEB-INF/views/group/countList.jsp" preparer="groupsCountPreparer">
 	</definition>
-	<definition name="group/home" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/group/home.jsp" />
+	<definition name="group/home" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/group/home.jsp" cascade="true" />
 	</definition>
-	<definition name="group/list" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/group/list.jsp" />
+	<definition name="group/list" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/group/list.jsp" cascade="true" />
 	</definition>
-	<definition name="group/members" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/group/members.jsp" />
-	</definition>
-
-	<definition name="project/home" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/project/home.jsp" />
-	</definition>
-	<definition name="project/list" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/project/list.jsp" />
-	</definition>
-	<definition name="project/members" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/project/members.jsp" />
+	<definition name="group/members" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/group/members.jsp" cascade="true" />
 	</definition>
 
-	<definition name="login" extends="anonymous">
-		<put-attribute name="body" value="/WEB-INF/views/users/login.jsp" />
+	<definition name="project/home" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/project/home.jsp" cascade="true" />
+	</definition>
+	<definition name="project/list" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/project/list.jsp" cascade="true" />
+	</definition>
+	<definition name="project/members" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/project/members.jsp" cascade="true" />
 	</definition>
 
-	<definition name="users/signup" extends="anonymous">
-		<put-attribute name="body" value="/WEB-INF/views/users/signup.jsp" />
-	</definition>
-	<definition name="users/profile" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/users/profile.jsp" />
+	<definition name="login" extends="template/anonymous">
+		<put-attribute name="body" value="/WEB-INF/views/users/login.jsp"  cascade="true"/>
 	</definition>
 
-
-	<definition name="company" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/company/index.jsp" />
+	<definition name="users/signup" extends="template/anonymous">
+		<put-attribute name="body" value="/WEB-INF/views/users/signup.jsp" cascade="true" />
+	</definition>
+	<definition name="users/profile" extends="template/profile">
+		<put-attribute name="body" value="/WEB-INF/views/users/profile.jsp" cascade="true" />
 	</definition>
 
 
-
-	<definition name="users/home" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/users/home.jsp" />
-	</definition>
-	<definition name="users/view" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/users/view.jsp" />
+	<definition name="company" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/company/index.jsp" cascade="true" />
 	</definition>
 
-	<definition name="users/list" extends="default">
-		<put-attribute name="body" value="/WEB-INF/views/users/list.jsp" />
+
+
+	<definition name="users/home" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/users/home.jsp" cascade="true" />
+	</definition>
+	<definition name="users/view" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/users/view.jsp" cascade="true" />
+	</definition>
+
+	<definition name="users/list" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/users/list.jsp" cascade="true" />
 	</definition>
 
 

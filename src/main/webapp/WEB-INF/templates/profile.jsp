@@ -4,10 +4,6 @@
 
 <tiles:useAttribute name="body" />
 
-<div id="navbar"><tiles:insertDefinition name="menu/home" /></div>
+<div id="navbar"><tiles:insertDefinition name="profile/menu" /></div>
 
-<div id="content"><tiles:insertAttribute name="body" /></div>
-
-<div id="sidebar">
-	<tiles:insertDefinition name="notification/list" />
-</div>
+<div id="content" class="wide"><tiles:insertAttribute name="body" /></div>
