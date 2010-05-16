@@ -31,16 +31,6 @@ public class UserController {
 	@Autowired
 	private SecurityService securityService;
 
-	@RequestMapping(value = "/users")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public ModelAndView listUsers() {
-		logger.debug("View all users");
-		ModelAndView mav = new ModelAndView("users/list");
-		List<User> users = userService.findAllUsersExcept(securityService.getCurrentUser());
-		mav.addObject("users", users);
-		return mav;
-	}
-
 	@RequestMapping(value = "/{company}/{username}")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	ModelAndView showUser(@PathVariable String company, @PathVariable String username,

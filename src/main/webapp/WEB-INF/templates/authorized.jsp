@@ -143,8 +143,7 @@ $(document).ready(function(){
 			</c:otherwise>
 		</c:choose>	
 		<a href="<c:url value="/" />"><spring:message code="menu.home" /></a> |
-		<a href="<c:url value="/users" />"><spring:message code="menu.users" /></a> |
-		<a href="<c:url value="/profile" />"><spring:message code="menu.profile" /></a> |
+		<a href="<c:url value="/profile/" />"><spring:message code="menu.profile" /></a> |
 		<a href="<c:url value="/logout" />"><spring:message code="user.account.logout" /></a>
 	</div>
 </div>
