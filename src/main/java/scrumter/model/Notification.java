@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,11 +17,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @NamedQueries(value = {
 		@NamedQuery(name = "Notification.findAllByOwner", query = "SELECT n FROM Notification n WHERE n.owner = :owner ORDER BY n.created"),
-		@NamedQuery(name = "Notification.delete", query = "DELETE FROM Notification n WHERE n = :notification"),
-		@NamedQuery(name = "Notification.deleteAllByOwner", query = "DELETE FROM Notification n WHERE n.owner = :owner") })
+		@NamedQuery(name = "Notification.delete", query = "DELETE FROM Notification n WHERE n = :notification") })
 public class Notification {
 
 	@Id
@@ -39,7 +41,7 @@ public class Notification {
 	@Column
 	private Date created;
 
-	@OneToMany
+	@OneToMany(cascade = { CascadeType.ALL })
 	private Set<MetaData> meta = new HashSet<MetaData>();
 
 	public Notification() {

@@ -27,7 +27,7 @@ public class NotificationService {
 
 	@PersistenceContext
 	EntityManager em;
-	
+
 	@Autowired
 	private SecurityService securityService; 
 
@@ -84,6 +84,13 @@ public class NotificationService {
 
 	@Transactional
 	public int dismiss(Notification notification) {
+		Set<MetaData> metas = notification.getMeta();
+		for (MetaData meta : metas) {
+			em.remove(meta);
+		}
+		notification.getMeta().clear();
+		em.merge(notification);
+		em.flush();
 		Query query = em.createNamedQuery("Notification.delete");
 		query.setParameter("notification", notification);
 		return query.executeUpdate();
@@ -91,9 +98,12 @@ public class NotificationService {
 
 	@Transactional
 	public int dismissAllForUser(User user) {
-		Query query = em.createNamedQuery("Notification.deleteAllByOwner");
-		query.setParameter("owner", user);
-		return query.executeUpdate();
+		List<Notification> notifications = findNotificationsForUser(user);
+		int count = 0;
+		for (Notification notification : notifications) {
+			count += dismiss(notification);
+		}
+		return count;
 	}
 
 }
