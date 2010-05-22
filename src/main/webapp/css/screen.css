@@ -412,3 +412,7 @@ p {
 .ui-multiselect.ui-state-active input {
   color: black;
 }
+
+.error {
+  color: red;
+}
