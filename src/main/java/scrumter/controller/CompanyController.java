@@ -25,10 +25,10 @@ public class CompanyController {
 
 	@RequestMapping(value = "/{company}", method = RequestMethod.GET)
 	public ModelAndView showCompany(@PathVariable String company) {
-		ModelAndView mav = new ModelAndView("company");
+		ModelAndView mav = new ModelAndView("company/members");
 		mav.addObject("company", company);
-		List<User> users = userService.findAllUsersByCompany(company);
-		mav.addObject("users", users);
+		List<User> members = userService.findAllUsersByCompany(company);
+		mav.addObject("members", members);
 		return mav;
 	}
 

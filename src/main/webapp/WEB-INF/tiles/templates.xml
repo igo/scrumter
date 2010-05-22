@@ -77,6 +77,9 @@
 	<definition name="company" extends="template/default">
 		<put-attribute name="body" value="/WEB-INF/views/company/index.jsp" cascade="true" />
 	</definition>
+	<definition name="company/members" extends="template/default">
+		<put-attribute name="body" value="/WEB-INF/views/company/members.jsp" cascade="true" />
+	</definition>
 
 
 
