@@ -262,6 +262,44 @@ p {
   overflow-x: hidden;
 }
 
+#login-content #login {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 470px;
+}
+* html #login-content #login {
+  overflow-x: hidden;
+}
+#login-content #signup {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 470px;
+}
+* html #login-content #signup {
+  overflow-x: hidden;
+}
+
+#signup-content #signup {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 470px;
+}
+* html #signup-content #signup {
+  overflow-x: hidden;
+}
+#signup-content #login {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 470px;
+}
+* html #signup-content #login {
+  overflow-x: hidden;
+}
+
 #sidebar {
   display: inline;
   float: left;

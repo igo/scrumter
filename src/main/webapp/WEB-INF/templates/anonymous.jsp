@@ -10,21 +10,15 @@
 <script type="text/javascript" src="<c:url value="/js/lib/jquery-1.4.2.min.js" />"></script>
 
 </head>
-<body class="bp">
-<div id="container">
+<body>
 <div id="header">
-	<h1>Scrumter</h1>
-	<hr />
+	<a href="<c:url value="/" />"><img src="<c:url value="/img/logo.png" />" /></a>
 </div>
-
+<div id="container">
 <tiles:insertAttribute name="body" />
-
-<div id="footer">
-	<hr />
-	&copy; Scrumter 2010
 </div>
 
-</div>
+<div id="footer">Powered by Scrumter | Knowledge is its own reward</div>
 
 </body>
 </html>
