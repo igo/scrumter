@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,13 +74,13 @@ public class ProfileController {
 
 	@RequestMapping(value = "/api/profile/change-password", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@Transactional
 	public ModelAndView changePassword(@RequestParam String currentPassword, @RequestParam String newPassword) {
 		AjaxResponse response = new AjaxResponse();
 		User user = securityService.getCurrentUser();
-		if (user.getPassword().equals(currentPassword)) {
+		if (userService.checkPassword(user, currentPassword)) {
 			logger.info("Changing password of " + user);
-			user.setPassword(newPassword);
-			userService.saveUser(user);
+			userService.changePassword(user, newPassword);
 			response.setSuccess(true);
 			response.setMessage(localizationService.getMessage("user.profile.changePassword.passwordChanged"));
 		} else {

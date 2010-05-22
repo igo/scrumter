@@ -7,7 +7,11 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 	<global-method-security pre-post-annotations="enabled" />
-	
+
+	<beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+        <beans:constructor-arg value="256" />
+    </beans:bean>
+
 	<!-- HTTP security configurations -->
     <http auto-config="true" use-expressions="true">
     	<form-login login-processing-url="/j_spring_security_check" login-page="/login" authentication-failure-url="/login?login_error=t"/>
@@ -26,11 +30,7 @@
     	<!-- SHA-256 values can be produced using 'echo -n your_desired_password | sha256sum' (using normal *nix environments) -->
     	<authentication-provider>
     		<jdbc-user-service data-source-ref="dataSource" users-by-username-query="SELECT email AS username, password, true AS enabled FROM user WHERE email=?" authorities-by-username-query="SELECT user.email AS username, authority.name AS authority FROM user INNER JOIN user_authorities ON user_authorities.user=user.id INNER JOIN authority ON user_authorities.authorities=authority.id WHERE email=?" />
-	    	<!--password-encoder hash="sha-256"/ >
-	        <user-service>
-	            <user name="admin" password="heslo" authorities="ROLE_ADMIN"/>
-		        <user name="user" password="heslo" authorities="ROLE_USER"/>
-	   	 </user-service -->
+	    	<password-encoder ref="passwordEncoder" />
     	</authentication-provider>
 	</authentication-manager>
 	

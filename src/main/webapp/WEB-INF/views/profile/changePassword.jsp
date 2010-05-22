@@ -29,7 +29,6 @@ $(document).ready(function() {
 $("#form-change-password").submit(function() {
 	var form = this;
 	$.post(form.action, $(form).serialize(), function(data, result, request) {
-		console.log(data, result, request);
 		$("<div/>").html(data.response.message).dialog({
 			title: '<spring:message code="user.profile.changePassword" javaScriptEscape="true" htmlEscape="false" />',
 			modal: true,

@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +23,14 @@ public class UserService {
 
 	@PersistenceContext
 	EntityManager em;
+	
+	@Autowired
+	private MessageDigestPasswordEncoder passwordEncoder;
 
 	@Transactional
 	public void addUser(User user) {
 		user.setCreated(new Date());
+		user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
 		logger.info("Adding user: " + user);
 		em.persist(user);
 	}
@@ -33,6 +39,18 @@ public class UserService {
 	public void saveUser(User user) {
 		logger.info("Saving user: " + user);
 		em.merge(user);
+	}
+	
+	@Transactional
+	public void changePassword(User user, String password) {
+		logger.info("Changing user password for " + user);
+		em.refresh(user);
+		user.setPassword(passwordEncoder.encodePassword(password, null));
+		em.persist(user);
+	}
+	
+	public boolean checkPassword(User user, String password) {
+		return user.getPassword().equals(passwordEncoder.encodePassword(password, null));
 	}
 
 	public User findUserById(Long id) {
