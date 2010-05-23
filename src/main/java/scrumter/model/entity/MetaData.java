@@ -1,4 +1,4 @@
-package scrumter.model;
+package scrumter.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

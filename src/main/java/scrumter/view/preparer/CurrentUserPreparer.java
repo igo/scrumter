@@ -9,7 +9,7 @@ import org.apache.tiles.preparer.ViewPreparerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import scrumter.model.User;
+import scrumter.model.entity.User;
 import scrumter.service.SecurityService;
 
 public class CurrentUserPreparer extends ViewPreparerSupport {

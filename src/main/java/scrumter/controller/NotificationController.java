@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import scrumter.model.Notification;
-import scrumter.model.User;
+import scrumter.model.entity.Notification;
+import scrumter.model.entity.User;
 import scrumter.service.NotificationService;
 import scrumter.service.SecurityService;
 

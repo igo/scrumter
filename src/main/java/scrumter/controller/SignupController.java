@@ -11,8 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import scrumter.model.SignupForm;
-import scrumter.model.User;
+import scrumter.model.entity.User;
+import scrumter.model.form.SignupForm;
 import scrumter.service.UserService;
 
 

@@ -9,8 +9,8 @@ import org.apache.tiles.preparer.ViewPreparerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import scrumter.model.User;
-import scrumter.model.Group.GroupType;
+import scrumter.model.entity.User;
+import scrumter.model.entity.Group.GroupType;
 import scrumter.service.GroupService;
 import scrumter.service.SecurityService;
 

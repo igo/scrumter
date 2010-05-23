@@ -13,8 +13,8 @@ import org.springframework.security.authentication.encoding.MessageDigestPasswor
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import scrumter.model.Authority;
-import scrumter.model.User;
+import scrumter.model.entity.Authority;
+import scrumter.model.entity.User;
 
 @Service
 public class UserService {

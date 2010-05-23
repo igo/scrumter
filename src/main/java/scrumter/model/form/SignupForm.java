@@ -1,10 +1,12 @@
-package scrumter.model;
+package scrumter.model.form;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+
+import scrumter.model.entity.User;
 
 public class SignupForm {
 	

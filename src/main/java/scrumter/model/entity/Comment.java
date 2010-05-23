@@ -1,4 +1,4 @@
-package scrumter.model;
+package scrumter.model.entity;
 
 import java.util.Date;
 

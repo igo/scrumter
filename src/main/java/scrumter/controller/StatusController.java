@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import scrumter.model.Comment;
-import scrumter.model.Group;
-import scrumter.model.Status;
-import scrumter.model.User;
+import scrumter.model.entity.Comment;
+import scrumter.model.entity.Group;
+import scrumter.model.entity.Status;
+import scrumter.model.entity.User;
 import scrumter.service.GroupService;
 import scrumter.service.SecurityService;
 import scrumter.service.StatusService;

@@ -10,9 +10,9 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import scrumter.model.Group;
-import scrumter.model.User;
-import scrumter.model.Group.GroupType;
+import scrumter.model.entity.Group;
+import scrumter.model.entity.User;
+import scrumter.model.entity.Group.GroupType;
 
 @Service
 public class GroupService {

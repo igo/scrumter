@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import scrumter.model.Status;
-import scrumter.model.SignupForm;
-import scrumter.model.User;
-import scrumter.model.Group.GroupType;
+import scrumter.model.entity.Status;
+import scrumter.model.entity.User;
+import scrumter.model.entity.Group.GroupType;
+import scrumter.model.form.SignupForm;
 import scrumter.service.GroupService;
 import scrumter.service.StatusService;
 import scrumter.service.SecurityService;

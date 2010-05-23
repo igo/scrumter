@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import scrumter.model.Comment;
-import scrumter.model.MetaData;
-import scrumter.model.Notification;
-import scrumter.model.Status;
-import scrumter.model.User;
+import scrumter.model.entity.Comment;
+import scrumter.model.entity.MetaData;
+import scrumter.model.entity.Notification;
+import scrumter.model.entity.Status;
+import scrumter.model.entity.User;
 
 @Service
 public class NotificationService {
