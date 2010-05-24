@@ -48,11 +48,6 @@ public class InitController {
 	public void init() {
 		logger.info("Init executed");
 
-		logger.info("Deleting database");
-		statusService.deleteAllStatuses();
-		userService.deleteAllUsers();
-		groupService.deleteAllGroups();
-
 		logger.info("Creating test data");
 		Authority adminRole = userService.createAuthority("ROLE_ADMIN");
 		Authority userRole = userService.createAuthority("ROLE_USER");
@@ -116,14 +111,14 @@ public class InitController {
 		userBruce.addMembership(friendsGroup);
 		userBruce.addMembership(famousGroup);
 		userBruce.addMembership(presidentsGroup);
-		userService.saveUser(userBruce);
+		userService.updateUser(userBruce);
 		userBush.addMembership(presidentsGroup);
 		userBush.addMembership(friendsGroup);
-		userService.saveUser(userBush);
+		userService.updateUser(userBush);
 		userObama.addMembership(presidentsGroup);
 		userObama.addMembership(friendsGroup);
 		userObama.addMembership(famousGroup);
-		userService.saveUser(userObama);
+		userService.updateUser(userObama);
 		
 		Set<MetaData> metas = new HashSet<MetaData>();
 		MetaData meta1Who = new MetaData("user", status1.getAuthor().getId().toString()); 

@@ -27,7 +27,7 @@ public class CompanyController {
 	public ModelAndView showCompany(@PathVariable String company) {
 		ModelAndView mav = new ModelAndView("company/members");
 		mav.addObject("company", company);
-		List<User> members = userService.findAllUsersByCompany(company);
+		List<User> members = userService.findUsersByCompany(company);
 		mav.addObject("members", members);
 		return mav;
 	}

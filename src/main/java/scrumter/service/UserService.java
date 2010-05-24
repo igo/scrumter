@@ -1,109 +1,80 @@
 package scrumter.service;
 
-import java.util.Date;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.entity.Authority;
 import scrumter.model.entity.User;
+import scrumter.model.repository.AuthorityRepository;
+import scrumter.model.repository.UserRepository;
 
 @Service
 public class UserService {
 
 	private Logger logger = Logger.getLogger(UserService.class);
 
-	@PersistenceContext
-	EntityManager em;
-	
 	@Autowired
 	private MessageDigestPasswordEncoder passwordEncoder;
 
-	@Transactional
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private AuthorityRepository authorityRepository;
+
 	public void addUser(User user) {
-		user.setCreated(new Date());
-		user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
-		logger.info("Adding user: " + user);
-		em.persist(user);
+		userRepository.create(user);
 	}
 
-	@Transactional
-	public void saveUser(User user) {
-		logger.info("Saving user: " + user);
-		em.merge(user);
-	}
-	
-	@Transactional
-	public void changePassword(User user, String password) {
-		logger.info("Changing user password for " + user);
-		em.refresh(user);
-		user.setPassword(passwordEncoder.encodePassword(password, null));
-		em.persist(user);
-	}
-	
-	public boolean checkPassword(User user, String password) {
-		return user.getPassword().equals(passwordEncoder.encodePassword(password, null));
+	public void updateUser(User user) {
+		userRepository.update(user);
 	}
 
 	public User findUserById(Long id) {
-		return em.find(User.class, id);
-	}
-
-	public List<User> findAllUsersExcept(User user) {
-		Query query = em.createNamedQuery("User.findAllExcept");
-		query.setParameter("user", user);
-		return query.getResultList();
-	}
-
-	public List<User> findAllUsersByCompany(String company) {
-		Query query = em.createNamedQuery("User.findByCompany");
-		query.setParameter("company", company);
-		return query.getResultList();
-	}
-
-	public User findUserByUsernameAndCompany(String username, String company) {
-		Query query = em.createNamedQuery("User.findByUsernameAndCompany");
-		query.setParameter("username", username);
-		query.setParameter("company", company);
-		try {
-			return (User) query.getSingleResult();
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	@Transactional
-	public void deleteAllUsers() {
-		Query query = em.createNamedQuery("User.deleteAll");
-		query.executeUpdate();
+		return userRepository.findById(id);
 	}
 
 	public User findUserByEmail(String email) {
-		logger.debug("Finding user by email: " + email);
-		Query query = em.createNamedQuery("User.findByEmail");
-		query.setParameter("email", email);
-		try {
-			User user = (User) query.getSingleResult();
-			logger.debug("User found: " + user);
-			return user;
-		} catch (Exception e) {
-			logger.debug("User not found");
-			return null;
-		}
+		return userRepository.findByEmail(email);
 	}
 
-	@Transactional
+	public User findUserByUsernameAndCompany(String username, String company) {
+		return userRepository.findByUsernameAndCompany(username, company);
+	}
+
+	public List<User> findUsersByCompany(String company) {
+		return userRepository.findAllByCompany(company);
+	}
+
+	public void changePassword(User user, String password) {
+		logger.info("Changing password for user: " + user);
+		userRepository.refresh(user);
+		user.setPassword(encodePassword(password));
+		userRepository.update(user);
+	}
+
+	public void changePicture(User user, byte[] picture) {
+		logger.info("Changing picture for user: " + user);
+		userRepository.refresh(user);
+		user.setPicture(picture);
+		userRepository.update(user);
+	}
+
+	public boolean checkPassword(User user, String password) {
+		return user.getPassword().equals(encodePassword(password));
+	}
+
+	public String encodePassword(String password) {
+		return passwordEncoder.encodePassword(password, null);
+	}
+
 	public Authority createAuthority(String name) {
 		Authority authority = new Authority(name);
-		em.persist(authority);
+		authorityRepository.create(authority);
 		return authority;
 	}
 

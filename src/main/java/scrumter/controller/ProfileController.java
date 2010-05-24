@@ -99,11 +99,10 @@ public class ProfileController {
 		logger.info("Saving picture for " + user);
 		logger.debug("Picture params: " + picture);
 		try {
-			user.setPicture(picture.getBytes());
+			userService.changePicture(user, picture.getBytes());
 		} catch (IOException e) {
 			logger.error("Cannot save picture for " + user, e);
 		}
-		userService.saveUser(user);
 		return "redirect:/profile";
 	}
 
