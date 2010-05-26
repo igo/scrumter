@@ -39,7 +39,8 @@ public class UserController {
 		User user = userService.findUserByUsernameAndCompany(username, company);
 		mav.addObject("user", user);
 		logger.info("Showing user: " + user);
-		List<Status> statuses = statusService.findStatusesByAuthor(user, page);
+		User currentUser = securityService.getCurrentUser();
+		List<Status> statuses = statusService.getAllowedStatusesFromUser(currentUser, user, page);
 		mav.addObject("statuses", statuses);
 		mav.addObject("page", page);
 		return mav;

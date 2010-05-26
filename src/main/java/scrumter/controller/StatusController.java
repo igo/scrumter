@@ -68,7 +68,7 @@ public class StatusController {
 	public ModelAndView addComment(@RequestParam String comment, @RequestParam Long statusId) {
 		logger.debug("Adding comment: " + statusId + "; " + comment);
 		ModelAndView mav = new ModelAndView("status/comment/detail");
-		Status status  = statusService.findStatusById(statusId);
+		Status status  = statusService.getStatusById(statusId);
 		User currentUser = securityService.getCurrentUser();
 		Comment c = statusService.addComment(status, comment, currentUser);
 		mav.addObject("comment", c);
@@ -81,7 +81,7 @@ public class StatusController {
 	public ModelAndView showStatus(@PathVariable String company, @PathVariable String username,
 			@PathVariable Long statusId) {
 		User currentUser = securityService.getCurrentUser();
-		Status status = statusService.findStatusById(statusId);
+		Status status = statusService.getStatusById(statusId);
 		// check if current user is allowed to view status
 		Set<Group> allowedGroups = new HashSet<Group>(status.getAllowedGroups()); 
 		int startSize = allowedGroups.size();

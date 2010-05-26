@@ -3,127 +3,64 @@ package scrumter.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.entity.Comment;
 import scrumter.model.entity.Group;
 import scrumter.model.entity.Status;
 import scrumter.model.entity.User;
+import scrumter.model.repository.StatusRepository;
 
 @Service
 public class StatusService {
 
 	private Logger logger = Logger.getLogger(StatusService.class);
 
-	public static final Integer STATUSES_PER_PAGE = 15;
+	@Autowired
+	private StatusRepository statusRepository;
 
-	@PersistenceContext
-	EntityManager em;
+	public static final Integer STATUSES_PER_PAGE = 15;
 
 	@Autowired
 	private NotificationService notificationService;
 
-	@Transactional
 	public void addStatus(Status status) {
-		logger.debug("Adding status: " + status);
 		status.setCreated(new Date());
-		em.persist(status);
-		em.flush();
+		statusRepository.create(status);
 	}
 
-	@Transactional
-	public void saveStatus(Status status) {
-		logger.debug("Saving status: " + status);
-		em.merge(status);
-		em.flush();
+	public void updateStatus(Status status) {
+		statusRepository.update(status);
 	}
 
-	@Transactional
+	public Status getStatusById(Long id) {
+		return statusRepository.findById(id);
+	}
+
 	public Comment addComment(Status status, String comment, User author) {
 		Comment c = new Comment(author, comment);
 		status.getComments().add(c);
-		saveStatus(status);
+		updateStatus(status);
 		notificationService.addCommentNotification(status, author);
 		return c;
 	}
 
-	public Status findStatusById(Long statusId) {
-		return em.find(Status.class, statusId);
+	public List<Status> getAllowedStatuses(User user, int page) {
+		return statusRepository.findAllAllowed(user, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
 	}
 
-	public List<Status> findStatusesByAuthor(User author, int page) {
-		return findStatusesByAuthor(author, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
+	public List<Status> getStatusesInGroup(Group group, int page) {
+		return statusRepository.findAllByGroup(group, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
 	}
 
-	public List<Status> findStatusesByAuthor(User author, Integer startPosition, Integer maxResult) {
-		Query query = em.createNamedQuery("Status.findAllByAuthor");
-		query.setParameter("author", author);
-		if (startPosition != null) {
-			query.setFirstResult(startPosition);
-		}
-		if (maxResult != null) {
-			query.setMaxResults(maxResult);
-		}
-		return query.getResultList();
+	public List<Status> getAllowedStatusesFromUser(User user, User author, int page) {
+		return statusRepository.findAllAllowedByAuthor(user, author, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
 	}
 
-	public List<Status> findStatusesByGroup(Group group, int page) {
-		return findStatusesByGroup(group, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
-	}
-
-	public List<Status> findStatusesByGroup(Group group, Integer startPosition, Integer maxResult) {
-		Query query = em.createNamedQuery("Status.findAllByGroup");
-		query.setParameter("group", group);
-		if (startPosition != null) {
-			query.setFirstResult(startPosition);
-		}
-		if (maxResult != null) {
-			query.setMaxResults(maxResult);
-		}
-		return query.getResultList();
-	}
-
-	public List<Status> findStatusesForUser(User user, int page) {
-		return findStatusesForUser(user, (page - 1) * STATUSES_PER_PAGE, STATUSES_PER_PAGE);
-	}
-
-	public List<Status> findStatusesForUser(User user, Integer startPosition, Integer maxResult) {
-		Query query = em.createNamedQuery("Status.findAllForUser");
-		query.setParameter("user", user);
-		if (startPosition != null) {
-			query.setFirstResult(startPosition);
-		}
-		if (maxResult != null) {
-			query.setMaxResults(maxResult);
-		}
-		return query.getResultList();
-	}
-
-	@Transactional
-	public void deleteAllStatuses() {
-		Query query = em.createNamedQuery("Status.deleteAll");
-		query.executeUpdate();
-	}
-
-	@Transactional
-	public void addComment(Comment comment) {
-		logger.debug("Saving comment: " + comment);
-		comment.setCreated(new Date());
-		em.persist(comment);
-		em.flush();
-	}
-
-	public Long countStatusesInGroup(Group group) {
-		Query query = em.createNamedQuery("Status.countStatusesInGroup");
-		query.setParameter("group", group);
-		return (Long) query.getSingleResult();
+	public Long getStatusCountInGroup(Group group) {
+		return statusRepository.countInGroup(group);
 	}
 
 }

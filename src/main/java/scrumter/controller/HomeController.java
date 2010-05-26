@@ -43,7 +43,7 @@ public class HomeController {
 //			mav.setView(new RedirectView("/login", true));
 		} else {
 			mav.setViewName("users/home");
-			List<Status> statuses = statusService.findStatusesForUser(currentUser, page);
+			List<Status> statuses = statusService.getAllowedStatuses(currentUser, page);
 			mav.addObject("statuses", statuses);
 			mav.addObject("page", page);
 			mav.addObject("user", currentUser);

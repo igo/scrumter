@@ -59,7 +59,7 @@ public class NotificationListPreparer extends ViewPreparerSupport {
 					User user = userService.findUserById(Long.parseLong(metaData.getValue()));
 					params.put("user", user);
 				} else if ("status".equals(metaData.getKey())) {
-					Status status = statusService.findStatusById(Long.parseLong(metaData.getValue()));
+					Status status = statusService.getStatusById(Long.parseLong(metaData.getValue()));
 					params.put("status", status);
 				} else {
 					params.put(metaData.getKey(), metaData.getValue());

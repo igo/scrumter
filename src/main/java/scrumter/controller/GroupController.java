@@ -48,7 +48,7 @@ public class GroupController {
 			logger.debug("Counting members");
 			params.put("members", groupService.getGroupMembersCount(group).toString());
 			logger.debug("Counting statuses");
-			params.put("statuses", statusService.countStatusesInGroup(group).toString());
+			params.put("statuses", statusService.getStatusCountInGroup(group).toString());
 			out.put(group, params);
 		}
 		return out;
@@ -76,7 +76,7 @@ public class GroupController {
 		if (!user.getMembership().contains(group)) {
 			throw new AuthorizationServiceException("Not a member of this group");
 		}
-		List<Status> statuses = statusService.findStatusesByGroup(group, page);
+		List<Status> statuses = statusService.getStatusesInGroup(group, page);
 		ModelAndView mav = new ModelAndView("group/home");
 		mav.addObject("group", group);
 		mav.addObject("statuses", statuses);
@@ -123,7 +123,7 @@ public class GroupController {
 		if (!user.getMembership().contains(group)) {
 			throw new AuthorizationServiceException("Not a member of this group");
 		}
-		List<Status> statuses = statusService.findStatusesByGroup(group, page);
+		List<Status> statuses = statusService.getStatusesInGroup(group, page);
 		logger.info("Statuses: " + statuses);
 		ModelAndView mav = new ModelAndView("project/home");
 		mav.addObject("group", group);
