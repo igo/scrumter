@@ -20,9 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cascade;
 
 @Entity
-@NamedQueries(value = {
-		@NamedQuery(name = "Notification.findAllByOwner", query = "SELECT n FROM Notification n WHERE n.owner = :owner ORDER BY n.created"),
-		@NamedQuery(name = "Notification.delete", query = "DELETE FROM Notification n WHERE n = :notification") })
+@NamedQueries(value = { @NamedQuery(name = "Notification.findAllByOwner", query = "SELECT n FROM Notification n WHERE n.owner = :owner ORDER BY n.created") })
 public class Notification {
 
 	@Id

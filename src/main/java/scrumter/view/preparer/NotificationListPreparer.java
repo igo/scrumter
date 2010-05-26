@@ -47,7 +47,7 @@ public class NotificationListPreparer extends ViewPreparerSupport {
 		logger.debug("Searching current user and groups count");
 		User currentUser = securityService.getCurrentUser();
 		attributeContext.putAttribute("currentUser", new Attribute(currentUser));
-		List<Notification> notifications = notificationService.findNotificationsForUser(currentUser);
+		List<Notification> notifications = notificationService.getNotifications(currentUser);
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		for (Notification notification : notifications) {
 			Set<MetaData> meta = notification.getMeta();

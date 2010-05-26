@@ -30,11 +30,11 @@ public class NotificationController {
 	@Transactional
 	public ModelAndView dismiss(Long id) {
 		User currentUser = securityService.getCurrentUser();
-		Notification notification = notificationService.findNotificationById(id);
+		Notification notification = notificationService.getNotificationById(id);
 		if (!notification.getOwner().equals(currentUser)) {
 			throw new AuthorizationServiceException("Not your notification!");
 		}
-		notificationService.dismiss(notification);
+		notificationService.dismissNotification(notification);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("success", true);
 		return mav;
@@ -44,7 +44,7 @@ public class NotificationController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ModelAndView dismissAll() {
 		User currentUser = securityService.getCurrentUser();
-		notificationService.dismissAllForUser(currentUser);
+		notificationService.dismissNotifications(currentUser);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("success", true);
 		return mav;

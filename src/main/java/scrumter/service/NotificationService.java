@@ -5,46 +5,40 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.entity.Comment;
-import scrumter.model.entity.MetaData;
 import scrumter.model.entity.Notification;
 import scrumter.model.entity.Status;
 import scrumter.model.entity.User;
+import scrumter.model.repository.NotificationRepository;
 
 @Service
 public class NotificationService {
 
 	private Logger logger = Logger.getLogger(NotificationService.class);
 
-	@PersistenceContext
-	EntityManager em;
-
 	@Autowired
-	private SecurityService securityService; 
+	private NotificationRepository notificationRepository;
 
-	public void addCommentNotification(Status status, User author) {
-		// get current user who will not receive notification
-		User currentUser = securityService.getCurrentUser();
+	public void addNotification(Notification notification) {
+		notification.setCreated(new Date());
+		notificationRepository.create(notification);
+	}
 
+	public void addCommentNotification(Status status, User commentAuthor) {
 		// create list of notified user to prevent multiple notifications
 		Set<User> notifiedUsers = new HashSet<User>();
-		
+
 		// add notification to all who also commented
 		List<Comment> comments = status.getComments();
 		for (Comment comment : comments) {
 			User user = comment.getAuthor();
-			if (!user.equals(currentUser) && !notifiedUsers.contains(user)) {
+			if (!notifiedUsers.contains(user)) {
 				Notification notification = new Notification("comment", comment.getAuthor());
-				notification.addMeta("user", author.getId().toString());
+				notification.addMeta("user", commentAuthor.getId().toString());
 				notification.addMeta("status", status.getId().toString());
 				addNotification(notification);
 				notifiedUsers.add(comment.getAuthor());
@@ -52,58 +46,32 @@ public class NotificationService {
 		}
 
 		// add notification to status author
-		if (!status.getAuthor().equals(currentUser) && !notifiedUsers.contains(status.getAuthor())) {
+		if (!notifiedUsers.contains(status.getAuthor())) {
 			Notification notification = new Notification("comment", status.getAuthor());
-			notification.addMeta("user", author.getId().toString());
+			notification.addMeta("user", commentAuthor.getId().toString());
 			notification.addMeta("status", status.getId().toString());
 			addNotification(notification);
 			notifiedUsers.add(status.getAuthor());
 		}
 	}
 
-	@Transactional
-	public void addNotification(Notification notification) {
-		logger.debug("Adding notification: " + notification);
-		notification.setCreated(new Date());
-		for (MetaData meta : notification.getMeta()) {
-			em.persist(meta);
-		}
-		em.persist(notification);
-		em.flush();
+	public Notification getNotificationById(Long id) {
+		return notificationRepository.findById(id);
 	}
 
-	public Notification findNotificationById(Long id) {
-		return em.find(Notification.class, id);
+	public List<Notification> getNotifications(User owner) {
+		return notificationRepository.findAllByOwner(owner);
 	}
 
-	public List<Notification> findNotificationsForUser(User owner) {
-		Query query = em.createNamedQuery("Notification.findAllByOwner");
-		query.setParameter("owner", owner);
-		return query.getResultList();
+	public void dismissNotification(Notification notification) {
+		notificationRepository.delete(notification);
 	}
 
-	@Transactional
-	public int dismiss(Notification notification) {
-		Set<MetaData> metas = notification.getMeta();
-		for (MetaData meta : metas) {
-			em.remove(meta);
-		}
-		notification.getMeta().clear();
-		em.merge(notification);
-		em.flush();
-		Query query = em.createNamedQuery("Notification.delete");
-		query.setParameter("notification", notification);
-		return query.executeUpdate();
-	}
-
-	@Transactional
-	public int dismissAllForUser(User user) {
-		List<Notification> notifications = findNotificationsForUser(user);
-		int count = 0;
+	public void dismissNotifications(User user) {
+		List<Notification> notifications = getNotifications(user);
 		for (Notification notification : notifications) {
-			count += dismiss(notification);
+			dismissNotification(notification);
 		}
-		return count;
 	}
 
 }
