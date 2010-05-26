@@ -46,7 +46,7 @@ public class GroupController {
 		for (Group group : groups) {
 			Map<String, String> params = new HashMap<String, String>();
 			logger.debug("Counting members");
-			params.put("members", groupService.countMembers(group).toString());
+			params.put("members", groupService.getGroupMembersCount(group).toString());
 			logger.debug("Counting statuses");
 			params.put("statuses", statusService.countStatusesInGroup(group).toString());
 			out.put(group, params);
@@ -60,7 +60,7 @@ public class GroupController {
 		User user = securityService.getCurrentUser();
 		logger.info("Show groups for " + user);
 		ModelAndView mav = new ModelAndView("group/list");
-		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PUBLIC);
+		List<Group> groups = groupService.getGroupsForUser(user, GroupType.PUBLIC);
 		mav.addObject("user", user);
 		mav.addObject("groups", groups);
 		mav.addObject("groupsStats", getGroupsStatistics(groups));
@@ -71,7 +71,7 @@ public class GroupController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional(readOnly = true)
 	public ModelAndView showGroup(@PathVariable String groupLink, @RequestParam(defaultValue = "1") Integer page) {
-		Group group = groupService.findGroupByLink(groupLink);
+		Group group = groupService.getGroupByLink(groupLink);
 		User user = securityService.getCurrentUser();
 		if (!user.getMembership().contains(group)) {
 			throw new AuthorizationServiceException("Not a member of this group");
@@ -88,7 +88,7 @@ public class GroupController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional(readOnly = true)
 	public ModelAndView showGroupMembers(@PathVariable String groupLink) {
-		Group group = groupService.findGroupByLink(groupLink);
+		Group group = groupService.getGroupByLink(groupLink);
 		// lazy load TODO: fix
 		group.getMembers().toString();
 		User user = securityService.getCurrentUser();
@@ -107,7 +107,7 @@ public class GroupController {
 		User user = securityService.getCurrentUser();
 		logger.info("Show projects for " + user);
 		ModelAndView mav = new ModelAndView("project/list");
-		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PROJECT);
+		List<Group> groups = groupService.getGroupsForUser(user, GroupType.PROJECT);
 		mav.addObject("user", user);
 		mav.addObject("groups", groups);
 		mav.addObject("groupsStats", getGroupsStatistics(groups));
@@ -118,7 +118,7 @@ public class GroupController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional(readOnly = true)
 	public ModelAndView showProject(@PathVariable String groupLink, @RequestParam(defaultValue = "1") Integer page) {
-		Group group = groupService.findGroupByLink(groupLink);
+		Group group = groupService.getGroupByLink(groupLink);
 		User user = securityService.getCurrentUser();
 		if (!user.getMembership().contains(group)) {
 			throw new AuthorizationServiceException("Not a member of this group");
@@ -136,7 +136,7 @@ public class GroupController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional(readOnly = true)
 	public ModelAndView showProjectMembers(@PathVariable String groupLink) {
-		Group group = groupService.findGroupByLink(groupLink);
+		Group group = groupService.getGroupByLink(groupLink);
 		// lazy load TODO: fix
 		group.getMembers().toString();
 		User user = securityService.getCurrentUser();

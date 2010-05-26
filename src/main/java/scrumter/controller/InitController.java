@@ -137,10 +137,8 @@ public class InitController {
 		User user = userService.findUserByEmail("bruce.willis@holywood.com");
 		logger.debug("User found by email bruce.willis@holywood.com: " + user);
 
-		List<Group> groups = groupService.findAllGroups();
+		List<Group> groups = groupService.getGroups();
 		logger.debug(groups);
-		user = userService.findUserByEmail("barack.obama@whitehouse.com");
-		logger.debug("Membership: " + groupService.findGroupsByMember(user));
 	}
 
 }

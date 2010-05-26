@@ -18,26 +18,26 @@ import scrumter.service.GroupService;
 import scrumter.service.SecurityService;
 
 public class UserMembershipPreparer extends ViewPreparerSupport {
-	
+
 	private Logger logger = Logger.getLogger(UserMembershipPreparer.class);
-	
+
 	@Autowired
 	private GroupService groupService;
-	
+
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@Override
-	@Transactional(readOnly=true)
-	public void execute(TilesRequestContext tilesContext,
-			AttributeContext attributeContext) throws PreparerException {
+	@Transactional(readOnly = true)
+	public void execute(TilesRequestContext tilesContext, AttributeContext attributeContext) throws PreparerException {
 		logger.debug("Searching current user and membership");
 		User user = securityService.getCurrentUser();
-		List<Group> groups = groupService.findGroupsByMemberAndType(user, GroupType.PUBLIC);
+
+		List<Group> groups = groupService.getGroupsForUser(user, GroupType.PUBLIC);
 		attributeContext.putAttribute("groups", new Attribute(groups));
-		List<Group> projects = groupService.findGroupsByMemberAndType(user, GroupType.PROJECT);
+
+		List<Group> projects = groupService.getGroupsForUser(user, GroupType.PROJECT);
 		attributeContext.putAttribute("projects", new Attribute(projects));
-		logger.debug(groups);
 	}
 
 }

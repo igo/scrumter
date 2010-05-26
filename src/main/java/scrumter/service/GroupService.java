@@ -2,85 +2,49 @@ package scrumter.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.entity.Group;
 import scrumter.model.entity.User;
 import scrumter.model.entity.Group.GroupType;
+import scrumter.model.repository.GroupRepository;
 
 @Service
 public class GroupService {
 
 	private Logger logger = Logger.getLogger(GroupService.class);
 
-	@PersistenceContext
-	EntityManager em;
+	@Autowired
+	private GroupRepository groupRepository;
 
-	@Transactional
 	public void addGroup(Group group) {
-		logger.info("Adding group: " + group);
-		em.persist(group);
+		groupRepository.create(group);
 	}
 
-	@Transactional
-	public void saveGroup(Group group) {
-		logger.info("Saving group: " + group);
-		em.merge(group);
+	public void updateGroup(Group group) {
+		groupRepository.update(group);
 	}
 
-	@Transactional
-	public void deleteAllGroups() {
-		Query query = em.createNamedQuery("Group.deleteAll");
-		query.executeUpdate();
+	public Group getGroupById(Long id) {
+		return groupRepository.findById(id);
 	}
 
-	public Group findGroupById(Long id) {
-		Query query = em.createNamedQuery("Group.findById");
-		query.setParameter("id", id);
-		return (Group) query.getSingleResult();
+	public Group getGroupByLink(String link) {
+		return groupRepository.findByLink(link);
 	}
 
-	public Group findGroupByLink(String link) {
-		Query query = em.createNamedQuery("Group.findByLink");
-		query.setParameter("link", link);
-		return (Group) query.getSingleResult();
+	public List<Group> getGroups() {
+		return groupRepository.findAll();
 	}
 
-	public List<Group> findAllGroups() {
-		Query query = em.createNamedQuery("Group.findAll");
-		return query.getResultList();
+	public List<Group> getGroupsForUser(User user, GroupType groupType) {
+		return groupRepository.findAllByMemberAndType(user, groupType);
 	}
 
-	public List<Group> findGroupsByMember(User user) {
-		Query query = em.createNamedQuery("Group.findAllByMember");
-		query.setParameter("user", user);
-		return query.getResultList();
-	}
-
-	public List<Group> findGroupsByMemberAndType(User user, GroupType type) {
-		Query query = em.createNamedQuery("Group.findAllByMemberAndType");
-		query.setParameter("user", user);
-		query.setParameter("type", type);
-		return query.getResultList();
-	}
-
-	public Long countGroupsByTypeAndUser(GroupType type, User user) {
-		Query query = em.createNamedQuery("Group.countByTypeAndUser");
-		query.setParameter("type", type);
-		query.setParameter("user", user);
-		return (Long) query.getSingleResult();
-	}
-
-	public Long countMembers(Group group) {
-		Query query = em.createNamedQuery("Group.countMembers");
-		query.setParameter("group", group);
-		return (Long) query.getSingleResult();
+	public Long getGroupMembersCount(Group group) {
+		return groupRepository.countMembers(group);
 	}
 
 }

@@ -15,7 +15,7 @@
 	<definition name="template/anonymous" template="/WEB-INF/templates/anonymous.jsp">
 	</definition>
 
-	<definition name="menu/home" template="/WEB-INF/views/menu/home.jsp" preparer="homeMenuPreparer" />
+	<definition name="menu/home" template="/WEB-INF/views/menu/home.jsp" preparer="userMembershipPreparer" />
 	<definition name="profile/menu" template="/WEB-INF/views/profile/menu.jsp" />
 
 	<definition name="status/addForm" template="/WEB-INF/views/status/addForm.jsp" preparer="userMembershipPreparer">
@@ -34,8 +34,6 @@
 	<definition name="notification/list" template="/WEB-INF/views/notification/list.jsp" preparer="notificationListPreparer" />
 	<definition name="notification/detail" template="/WEB-INF/views/notification/detail.jsp" />
 
-	<definition name="group/countList" template="/WEB-INF/views/group/countList.jsp" preparer="groupsCountPreparer">
-	</definition>
 	<definition name="group/home" extends="template/default">
 		<put-attribute name="body" value="/WEB-INF/views/group/home.jsp" cascade="true" />
 	</definition>

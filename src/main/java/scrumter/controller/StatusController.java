@@ -49,7 +49,7 @@ public class StatusController {
 		}
 		Set<Group> statusGroups = new HashSet<Group>();
 		for (Long allowedGroup : allowedGroups) {
-			Group group = groupService.findGroupById(allowedGroup);
+			Group group = groupService.getGroupById(allowedGroup);
 			// if current user is member of group
 			if (group.getMembers().contains(currentUser)) {
 				statusGroups.add(group);
