@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,6 @@ import scrumter.model.ajax.AjaxResponse;
 import scrumter.model.entity.User;
 import scrumter.service.LocalizationService;
 import scrumter.service.SecurityService;
-import scrumter.service.StatusService;
 import scrumter.service.UserService;
 
 @Controller
@@ -30,17 +30,13 @@ public class ProfileController {
 	private Logger logger = Logger.getLogger(ProfileController.class);
 
 	@Autowired
-	private StatusService statusService;
-
-	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@Autowired
 	private LocalizationService localizationService;
-	
 
 	@RequestMapping(value = "/profile")
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -70,6 +66,31 @@ public class ProfileController {
 		User user = securityService.getCurrentUser();
 		mav.addObject("user", user);
 		return mav;
+	}
+
+	@RequestMapping(value = "/profile/email-notifications")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ModelAndView showEmailNotifications() {
+		logger.info("Showing email notifications");
+		ModelAndView mav = new ModelAndView("profile/email-notifications");
+		User user = securityService.getCurrentUser();
+		mav.addObject("user", user);
+		return mav;
+	}
+
+	@RequestMapping(value = "/api/profile/email-notifications", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Transactional
+	public ModelMap changeEmailNotifications(@RequestParam(defaultValue = "false") boolean emailGroupMembershipChange,
+			@RequestParam(defaultValue = "false") boolean emailStatus, @RequestParam(defaultValue = "false") boolean emailCommentOnStatus,
+			@RequestParam(defaultValue = "false") boolean emailCommentOnOwnStatus) {
+		logger.info("Changing email notifications");
+		ModelMap model = new ModelMap();
+		User user = securityService.getCurrentUser();
+		userService.changeEmailNotifications(user, emailGroupMembershipChange, emailStatus, emailCommentOnStatus, emailCommentOnOwnStatus);
+		model.addAttribute("success", true);
+		model.addAttribute("message", localizationService.getMessage("user.profile.emailNotifications.changed"));
+		return model;
 	}
 
 	@RequestMapping(value = "/api/profile/change-password", method = RequestMethod.POST)
@@ -108,15 +129,13 @@ public class ProfileController {
 
 	@RequestMapping(value = "/api/profile/picture")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public void getPicture(@RequestParam String company, @RequestParam String username, OutputStream outputStream,
-			HttpServletRequest request) {
+	public void getPicture(@RequestParam String company, @RequestParam String username, OutputStream outputStream, HttpServletRequest request) {
 		User user = userService.findUserByUsernameAndCompany(username, company);
 		try {
 			if (user.getPicture() != null) {
 				outputStream.write(user.getPicture());
 			} else {
-				InputStream stream = request.getSession().getServletContext().getResourceAsStream(
-						"/WEB-INF/resources/images/user-male.png");
+				InputStream stream = request.getSession().getServletContext().getResourceAsStream("/WEB-INF/resources/images/user-male.png");
 				// InputStream stream =
 				// getClass().getResourceAsStream("/WEB-INF/resources/images/user-male.png");
 				logger.debug("Default image: " + stream);

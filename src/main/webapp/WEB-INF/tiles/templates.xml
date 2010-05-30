@@ -70,6 +70,9 @@
 	<definition name="profile/change-password" extends="template/profile">
 		<put-attribute name="body" value="/WEB-INF/views/profile/changePassword.jsp" cascade="true" />
 	</definition>
+	<definition name="profile/email-notifications" extends="template/profile">
+		<put-attribute name="body" value="/WEB-INF/views/profile/emailNotifications.jsp" cascade="true" />
+	</definition>
 
 
 	<definition name="company" extends="template/default">

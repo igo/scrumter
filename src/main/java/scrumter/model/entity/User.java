@@ -102,11 +102,11 @@ public class User {
 
 	@NotNull
 	@Column(nullable = false)
-	private Boolean emailStatusInGroup = true;
+	private Boolean emailStatus = true;
 
 	@NotNull
 	@Column(nullable = false)
-	private Boolean emailCommentOnGroupStatus = true;
+	private Boolean emailCommentOnStatus = true;
 
 	@NotNull
 	@Column(nullable = false)
@@ -266,20 +266,20 @@ public class User {
 		this.emailGroupMembershipChange = emailGroupMembershipChange;
 	}
 
-	public Boolean getEmailStatusInGroup() {
-		return emailStatusInGroup;
+	public Boolean getEmailStatus() {
+		return emailStatus;
 	}
 
-	public void setEmailStatusInGroup(Boolean emailStatusInGroup) {
-		this.emailStatusInGroup = emailStatusInGroup;
+	public void setEmailStatus(Boolean emailStatus) {
+		this.emailStatus = emailStatus;
 	}
 
-	public Boolean getEmailCommentOnGroupStatus() {
-		return emailCommentOnGroupStatus;
+	public Boolean getEmailCommentOnStatus() {
+		return emailCommentOnStatus;
 	}
 
-	public void setEmailCommentOnGroupStatus(Boolean emailCommentOnGroupStatus) {
-		this.emailCommentOnGroupStatus = emailCommentOnGroupStatus;
+	public void setEmailCommentOnStatus(Boolean emailCommentOnStatus) {
+		this.emailCommentOnStatus = emailCommentOnStatus;
 	}
 
 	public Boolean getEmailCommentOnOwnStatus() {

@@ -53,6 +53,18 @@ public class UserService {
 		return userRepository.findAllByCompany(company);
 	}
 
+	public void changeEmailNotifications(User user, boolean emailGroupMembershipChange, boolean emailStatus, boolean emailCommentOnStatus,
+			boolean emailCommentOnOwnStatus) {
+		logger.info("Changing email notifications: user=" + user + "; emailGroupMembershipChange=" + emailGroupMembershipChange + "; emailStatus="
+				+ emailStatus + "; emailCommentOnStatus=" + emailCommentOnStatus + "; emailCommentOnOwnStatus=" + emailCommentOnOwnStatus);
+		userRepository.refresh(user);
+		user.setEmailCommentOnOwnStatus(emailCommentOnOwnStatus);
+		user.setEmailCommentOnStatus(emailCommentOnStatus);
+		user.setEmailStatus(emailStatus);
+		user.setEmailGroupMembershipChange(emailGroupMembershipChange);
+		userRepository.update(user);
+	}
+
 	public void changePassword(User user, String password) {
 		logger.info("Changing password for user: " + user);
 		userRepository.refresh(user);
