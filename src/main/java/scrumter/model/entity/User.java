@@ -17,19 +17,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@NamedQueries(value = {
-		@NamedQuery(name = "User.findAllExcept", query = "SELECT u FROM User u WHERE u <> :user"),
+@NamedQueries(value = { @NamedQuery(name = "User.findAllExcept", query = "SELECT u FROM User u WHERE u <> :user"),
 		@NamedQuery(name = "User.findByFrom", query = "SELECT m FROM User m"),
 		@NamedQuery(name = "User.findByCompany", query = "SELECT u FROM User u WHERE u.company = :company"),
 		@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
@@ -37,39 +34,36 @@ import org.hibernate.validator.constraints.Length;
 		@NamedQuery(name = "User.deleteAll", query = "DELETE FROM User u") })
 public class User {
 
-	@Transient
-	private Logger logger = Logger.getLogger(User.class);
-
 	@Id
 	@GeneratedValue
-	@Column
+	@Column(nullable = false)
 	private Long id;
 
 	@NotNull
 	@Length(min = 3, max = 24)
-	@Column
+	@Column(nullable = false)
 	private String username;
 
 	@NotNull
 	@Length(min = 3, max = 24)
-	@Column
+	@Column(nullable = false)
 	private String company;
 
 	@NotNull
 	@Pattern(regexp = ".+@.+\\..+")
 	@Length(min = 5, max = 40)
-	@Column
+	@Column(nullable = false)
 	private String email;
 
 	@JsonIgnore
 	@XmlTransient
 	@NotNull
-	@Column
+	@Column(nullable = false)
 	private String password;
 
 	@NotNull
 	@Length(min = 2, max = 24)
-	@Column
+	@Column(nullable = false)
 	private String firstName;
 
 	@Length(min = 2, max = 24)
@@ -78,7 +72,7 @@ public class User {
 
 	@NotNull
 	@Length(min = 2, max = 24)
-	@Column
+	@Column(nullable = false)
 	private String lastName;
 
 	@Column
@@ -86,13 +80,13 @@ public class User {
 
 	@NotNull
 	@Past
-	@Column
+	@Column(nullable = false)
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date created;
 
 	@NotNull
-	@Column
-	private Boolean locked;
+	@Column(nullable = false)
+	private Boolean locked = false;
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
@@ -101,6 +95,22 @@ public class User {
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] picturePreview;
+
+	@NotNull
+	@Column(nullable = false)
+	private Boolean emailGroupMembershipChange = true;
+
+	@NotNull
+	@Column(nullable = false)
+	private Boolean emailStatusInGroup = true;
+
+	@NotNull
+	@Column(nullable = false)
+	private Boolean emailCommentOnGroupStatus = true;
+
+	@NotNull
+	@Column(nullable = false)
+	private Boolean emailCommentOnOwnStatus = true;
 
 	@ManyToMany
 	private Set<Authority> authorities = new HashSet<Authority>();
@@ -246,6 +256,38 @@ public class User {
 
 	public void setMembership(Set<Group> membership) {
 		this.membership = membership;
+	}
+
+	public Boolean getEmailGroupMembershipChange() {
+		return emailGroupMembershipChange;
+	}
+
+	public void setEmailGroupMembershipChange(Boolean emailGroupMembershipChange) {
+		this.emailGroupMembershipChange = emailGroupMembershipChange;
+	}
+
+	public Boolean getEmailStatusInGroup() {
+		return emailStatusInGroup;
+	}
+
+	public void setEmailStatusInGroup(Boolean emailStatusInGroup) {
+		this.emailStatusInGroup = emailStatusInGroup;
+	}
+
+	public Boolean getEmailCommentOnGroupStatus() {
+		return emailCommentOnGroupStatus;
+	}
+
+	public void setEmailCommentOnGroupStatus(Boolean emailCommentOnGroupStatus) {
+		this.emailCommentOnGroupStatus = emailCommentOnGroupStatus;
+	}
+
+	public Boolean getEmailCommentOnOwnStatus() {
+		return emailCommentOnOwnStatus;
+	}
+
+	public void setEmailCommentOnOwnStatus(Boolean emailCommentOnOwnStatus) {
+		this.emailCommentOnOwnStatus = emailCommentOnOwnStatus;
 	}
 
 	@Override

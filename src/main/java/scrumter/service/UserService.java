@@ -1,5 +1,6 @@
 package scrumter.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -27,6 +28,7 @@ public class UserService {
 	private AuthorityRepository authorityRepository;
 
 	public void addUser(User user) {
+		user.setCreated(new Date());
 		user.setPassword(encodePassword(user.getPassword()));
 		userRepository.create(user);
 	}
