@@ -27,6 +27,7 @@ public class UserService {
 	private AuthorityRepository authorityRepository;
 
 	public void addUser(User user) {
+		user.setPassword(encodePassword(user.getPassword()));
 		userRepository.create(user);
 	}
 
