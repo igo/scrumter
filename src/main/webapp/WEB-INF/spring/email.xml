@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="emailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.developers-blog.org" />
+		<property name="username" value="idontknow" />
+		<property name="password" value="idontknow" />
+	</bean>
+
+	<bean id="emailTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="#{config.email.from}" />
+	</bean>
+
+</beans>

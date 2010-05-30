@@ -22,8 +22,12 @@ public class NotificationService {
 
 	@Autowired
 	private NotificationRepository notificationRepository;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public void addNotification(Notification notification) {
+		emailService.sendEmail(null, "groupMembershipAdd", "skupina");
 		notification.setCreated(new Date());
 		notificationRepository.create(notification);
 	}
