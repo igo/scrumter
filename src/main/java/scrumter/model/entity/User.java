@@ -17,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -224,6 +225,19 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Transient
+	public String getFullName() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(firstName);
+		builder.append(" ");
+		if (middleName != null && middleName.length() > 0) {
+			builder.append(middleName);
+			builder.append(" ");
+		}
+		builder.append(lastName);
+		return builder.toString();
 	}
 
 	public void setPosition(String position) {

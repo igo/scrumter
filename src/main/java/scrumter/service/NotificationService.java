@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import scrumter.model.entity.Comment;
 import scrumter.model.entity.Notification;
@@ -22,41 +23,57 @@ public class NotificationService {
 
 	@Autowired
 	private NotificationRepository notificationRepository;
-	
+
 	@Autowired
 	private EmailService emailService;
 
 	public void addNotification(Notification notification) {
-		emailService.sendEmail(null, "groupMembershipAdd", "skupina");
 		notification.setCreated(new Date());
 		notificationRepository.create(notification);
 	}
 
-	public void addCommentNotification(Status status, User commentAuthor) {
+	public void addCommentNotification(Status status, Comment newComment) {
+		logger.debug("Adding comment " + newComment + " notification on status " + status);
+		User commentAuthor = newComment.getAuthor();
+		User statusAuthor = status.getAuthor();
 		// create list of notified user to prevent multiple notifications
 		Set<User> notifiedUsers = new HashSet<User>();
 
+		// add notification to status author
+		if (!statusAuthor.equals(commentAuthor)) {
+			Notification notification = new Notification("comment", statusAuthor);
+			notification.addMeta("user", commentAuthor.getId().toString());
+			notification.addMeta("status", status.getId().toString());
+			addNotification(notification);
+			notifiedUsers.add(statusAuthor);
+			if (statusAuthor.getEmailCommentOnOwnStatus() || statusAuthor.getEmailCommentOnStatus()) {
+				// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - comment, 6 - comment author
+				emailService.sendEmailFromTemplate(statusAuthor, "notification.ownStatusComment", status.getStatus(), status.getId().toString(), statusAuthor
+						.getUsername(), statusAuthor.getCompany(), newComment.getComment(), commentAuthor.getFullName());
+			}
+		}
+
 		// add notification to all who also commented
+		Set<User> emailUsers = new HashSet<User>();
 		List<Comment> comments = status.getComments();
 		for (Comment comment : comments) {
 			User user = comment.getAuthor();
-			if (!notifiedUsers.contains(user)) {
+			if (!notifiedUsers.contains(user) && !user.equals(commentAuthor) && !user.equals(statusAuthor)) {
 				Notification notification = new Notification("comment", comment.getAuthor());
 				notification.addMeta("user", commentAuthor.getId().toString());
 				notification.addMeta("status", status.getId().toString());
 				addNotification(notification);
 				notifiedUsers.add(comment.getAuthor());
+				if (user.getEmailCommentOnStatus()) {
+					emailUsers.add(user);
+				}
 			}
 		}
 
-		// add notification to status author
-		if (!notifiedUsers.contains(status.getAuthor())) {
-			Notification notification = new Notification("comment", status.getAuthor());
-			notification.addMeta("user", commentAuthor.getId().toString());
-			notification.addMeta("status", status.getId().toString());
-			addNotification(notification);
-			notifiedUsers.add(status.getAuthor());
-		}
+		// exclude status author because he already received notification email
+		// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - comment, 6 - status author, 7 - comment author
+		emailService.sendEmailsFromTemplate(emailUsers, "notification.statusComment", status.getStatus(), status.getId().toString(),
+				statusAuthor.getUsername(), statusAuthor.getCompany(), newComment.getComment(), statusAuthor.getFullName(), commentAuthor.getFullName());
 	}
 
 	public Notification getNotificationById(Long id) {
@@ -71,6 +88,7 @@ public class NotificationService {
 		notificationRepository.delete(notification);
 	}
 
+	@Transactional
 	public void dismissNotifications(User user) {
 		List<Notification> notifications = getNotifications(user);
 		for (Notification notification : notifications) {

@@ -2,6 +2,7 @@ package scrumter.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import scrumter.model.entity.User;
@@ -22,25 +24,58 @@ public class EmailService {
 	private MailSender emailSender;
 
 	@Autowired
-	private SimpleMailMessage emailTemplate;
-	
-	@Autowired
 	private LocalizationService localizationService;
 
-	@Value(value = "#{config.url}")
+	@Value(value = "#{config['url']}")
 	private String url;
 
-	public void sendEmail(User[] users, String templateName, String... args) {
-		List<String> list = Arrays.asList(args);
-		list.add(0, url);
-		String message = localizationService.getMessage("notification.email." + templateName + ".subject", args);
-		logger.info("message: " + message);
-		logger.info(emailSender);
-		logger.info(emailTemplate.getFrom());
+	@Value(value = "#{config['email.from']}")
+	private String from;
+
+	@Value(value = "#{config['email.enabled']}")
+	private boolean emailEnabled;
+
+	@Async
+	public void sendEmailFromTemplate(User to, String templateName, String... args) {
+		List<User> users = Arrays.asList(to);
+		sendEmailsFromTemplate(users, templateName, args);
 	}
 
-	public void sendEmail(User[] users) {
-		
+	@Async
+	public void sendEmailsFromTemplate(Collection<User> to, String templateName, String... args) {
+		logger.info("Sending email from template " + templateName + " to " + to);
+		List<String> tmpList = Arrays.asList(args);
+		List<String> list = new ArrayList<String>(tmpList);
+		list.add(0, url);
+		Object[] argsWithUrl = list.toArray();
+		String subject = localizationService.getMessage("email." + templateName + ".subject", argsWithUrl);
+		String message = localizationService.getMessage("email." + templateName + ".message", argsWithUrl);
+		message = localizationService.getMessage("email.template", url, message);
+		sendEmails(to, subject, message);
 	}
-	
+
+	private void sendEmails(Collection<User> to, String subject, String message) {
+		for (User user : to) {
+			sendEmail(user.getEmail(), subject, message);
+		}
+	}
+
+	private void sendEmail(String to, String subject, String message) {
+		if (emailEnabled) {
+			SimpleMailMessage emailTemplate = new SimpleMailMessage();
+			emailTemplate.setFrom(from);
+			emailTemplate.setSubject(subject);
+			emailTemplate.setText(message);
+			emailTemplate.setTo(to);
+			logger.info("Sending e-mail to " + to);
+			try {
+				emailSender.send(emailTemplate);
+			} catch (Exception e) {
+				logger.error("Error during sending e-mail", e);
+			}
+		} else {
+			logger.info("E-mail support disabled. Sending e-mail to " + to + " skipped");
+		}
+	}
+
 }

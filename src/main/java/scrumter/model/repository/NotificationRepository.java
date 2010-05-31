@@ -38,7 +38,7 @@ public class NotificationRepository {
 
 	@Transactional
 	public void delete(Notification notification) {
-		logger.info("Deleting notification: " + notification);
+		logger.debug("Deleting notification: " + notification);
 		Set<MetaData> metas = notification.getMeta();
 		for (MetaData meta : metas) {
 			metaDataRepository.delete(meta);

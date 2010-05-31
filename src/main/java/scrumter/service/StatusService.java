@@ -43,7 +43,7 @@ public class StatusService {
 		Comment c = new Comment(author, comment);
 		status.getComments().add(c);
 		updateStatus(status);
-		notificationService.addCommentNotification(status, author);
+		notificationService.addCommentNotification(status, c);
 		return c;
 	}
 

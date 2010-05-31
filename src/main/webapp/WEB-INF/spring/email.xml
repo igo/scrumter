@@ -4,13 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="emailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.developers-blog.org" />
-		<property name="username" value="idontknow" />
-		<property name="password" value="idontknow" />
-	</bean>
-
-	<bean id="emailTemplate" class="org.springframework.mail.SimpleMailMessage">
-		<property name="from" value="#{config.email.from}" />
+		<property name="host" value="#{config['email.host']}" />
+		<property name="port" value="#{config['email.port']}" />
+		<property name="protocol" value="#{config['email.protocol']}" />
+		<property name="username" value="#{config['email.username']}" />
+		<property name="password" value="#{config['email.password']}" />
+		<property name="javaMailProperties">
+			<props>
+				<!-- Use SMTP-AUTH to authenticate to SMTP server -->
+				<prop key="mail.smtps.auth">#{config['email.auth']}</prop>
+				<!-- Use TLS to encrypt communication with SMTP server -->
+				<prop key="mail.smtps.starttls.enable">#{config['email.starttls']}</prop>
+				<prop key="mail.debug">#{config['email.debug']}</prop>
+			</props>
+		</property>
 	</bean>
 
 </beans>
