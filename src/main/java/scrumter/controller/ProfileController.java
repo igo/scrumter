@@ -83,11 +83,12 @@ public class ProfileController {
 	@Transactional
 	public ModelMap changeEmailNotifications(@RequestParam(defaultValue = "false") boolean emailGroupMembershipChange,
 			@RequestParam(defaultValue = "false") boolean emailStatus, @RequestParam(defaultValue = "false") boolean emailCommentOnStatus,
-			@RequestParam(defaultValue = "false") boolean emailCommentOnOwnStatus) {
+			@RequestParam(defaultValue = "false") boolean emailCommentOnOwnStatus, @RequestParam(defaultValue = "false") boolean emailCommentOnTouchedStatus) {
 		logger.info("Changing email notifications");
 		ModelMap model = new ModelMap();
 		User user = securityService.getCurrentUser();
-		userService.changeEmailNotifications(user, emailGroupMembershipChange, emailStatus, emailCommentOnStatus, emailCommentOnOwnStatus);
+		userService.changeEmailNotifications(user, emailGroupMembershipChange, emailStatus, emailCommentOnStatus, emailCommentOnOwnStatus,
+				emailCommentOnTouchedStatus);
 		model.addAttribute("success", true);
 		model.addAttribute("message", localizationService.getMessage("user.profile.emailNotifications.changed"));
 		return model;

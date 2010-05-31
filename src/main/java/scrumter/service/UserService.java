@@ -54,11 +54,12 @@ public class UserService {
 	}
 
 	public void changeEmailNotifications(User user, boolean emailGroupMembershipChange, boolean emailStatus, boolean emailCommentOnStatus,
-			boolean emailCommentOnOwnStatus) {
+			boolean emailCommentOnOwnStatus, boolean emailCommentOnTouchedStatus) {
 		logger.info("Changing email notifications: user=" + user + "; emailGroupMembershipChange=" + emailGroupMembershipChange + "; emailStatus="
 				+ emailStatus + "; emailCommentOnStatus=" + emailCommentOnStatus + "; emailCommentOnOwnStatus=" + emailCommentOnOwnStatus);
 		userRepository.refresh(user);
 		user.setEmailCommentOnOwnStatus(emailCommentOnOwnStatus);
+		user.setEmailCommentOnTouchedStatus(emailCommentOnTouchedStatus);
 		user.setEmailCommentOnStatus(emailCommentOnStatus);
 		user.setEmailStatus(emailStatus);
 		user.setEmailGroupMembershipChange(emailGroupMembershipChange);

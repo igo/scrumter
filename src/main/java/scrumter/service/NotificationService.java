@@ -46,7 +46,19 @@ public class NotificationService {
 			notification.addMeta("status", status.getId().toString());
 			addNotification(notification);
 			notifiedUsers.add(statusAuthor);
-			if (statusAuthor.getEmailCommentOnOwnStatus() || statusAuthor.getEmailCommentOnStatus()) {
+			boolean sendEmailToStatusAuthor = statusAuthor.getEmailCommentOnOwnStatus();
+			// check if status author also commented status and want be e-mailed
+			if (!sendEmailToStatusAuthor && statusAuthor.getEmailCommentOnTouchedStatus()) {
+				List<Comment> comments = status.getComments();
+				for (Comment comment : comments) {
+					if (comment.getAuthor().equals(statusAuthor)) {
+						sendEmailToStatusAuthor = true;
+						break;
+					}
+				}
+			}
+			// send e-mail to status author if he asked for it
+			if (sendEmailToStatusAuthor) {
 				// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - comment, 6 - comment author
 				emailService.sendEmailFromTemplate(statusAuthor, "notification.ownStatusComment", status.getStatus(), status.getId().toString(), statusAuthor
 						.getUsername(), statusAuthor.getCompany(), newComment.getComment(), commentAuthor.getFullName());
@@ -64,16 +76,17 @@ public class NotificationService {
 				notification.addMeta("status", status.getId().toString());
 				addNotification(notification);
 				notifiedUsers.add(comment.getAuthor());
-				if (user.getEmailCommentOnStatus()) {
+				if (user.getEmailCommentOnTouchedStatus()) {
 					emailUsers.add(user);
 				}
 			}
 		}
 
-		// exclude status author because he already received notification email
-		// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - comment, 6 - status author, 7 - comment author
-		emailService.sendEmailsFromTemplate(emailUsers, "notification.statusComment", status.getStatus(), status.getId().toString(),
-				statusAuthor.getUsername(), statusAuthor.getCompany(), newComment.getComment(), statusAuthor.getFullName(), commentAuthor.getFullName());
+		if (emailUsers.size() > 0) {
+			// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - comment, 6 - status author, 7 - comment author
+			emailService.sendEmailsFromTemplate(emailUsers, "notification.statusComment", status.getStatus(), status.getId().toString(), statusAuthor
+					.getUsername(), statusAuthor.getCompany(), newComment.getComment(), statusAuthor.getFullName(), commentAuthor.getFullName());
+		}
 	}
 
 	public Notification getNotificationById(Long id) {

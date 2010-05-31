@@ -111,6 +111,10 @@ public class User {
 
 	@NotNull
 	@Column(nullable = false)
+	private Boolean emailCommentOnTouchedStatus = true;
+
+	@NotNull
+	@Column(nullable = false)
 	private Boolean emailCommentOnOwnStatus = true;
 
 	@ManyToMany
@@ -294,6 +298,14 @@ public class User {
 
 	public void setEmailCommentOnStatus(Boolean emailCommentOnStatus) {
 		this.emailCommentOnStatus = emailCommentOnStatus;
+	}
+
+	public void setEmailCommentOnTouchedStatus(Boolean emailCommentOnTouchedStatus) {
+		this.emailCommentOnTouchedStatus = emailCommentOnTouchedStatus;
+	}
+
+	public Boolean getEmailCommentOnTouchedStatus() {
+		return emailCommentOnTouchedStatus;
 	}
 
 	public Boolean getEmailCommentOnOwnStatus() {

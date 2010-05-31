@@ -22,6 +22,10 @@
 	<input id="email-comment-own-status" type="checkbox" name="emailCommentOnOwnStatus" <c:if test="${user.emailCommentOnOwnStatus}">checked="checked"</c:if> />
 	<label for="email-comment-own-status"><spring:message code="user.profile.emailNotifications.emailCommentOnOwnStatus" /></label><br />
 </p>
+<p>
+	<input id="email-comment-touched-status" type="checkbox" name="emailCommentOnTouchedStatus" <c:if test="${user.emailCommentOnTouchedStatus}">checked="checked"</c:if> />
+	<label for="email-comment-touched-status"><spring:message code="user.profile.emailNotifications.emailCommentOnTouchedStatus" /></label><br />
+</p>
 
 <p>
 	<input type="submit" value="<spring:message code="save" />" />
