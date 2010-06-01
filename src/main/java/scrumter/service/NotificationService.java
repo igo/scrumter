@@ -25,7 +25,7 @@ public class NotificationService {
 	private NotificationRepository notificationRepository;
 
 	@Autowired
-	private EmailService emailService;
+	private EmailNotificationService emailNotificationService;
 
 	public void addNotification(Notification notification) {
 		notification.setCreated(new Date());
@@ -46,23 +46,8 @@ public class NotificationService {
 			notification.addMeta("status", status.getId().toString());
 			addNotification(notification);
 			notifiedUsers.add(statusAuthor);
-			boolean sendEmailToStatusAuthor = statusAuthor.getEmailCommentOnOwnStatus();
-			// check if status author also commented status and want be e-mailed
-			if (!sendEmailToStatusAuthor && statusAuthor.getEmailCommentOnTouchedStatus()) {
-				List<Comment> comments = status.getComments();
-				for (Comment comment : comments) {
-					if (comment.getAuthor().equals(statusAuthor)) {
-						sendEmailToStatusAuthor = true;
-						break;
-					}
-				}
-			}
 			// send e-mail to status author if he asked for it
-			if (sendEmailToStatusAuthor) {
-				// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - comment, 6 - comment author
-				emailService.sendEmailFromTemplate(statusAuthor, "notification.ownStatusComment", status.getStatus(), status.getId().toString(), statusAuthor
-						.getUsername(), statusAuthor.getCompany(), newComment.getComment(), commentAuthor.getFullName());
-			}
+			emailNotificationService.notifyCommentOnOwnStatus(status, newComment);
 		}
 
 		// add notification to all who also commented
@@ -71,21 +56,16 @@ public class NotificationService {
 		for (Comment comment : comments) {
 			User user = comment.getAuthor();
 			if (!notifiedUsers.contains(user) && !user.equals(commentAuthor) && !user.equals(statusAuthor)) {
-				Notification notification = new Notification("comment", comment.getAuthor());
+				Notification notification = new Notification("comment", user);
 				notification.addMeta("user", commentAuthor.getId().toString());
 				notification.addMeta("status", status.getId().toString());
 				addNotification(notification);
-				notifiedUsers.add(comment.getAuthor());
-				if (user.getEmailCommentOnTouchedStatus()) {
-					emailUsers.add(user);
-				}
+				notifiedUsers.add(user);
+				emailUsers.add(user);
 			}
 		}
-
 		if (emailUsers.size() > 0) {
-			// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - comment, 6 - status author, 7 - comment author
-			emailService.sendEmailsFromTemplate(emailUsers, "notification.statusComment", status.getStatus(), status.getId().toString(), statusAuthor
-					.getUsername(), statusAuthor.getCompany(), newComment.getComment(), statusAuthor.getFullName(), commentAuthor.getFullName());
+			emailNotificationService.notifyCommentOnTouchedStatus(emailUsers, status, newComment);
 		}
 	}
 
