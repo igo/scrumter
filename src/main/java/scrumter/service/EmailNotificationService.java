@@ -63,4 +63,13 @@ public class EmailNotificationService {
 				statusAuthor.getCompany(), comment.getComment(), statusAuthor.getFullName(), comment.getAuthor().getFullName());
 	}
 
+	@Async
+	public void notifyNewStatus(Collection<User> users, Status status) {
+		logger.debug("Preparing e-mail notifications on NewStatus");
+		User statusAuthor = status.getAuthor();
+		// 1 - status, 2 - status id, 3 - status author username, 4 - status author company, 5 - status author
+		emailService.sendEmailsFromTemplate(users, "notification.newStatus", status.getStatus(), status.getId().toString(), statusAuthor.getUsername(),
+				statusAuthor.getCompany(), statusAuthor.getFullName());
+	}
+
 }

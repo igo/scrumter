@@ -27,13 +27,21 @@ public class NotificationService {
 	@Autowired
 	private EmailNotificationService emailNotificationService;
 
+	@Autowired
+	private UserService userService;
+
 	public void addNotification(Notification notification) {
 		notification.setCreated(new Date());
 		notificationRepository.create(notification);
 	}
 
-	public void addCommentNotification(Status status, Comment newComment) {
-		logger.debug("Adding comment " + newComment + " notification on status " + status);
+	public void notifyNewStatus(Status status) {
+		List<User> users = userService.getUsersForNewStatusNotification(status.getAllowedGroups());
+		emailNotificationService.notifyNewStatus(users, status);
+	}
+
+	public void notifyNewComment(Status status, Comment newComment) {
+		logger.debug("Notification on new comment in status " + status);
 		User commentAuthor = newComment.getAuthor();
 		User statusAuthor = status.getAuthor();
 		// create list of notified user to prevent multiple notifications

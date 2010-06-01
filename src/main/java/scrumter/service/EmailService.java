@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import scrumter.model.entity.User;
@@ -35,13 +34,11 @@ public class EmailService {
 	@Value(value = "#{config['email.enabled']}")
 	private boolean emailEnabled;
 
-	@Async
 	public void sendEmailFromTemplate(User to, String templateName, String... args) {
 		List<User> users = Arrays.asList(to);
 		sendEmailsFromTemplate(users, templateName, args);
 	}
 
-	@Async
 	public void sendEmailsFromTemplate(Collection<User> to, String templateName, String... args) {
 		logger.info("Sending email from template " + templateName + " to " + to);
 		List<String> tmpList = Arrays.asList(args);
@@ -50,6 +47,7 @@ public class EmailService {
 		Object[] argsWithUrl = list.toArray();
 		String subject = localizationService.getMessage("email." + templateName + ".subject", argsWithUrl);
 		String message = localizationService.getMessage("email." + templateName + ".message", argsWithUrl);
+		logger.debug(subject + "\n\n" + message);
 		message = localizationService.getMessage("email.template", url, message);
 		sendEmails(to, subject, message);
 	}

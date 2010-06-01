@@ -1,5 +1,6 @@
 package scrumter.service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.encoding.MessageDigestPasswor
 import org.springframework.stereotype.Service;
 
 import scrumter.model.entity.Authority;
+import scrumter.model.entity.Group;
 import scrumter.model.entity.User;
 import scrumter.model.repository.AuthorityRepository;
 import scrumter.model.repository.UserRepository;
@@ -51,6 +53,10 @@ public class UserService {
 
 	public List<User> findUsersByCompany(String company) {
 		return userRepository.findAllByCompany(company);
+	}
+
+	public List<User> getUsersForNewStatusNotification(Collection<Group> groups) {
+		return userRepository.findAllEmailStatusEnabledByGroups(groups);
 	}
 
 	public void changeEmailNotifications(User user, boolean emailGroupMembershipChange, boolean emailStatus, boolean emailCommentOnStatus,

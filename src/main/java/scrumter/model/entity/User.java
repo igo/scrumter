@@ -32,6 +32,7 @@ import org.hibernate.validator.constraints.Length;
 		@NamedQuery(name = "User.findByCompany", query = "SELECT u FROM User u WHERE u.company = :company"),
 		@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
 		@NamedQuery(name = "User.findByUsernameAndCompany", query = "SELECT u FROM User u WHERE u.username = :username AND u.company = :company"),
+		@NamedQuery(name = "User.findAllEmailStatusEnabledByGroups", query = "SELECT DISTINCT u FROM User u INNER JOIN u.membership AS ms WHERE u.emailStatus = TRUE AND ms IN (:groups)"),
 		@NamedQuery(name = "User.deleteAll", query = "DELETE FROM User u") })
 public class User {
 

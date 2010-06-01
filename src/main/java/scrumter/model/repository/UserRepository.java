@@ -1,5 +1,6 @@
 package scrumter.model.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import scrumter.model.entity.Group;
 import scrumter.model.entity.User;
 
 @Repository
@@ -78,6 +80,12 @@ public class UserRepository {
 	public List<User> findAllUsersExcept(User user) {
 		Query query = em.createNamedQuery("User.findAllExcept");
 		query.setParameter("user", user);
+		return query.getResultList();
+	}
+
+	public List<User> findAllEmailStatusEnabledByGroups(Collection<Group> groups) {
+		Query query = em.createNamedQuery("User.findAllEmailStatusEnabledByGroups");
+		query.setParameter("groups", groups);
 		return query.getResultList();
 	}
 

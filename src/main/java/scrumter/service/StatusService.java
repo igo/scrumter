@@ -29,6 +29,7 @@ public class StatusService {
 	public void addStatus(Status status) {
 		status.setCreated(new Date());
 		statusRepository.create(status);
+		notificationService.notifyNewStatus(status);
 	}
 
 	public void updateStatus(Status status) {
@@ -43,7 +44,7 @@ public class StatusService {
 		Comment c = new Comment(author, comment);
 		status.getComments().add(c);
 		updateStatus(status);
-		notificationService.addCommentNotification(status, c);
+		notificationService.notifyNewComment(status, c);
 		return c;
 	}
 
