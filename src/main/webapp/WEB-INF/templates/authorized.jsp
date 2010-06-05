@@ -87,6 +87,7 @@ $(document).ready(function(){
 		}
 		$.post('<c:url value="/api/status/add" />', $("#status-form").serialize(), function(data) {
 			var post = $(data).hide().prependTo('.posts');
+			$(".minimizable textarea", post).minimizable();
 			doPrettyDates();
 			post.slideDown("slow");
 			$("#status-form-textarea").height(25);
