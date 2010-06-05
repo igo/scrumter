@@ -1,4 +1,4 @@
-package scrumter.controller;
+package scrumter.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -15,7 +15,7 @@ import scrumter.service.NotificationService;
 import scrumter.service.SecurityService;
 
 @Controller
-public class NotificationController {
+public class NotificationApiController {
 
 	@Autowired
 	private NotificationService notificationService;
