@@ -81,6 +81,10 @@ $(document).ready(function(){
 	$("#status-form textarea").autoResize();
 
 	$("#status-form").submit(function(){
+		if (String.trim($("#status-form-textarea", this).val()).length == 0) {
+			alert("Please type some message");
+			return false;
+		}
 		if ($("#status-form :checked").length == 0) {
 			alert("Please select audiences");
 			return false;
