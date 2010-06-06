@@ -51,7 +51,6 @@ jQuery.fn.minimizable = function(){
 
 function dismissNotification(id) {
 	$.post('<c:url value="/api/notification/dismiss" />', {id: id}, function(data) {
-		console.log(data);
 		if (data.success) {
 			$("#notification-" + id).fadeOut(function () {
 				$(this).remove();
@@ -102,7 +101,6 @@ $(document).ready(function(){
 
 	$("#notification-dismissall").click(function () {
 		$.post('<c:url value="/api/notification/dismiss-all" />', function(data) {
-			console.log(data);
 			if (data.success) {
 				$("#notifications .notification").fadeOut(function () {
 					$(this).remove();
