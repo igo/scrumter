@@ -38,7 +38,6 @@ public class StatusApiController {
 
 	@RequestMapping(value = "/api/status/add", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@Transactional
 	public ModelAndView addStatus(@RequestParam String status, @RequestParam List<Group> allowedGroups) {
 		User currentUser = securityService.getCurrentUser();
 		logger.info("Adding status '" + status + "' by " + currentUser.getEmail() + " for " + allowedGroups);
