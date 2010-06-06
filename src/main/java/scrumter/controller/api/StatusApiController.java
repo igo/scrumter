@@ -39,19 +39,24 @@ public class StatusApiController {
 	@RequestMapping(value = "/api/status/add", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Transactional
-	public ModelAndView addStatus(@RequestParam String status, @RequestParam List<Long> allowedGroups) {
+	public ModelAndView addStatus(@RequestParam String status, @RequestParam List<Group> allowedGroups) {
 		User currentUser = securityService.getCurrentUser();
 		logger.info("Adding status '" + status + "' by " + currentUser.getEmail() + " for " + allowedGroups);
 		if (allowedGroups.isEmpty()) {
 			throw new IllegalArgumentException("Allowed groups list can't be empty");
 		}
 		Set<Group> statusGroups = new HashSet<Group>();
-		for (Long allowedGroup : allowedGroups) {
-			Group group = groupService.getGroupById(allowedGroup);
+		Set<Group> membership = currentUser.getMembership();
+		logger.debug("User membership: " + membership);
+		for (Group allowedGroup : allowedGroups) {
 			// if current user is member of group
-			if (group.getMembers().contains(currentUser)) {
-				statusGroups.add(group);
+			if (membership.contains(allowedGroup)) {
+				statusGroups.add(allowedGroup);
 			}
+		}
+		if (allowedGroups.size() != statusGroups.size()) {
+			logger.warn("User " + currentUser.getEmail() + " tried submit to groups he is not allowed. Submitted groups: " + allowedGroups
+					+ "; allowed groups in submitted: " + statusGroups);
 		}
 		ModelAndView mav = new ModelAndView("status/detail");
 		Status s = new Status(currentUser, status);

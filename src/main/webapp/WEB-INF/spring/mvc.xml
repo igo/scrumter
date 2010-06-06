@@ -36,6 +36,7 @@
 		<property name="converters">
 			<list>
 				<bean class="scrumter.model.converter.StringToNotificationConverter" />
+				<bean class="scrumter.model.converter.StringToGroupConverter" />
 			</list>
 		</property>
 	</bean>
