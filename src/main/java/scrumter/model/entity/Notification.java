@@ -106,4 +106,17 @@ public class Notification {
 		this.created = created;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Notification [id=");
+		builder.append(id);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append(", owner=");
+		builder.append(owner);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

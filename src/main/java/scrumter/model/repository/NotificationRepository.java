@@ -38,6 +38,8 @@ public class NotificationRepository {
 
 	@Transactional
 	public void delete(Notification notification) {
+		// refresh to avoid detached entity exception
+		notification = findById(notification.getId());
 		logger.debug("Deleting notification: " + notification);
 		Set<MetaData> metas = notification.getMeta();
 		for (MetaData meta : metas) {
